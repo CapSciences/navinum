@@ -1,0 +1,31 @@
+Csp:
+  csp1:
+    guid:     csp12345a
+    libelle:  agriculteur, exploitant
+  csp2:
+    guid:     csp12345b
+    libelle:  artisan, commerçant, chef d’entreprise
+  csp3:
+    guid:     csp12345c
+    libelle:  cadre, profession intellectuelle supérieure
+  csp4:
+    guid:     csp12345d
+    libelle:  profession intermédiaire
+  csp5:
+    guid:     csp12345e
+    libelle:  employé
+  csp6:
+    guid:     csp12345f
+    libelle:  ouvrier
+  csp7:
+    guid:     csp12345g
+    libelle:  retraité
+  csp8:
+    guid:     csp12345h
+    libelle:  élève
+  csp9:
+    guid:     csp12345i
+    libelle:  étudiant
+  csp10:
+    guid:     csp12345j
+    libelle:  sans activité professionnelle

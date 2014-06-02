@@ -1,0 +1,180 @@
+# mpRealityAdminPlugin
+
+## Overview
+The `mpRealityAdminPlugin` provides a new admin generator theme with some additions.  
+
+##Installation ##
+
+###Step 1 - Download and install the plugin
+
+    symfony plugin:install  mpRealityAdminPlugin --stability=beta
+
+###Step 2 - Publish the assets
+
+    symfony plugin:publish-assets
+
+###Step 3 - Clear the cache
+
+    symfony cc
+
+
+##Configuration ##
+
+Enable the plugin in your project
+
+    [php]
+    //config/ProjectConfiguration.class.php
+    class ProjectConfiguration extends sfProjectConfiguration
+    {
+      public function setup()
+      {
+        $this->enablePlugins('sfDoctrinePlugin', 'mpRealityAdminPlugin ');
+      }
+     }
+
+##How to use it ? ##
+
+Generate an admin generator:
+
+    symfony doctrine:generate-admin --theme=mpReality application route_or_model
+
+**OR** if you already have an admin generator, you can simply modifiy the theme inside your *generator.yml*
+
+    generator:
+      class: mpRealtyAdminDoctrineGenerator
+      param:
+        theme: mpReality
+
+clear the cache
+
+    symfony cc
+
+##Configuration
+1.**Show view**
+
+MpReality brings a new show context in the *generator.yml*. You can customize the display :
+
+    show:   
+      title: View Job 
+      display: [category_id, type, company, logo, url...]
+      fields:
+        company: { label : Compagnie}
+
+work with display and hide key.
+
+2.**Save and redirect to list**
+
+You can now redirect to any location of your choice once you’ve added a new object, or edited one by using the new redirection  property .
+
+      edit:
+        redirection: list
+      new:
+        redirection: list
+
+3.**Export**
+You can activate the exportation of the list results, by this way in you *generator.yml*:
+
+      export:
+        enabled: true
+        title: product export
+        filename: exportation
+
+* enabled : if the exportation should be enabled
+* title : the title of the report
+* filename: the filename for the export
+
+##[optional] - Login screen##
+You can use the partial _login to style your login form (assuming you're using sfGuardAuth module)
+	  
+    [php]
+    // backend/modules/sfGuardAuth/templates/signingSuccess.php
+    <?php include_partial('mpReality/login', array('form' => $form)); ?>
+
+##[optional] - Setup the dashboard##
+Activate the mpReality module in the application's *settings.yml*.
+
+    enabled_modules:        [default, mpReality]
+
+Set your application's *homepage* in your application's *routing.yml* to:
+
+    homepage:
+      url:   /
+      param: { module: mpReality, action: dashboard }
+
+Blocks are controlled by your application's *app.yml* file.  The best way to show how to use this is with an example:
+
+    categories:
+      Bloc1:
+        label: "Offres d'emploi"
+        class: medium
+        items:
+          Jobs:
+            url:          job
+            image:        job.png
+            badge:
+              model: Job
+              table_method: getActiveJobs
+            credentials:  [admin]
+          Comments:
+            url:          product
+            image:        comment.png
+            badge:
+              model: Comment
+              table_method: getNotModeratedComments
+            credentials:  [admin]
+      Bloc2:
+        label: "Contenu"
+        class: medium
+        items:
+          Articles:
+            url:          article
+            image:        news.png
+            credentials:  [[admin, publisher]]
+          Agenda:
+            url:          agenda
+            image:        agenda.png
+            credentials:  [admin]
+
+This creates 2 blocks on the dashboard.  
+
+**Properties available** :
+
+* label: the title of the block.
+* class: the class of the block. It can be small, medium or large
+* url: should be an internal URI
+* image: the image name - the plugin will look for it in the folder specified in the global settings
+* badge: use it to display a badge for the item.
+  * model: model of the results you want to retrieve.
+  * table_method: the table method you want to use to retrieve the results.
+* credentials: credentials needs to show the item
+
+
+
+## Changelog ##
+
+* version 0.9.4: simple export features, fix php bugs and bug in documentation
+* version 0.9.3: fix bug in documentation
+* version 0.9.2: fix some php bugs, add login partial, add redirection parameter for new/edit actions
+* version 0.9.1: fix some bugs in documentation
+* version 0.9.0: add documentation
+* version 0.8.0: add documentation
+* version 0.7.0: add cool stuff on boolean fields
+* version 0.6.0: add search feature
+* version 0.5.0: ajaxify some actions
+* version 0.4.0: add a 'show' view parameter for generator.yml
+* version 0.3.0: add max-per-page selector 
+* version 0.2.0: add mpRealtyAdminDoctrineGenerator class
+* version 0.1.0: initial release
+
+## TODO ##
+
+* refactoring and cleanup the code
+* transaltion
+* add new features integrating menu
+* clean up css and js
+
+Feel free to email me with suggestions/bugs.
+## Contact ##
+
+Mike Plavonil ( mikeplavo [at] gmail[dot] com )
+

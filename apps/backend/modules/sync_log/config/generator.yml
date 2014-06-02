@@ -1,0 +1,27 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           SyncLog
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          sync_log
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  
+        from_datetime_sync:   { label:  début de synchro, date_format: 'dd/MM/yyyy HH:mm:ss' }
+        to_datetime_sync:   { label:  fin de synchro, date_format: 'dd/MM/yyyy HH:mm:ss' }
+      
+      list:    
+        title: Liste des synchro
+      filter:  ~
+      form:    ~
+      export:
+        enabled: true
+        title: visiteur export
+        filename: exportation

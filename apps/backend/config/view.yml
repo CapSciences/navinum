@@ -1,0 +1,30 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/13-View
+
+all:
+  http_metas:
+    content-type: text/html
+
+  metas:
+   title:        Serveur Vip - backoffice
+   robots:       noindex, nofollow
+    #description:  symfony project
+    #keywords:     symfony, project
+    #language:     en
+
+  stylesheets:    [main.css, /mpRealityAdminPlugin/css/admin.css, superfish.css, superfish-navbar.css]
+
+  javascripts:    [/mpRealityAdminPlugin/js/jquery-1.4.4.min.js, main.js, hoverIntent.js, superfish.js]
+
+  has_layout:     true
+  layout:         layout
+
+sf_guard_signin:
+  javascripts:    []
+
+sf_guard_signout:
+  javascripts:    []
+
+sf_guard_password:
+  javascripts:    []
+

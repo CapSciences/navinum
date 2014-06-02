@@ -1,0 +1,349 @@
+flotte:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Flotte
+    actions: [ create, delete, list, show, update ]
+    module:  flotte
+    column:  guid
+    default_params:
+      sf_format:  json
+peripherique:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Peripherique
+    actions: [ create, delete, list, show, update ]
+    module:  peripherique
+    column:  guid
+    default_params:
+      sf_format:  json
+notification:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Notification
+    actions: [ create, delete, list, show, update ]
+    module:  notification
+    column:  guid
+    default_params:
+      sf_format:  json
+rfid:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Rfid
+    actions: [ create, delete, list, show, update ]
+    module:  rfid
+    column:  uid
+    default_params:
+      sf_format:  json
+langue:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Langue
+    actions: [ create, delete, list, show, update ]
+    module:  langue
+    column:  guid
+    default_params:
+      sf_format:  json
+interactif_download:
+  url: /interactif/download
+  params: {module: interactif, action: downloadSource, sf_format: json }
+interactif_browseDocuments:
+  url: /interactif/browseDocuments
+  params: {module: interactif, action: browseDocuments, sf_format: json }
+interactif:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Interactif
+    actions: [ create, delete, list, show, update ]
+    module:  interactif
+    column:  guid
+    default_params:
+      sf_format:  json
+template:
+  class:   sfObjectRouteCollection
+  options:
+    model:   TemplateMail
+    actions: [ create, delete, list, show, update ]
+    module:  template
+    column:  guid
+    default_params:
+      sf_format:  json
+evenement:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Evenement
+    actions: [ create, delete, list, show, update ]
+    module:  evenement
+    column:  guid
+    default_params:
+      sf_format:  json
+csp:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Csp
+    actions: [ create, delete, list, show, update ]
+    module:  csp
+    column:  guid
+    default_params:
+      sf_format:  json
+medaille_type:
+  class:   sfObjectRouteCollection
+  options:
+    model:   MedailleType
+    actions: [ create, delete, list, show, update ]
+    module:  medaille_type
+    column:  guid
+    default_params:
+      sf_format:  json
+medaille:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Medaille
+    actions: [ create, delete, list, show, update ]
+    module:  medaille
+    column:  guid
+    default_params:
+      sf_format:  json
+rfid_groupe_visiteur:
+  class:   sfObjectRouteCollection
+  options:
+    model:   RfidGroupeVisiteur
+    actions: [ create, delete, list, show, update ]
+    module:  rfid_groupe_visiteur
+    column:  guid
+    default_params:
+      sf_format:  json
+rfid_groupe:
+  class:   sfObjectRouteCollection
+  options:
+    model:   RfidGroupe
+    actions: [ create, delete, list, show, update ]
+    module:  rfid_groupe
+    column:  guid
+    default_params:
+      sf_format:  json
+xp_total:
+  url: /xp/total
+  params: {module: xp, action: total, sf_format: json }
+
+xp_total_best_visiteur:
+  url: /xp/totalBestVisiteur
+  params: {module: xp, action: totalBestVisiteur, sf_format: json }
+
+xp:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Xp
+    actions: [ create, delete, list, show, update ]
+    module:  xp
+    column:  guid
+    default_params:
+      sf_format:  json
+xp:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Xp
+    actions: [ create, delete, list, show, update ]
+    module:  xp
+    column:  score
+    default_params:
+      sf_format:  json
+count_by_medaille_type:
+  url: /visiteur_medaille/countByMedailleType
+  params: {module: visiteur_medaille, action: countByMedailleType, sf_format: json }
+visiteur_medaille:
+  class:   sfObjectRouteCollection
+  options:
+    model:   VisiteurMedaille
+    actions: [ create, delete, list, show, update ]
+    module:  visiteur_medaille
+    column:  Array
+    default_params:
+      sf_format:  json
+medaille:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Medaille
+    actions: [ create, delete, list, show, update ]
+    module:  medaille
+    column:  guid
+    default_params:
+      sf_format:  json
+typologie:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Typologie
+    actions: [ create, delete, list, show, update ]
+    module:  typologie
+    column:  guid
+    default_params:
+      sf_format:  json
+sentMessage:
+  class:   sfObjectRouteCollection
+  options:
+    model:   SentMessage
+    actions: [ create, delete, list, show, update ]
+    module:  sentMessage
+    column:  guid
+    default_params:
+      sf_format:  json
+exposition_visiteur_needs:
+  class:   sfObjectRouteCollection
+  options:
+    model:   ExpositionVisiteurNeeds
+    actions: [ create, delete, list, show, update ]
+    module:  exposition_visiteur_needs
+    column:  guid
+    default_params:
+      sf_format:  json
+preference_media:
+  class:   sfObjectRouteCollection
+  options:
+    model:   PreferenceMedia
+    actions: [ create, delete, list, show, update ]
+    module:  preference_media
+    column:  guid
+    default_params:
+      sf_format:  json
+organisateur:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Organisateur
+    actions: [ create, delete, list, show, update ]
+    module:  organisateur
+    column:  guid
+    default_params:
+      sf_format:  json
+contexte:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Contexte
+    actions: [ create, delete, list, show, update ]
+    module:  contexte
+    column:  guid
+    default_params:
+      sf_format:  json
+exposition:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Exposition
+    actions: [ create, delete, list, show, update ]
+    module:  exposition
+    column:  guid
+    default_params:
+      sf_format:  json
+interactif:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Interactif
+    actions: [ create, delete, list, show, update ]
+    module:  interactif
+    column:  guid
+    default_params:
+      sf_format:  json
+log_visite_total:
+  url: /log_visite/total
+  params: {module: log_visite, action: total, sf_format: json }
+log_visite_visiteur_expositions:
+  url: /log_visite/visiteurExpositions
+  params: {module: log_visite, action: visiteurExpositions, sf_format: json }
+log_visite_visiteur_interactif_exposition:
+  url: /log_visite/visiteurInteractifsExposition
+  params: {module: log_visite, action: visiteurInteractifsExposition, sf_format: json }
+log_visite_high_score:
+  url: /log_visite/highScore
+  params: {module: log_visite, action: highScore, sf_format: json }
+log_visite:
+  class:   sfObjectRouteCollection
+  options:
+    model:   LogVisite
+    actions: [ create, delete, list, show, update]
+    module:  log_visite
+    column:  Array
+    default_params:
+      sf_format:  json
+parcours:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Parcours
+    actions: [ create, delete, list, show, update ]
+    module:  parcours
+    column:  guid
+    default_params:
+      sf_format:  json
+reset_navinum:
+  url:   /visite/resetnavinum
+  param: { module: visite, action: resetnavinum, sf_format: json }
+visite_collectAnonymousVisite:
+  url: /visite/collectAnonymousVisite
+  params: {module: visite, action: collectAnonymousVisite, sf_format: json }
+visite:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Visite
+    actions: [ create, delete, list, show, update ]
+    module:  visite
+    column:  guid
+    default_params:
+      sf_format:  json
+
+visiteur_needs:
+  url: /visiteur/needs
+  params: {module: visiteur, action: needs, sf_format: json }
+visiteur_disabled:
+  url: /visiteur/disabled
+  params: {module: visiteur, action: disabled, sf_format: json }
+visiteur_enabled:
+  url: /visiteur/enabled
+  params: {module: visiteur, action: enabled, sf_format: json }  
+visiteur_delete:
+  url: /visiteur/delete
+  params: {module: visiteur, action: delete, sf_format: json }
+visiteur_sendPhoto:
+  url: /visiteur/sendPhoto
+  params: {module: visiteur, action: sendPhoto, sf_format: json }
+visiteur_getPhoto:
+  url: /visiteur/getPhoto
+  params: {module: visiteur, action: getPhoto, sf_format: json }
+visiteur_sendDocument:
+  url: /visiteur/sendDocument
+  params: {module: visiteur, action: sendDocument, sf_format: json }
+visiteur_browseDocuments:
+  url: /visiteur/browseDocuments
+  params: {module: visiteur, action: browseDocuments, sf_format: json }
+visiteur_dowloadDocuments:
+  url: /visiteur/browseDocuments
+  params: {module: visiteur, action: browseDocuments, sf_format: json }
+
+
+
+visiteur_anonymous:
+  url: /visiteur/anonymous
+  params: {module: visiteur, action: createAnonymous, sf_format: json }
+visiteur_facebook:
+  url: /visiteur/facebook
+  params: {module: visiteur, action: createFacebook, sf_format: json }
+visiteur:
+  class:   sfObjectRouteCollection
+  options:
+    model:   Visiteur
+    actions: [ create, list, show, update ]
+    module:  visiteur
+    column:  guid
+    default_params:
+      sf_format:  json
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/10-Routing
+
+# default rules
+homepage:
+  url:   /
+  param: { module: default, action: index }
+
+# generic rules
+# please, remove them by adding more specific rules
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

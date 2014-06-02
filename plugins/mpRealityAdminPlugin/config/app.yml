@@ -1,0 +1,61 @@
+all:
+  mp_reality_admin:
+    #dossier ou récupérer les css et js
+    web_dir:        /mpRealityAdminPlugin
+    image_dir:      /mpRealityAdminPlugin/images/icondock/
+
+    # utiliser la version jquery fournit avec le plugin
+    use_jquery:     true
+    
+    # utiliser la feuille reset.css
+    css_reset:      false
+
+    site_tile: mpRealityAdminPlugin
+
+    max_per_page: ['3','5','10', '20', '50', '100']
+
+    #dashboard
+    categories:
+      Bloc1:
+        label: Moderation
+        class: medium
+        items:
+          Articles:
+            url:          jobeet_job
+            image:        email.png
+            badge:
+              model: JobeetJob
+              table_method: getActiveJobs
+            credentials:  [[admin, publisher]]
+          Comments:
+            url:          product
+            image:        basket.png
+            badge:
+              model: Product
+              table_method: findAll
+            credentials:  [admin]
+      Bloc2:
+        label: Activity
+        class: medium
+        items:
+          Articles1:
+            url:          product_test2
+            image:        coins.png
+            credentials:  [[admin, publisher]]
+          Comments1:
+            url:          jobeet_category
+            image:        user.png
+            credentials:  [admin]
+      Bloc3:
+        label: Console 3
+        class: medium
+        items:
+          Articles1:
+            url:          product_test2
+            image:        coins.png
+            credentials:  [[admin, publisher]]
+          Comments2:
+            url:          jobeet_category
+            image:        user.png
+            credentials:  [admin]
+

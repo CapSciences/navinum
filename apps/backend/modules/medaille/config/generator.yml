@@ -1,0 +1,52 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           Medaille
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          medaille
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        guid:         { label: Identifiant}
+        libelle:      { label: Libelle}
+        image:        { label: image}
+        medaille_type_id:  { label: Medaille}
+        MedailleType:        { label: Medaille}
+        exposition_id:   { label: Exposition}
+        Exposition:      { label: Exposition}
+        interactif_id:   { label: Interactif}
+        Interactif:      { label: Interactif}
+        description:     { label: Description}
+        condition_obtention: { label: Conditions}
+        is_unique:           { label: Est unique}
+        is_tosync:    { label: A synchroniser }
+        created_at:   { label: Date de création, date_format: 'F' }
+        updated_at:   { label: Date de mise à jour, date_format: 'F' }
+      list:
+        title: Liste des Médailles
+        display: [ libelle, MedailleType, Exposition, Interactif, description, is_unique, created_at, updated_at]
+        sort:
+          [libelle, asc]
+        fields:
+          created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+        object_actions:
+          _edit:      { label: Modifier, action: edit }
+          _delete:    { label: Supprimer, action: delete }
+        batch_actions:
+          _delete:    {  label: Supprimer, action: delete , credentials: admin}
+      filter:  ~
+      form:
+        display: [guid, libelle, image, medaille_type_id, exposition_id, interactif_id, description, condition_obtention, is_unique]
+      edit:
+        title: Modifier une médaille
+      new:
+        title: Créer un médaille
+      show:    ~

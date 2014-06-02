@@ -1,0 +1,45 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           Peripherique
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          peripherique
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        guid:         { label: Identifiant}
+        adresse_mac:  { label: Adresse Mac}
+        adresse_ip:   { label: Adresse Ip}
+        Flotte:       { label: Flotte}
+        flotte_id:    { label: Flotte}
+        is_tosync:    { label: A synchroniser }
+        interactif_id:    { label: Interactif }
+        serial_number: { label: Numéro de série }
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+      list:
+        title: Liste des Périphériques
+        display: [ Flotte, adresse_mac, adresse_ip, Interactif, serial_number, created_at, updated_at]
+        sort:
+          [adresse_mac, asc]
+        fields:
+          created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+        object_actions:
+          _edit:      { label: Modifier, action: edit }
+          _delete:    { label: Supprimer, action: delete }
+      filter:  ~
+      form:
+        display: [guid, adresse_mac, serial_number, flotte_id, interactif_id]
+      edit:
+        title: Modifier un périphérique
+      new:
+        title: Créer un périphérique
+      show:    ~

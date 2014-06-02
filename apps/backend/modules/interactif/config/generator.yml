@@ -1,0 +1,84 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           Interactif
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          interactif
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        synopsis:               { label: Synopsis}
+        description:            { label: Description}
+        logo:                   { label: Logo}
+        categorie:              { label: Catégorie}
+        version:                { label: Version}
+        editeur:                { label: Editeur}
+        publics:                { label: Publics, help: "séparer les types de public par un point-virgule (enfants;adultes;adolescents)"}
+        markets:                { label: Markets, help: "séparer les markets par un point-virgule (ios;android;windows)"}
+        url_market_ios:         { label: url ios appstore}
+        url_market_android:     { label: url android google store}
+        url_market_windows:     { label: url windowsphone}
+        langues:                { label: Langues, help: "séparer les langues par un point-virgule (fr;en)"}
+        image1:                 { label: image1}
+        image2:                 { label: image2}
+        image3:                 { label: image3}
+        file:                   { label: source html5 en .ZIP}
+        date_diff:              { label: Date de mise en production}
+        score:                  { label: Score}
+        media:                  { label: Mettre à jour les sources}
+        explications_resultats: { label: Explications résultats}
+        refresh_deploiement:    { label: Déploiement à générer}
+        guid:         { label:  Identifiant }
+        ordre:        { label:  Ordre }
+        source_type:  { label:  Source }
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+        url_start_at_type:   { label:  ' ' }
+        url_end_at_type:   { label:  ' ' }
+        is_visiteur_needed:          { label:  'Données visiteur nécessaire' }
+        image1:          { label:  'Image 1' }
+        image2:          { label:  'Image 2' }
+        image3:          { label:  'Image 3' }
+        is_parcours_needed:          { label:  'Données parcours nécessaire' }
+        is_logvisite_needed:         { label:  'Données log_visite simple nécessaire' }
+        is_logvisite_verbose_needed: { label:  'Données log_visite complet nécessaire' }
+        url_interactif_type: { label:  'Log_visite : choix des interactifs' }
+        url_interactif_choice: { label:  ' ' }
+        url_visiteur_type: { label:  'Log_visite : choix des profils visiteur' }
+        url_start_at: { label:  'Log_visite : date de début de log' }
+        url_end_at: { label:  'Log_visite : date de fin de log' }
+        is_tosync:    {label: A synchroniser}
+      list:
+        title: Liste des interactifs
+        display: [libelle, categorie, source_type, markets, ordre, created_at, updated_at]
+        sort:
+          [libelle, asc]
+        fields:
+          created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+        object_actions:
+          _edit:      { label: Modifier, action: edit }
+          _delete:    { label: Supprimer, action: delete }
+      filter:  
+        display:
+          [libelle, source_type, categorie, editeur, markets, langues, date_diff, created_at, updated_at, parcours_list]
+      form:    ~
+#        display:
+ #         [guid,logo , synopsis, description, categorie, version, editeur, publics, markets, langues, score,  image1, image2, image3, date_diff, resultat, libelle, source_type, refresh_deploiement, explications_resultats, url_fichier_interactif, url_pierre_de_rosette, url_illustration, is_visiteur_needed,  is_parcours_needed, is_logvisite_needed, is_logvisite_verbose_needed, url_intertactif_type, url_intertactif_choice, url_visiteur_type, url_start_at, url_start_at_type, url_end_at, url_end_at_type, file, ordre]
+      edit:
+        title: Modifier un interactif
+      new:
+        title: Créer un interactif
+      show:    ~
+      delete:    ~
+      export:
+        enabled: true
+        title: interactif export
+        filename: exportation

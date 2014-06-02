@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header/>
+    <body>
+      <trans-unit>
+        <source>Username</source>
+        <target>Benutzername</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Username or E-Mail</source>
+        <target>Benutzername oder E-Mail-Adresse</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Password</source>
+        <target>Passwort</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Password again</source>
+        <target>Passwort wiederholen</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Register</source>
+        <target>Registrieren</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Signin</source>
+        <target>Anmelden</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Forgot your password?</source>
+        <target>Passwort vergessen?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Want to register?</source>
+        <target>Wollen Sie sich registrieren?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Login below to gain access</source>
+        <target>Anmelden um die entsprechenden Rechte zu erhalten</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Oops! The page you asked for is secure and you do not have proper credentials.</source>
+        <target>Hoppla! Die angeforderte Seite ist gesichert und die entsprechenden Rechte fehlen.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Hi %first_name%</source>
+        <target>Hi, %first_name%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>This e-mail is being sent because you requested information on how to reset your password.</source>
+        <target>Diese E-Mail wurde versendet, da Sie Anweisungen zum reseten des Passwortes angefordert haben.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You can change your password by clicking the below link which is only valid for 24 hours:</source>
+        <target>Sie können Ihr Passwort ändern in dem Sie den unten stehenden Link, innerhalb der nächsten 24h, anklicken:</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Click to change password</source>
+        <target>Klicken Sie hier, um Ihr Passwort zu ändern</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Below you will find your username and new password:</source>
+        <target>Folgend finden Sie Ihren Benutzernamen und Ihr Passwort:</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Do not worry, we can help you get back in to your account safely!</source>
+        <target>Keine Sorge, wir können Ihnen helfen sicher an Ihre Accountdaten zugelangen.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Fill out the form below to request an e-mail with information on how to reset your password.</source>
+        <target>Füllen Sie das unten stehende Formular aus, um eine E-Mail mit Anweisungen zum reseten des Passwortes zu erhalten.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Request</source>
+        <target>Erinnern</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Hello %name%</source>
+        <target>Hallo, %name%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Enter your new password in the form below.</source>
+        <target>Geben Sie Ihr neues Passwort in das unten stehende Formularfeld ein.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Change</source>
+        <target>Ändern</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Forgot Password Request for %name%</source>
+        <target>Passwort vergessen für %name%</target>
+      </trans-unit>
+      <trans-unit>
+        <source>New Password for %name%</source>
+        <target>Neues Passwort für %name%</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

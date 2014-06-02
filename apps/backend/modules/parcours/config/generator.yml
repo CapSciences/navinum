@@ -1,0 +1,45 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           Parcours
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          parcours
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        guid:         { label:  Identifiant }
+        ordre:        { label:  Ordre, date_format: 'F' }
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+        interactif_list:   { label: Liste des interactifs }
+      list:    
+        title: Liste des parcours
+        display: [libelle, _interactif_list, ordre, created_at, updated_at]
+        sort:
+          [libelle, asc]
+        fields:
+          created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+        object_actions:
+          _edit:      { label: Modifier, action: edit }
+          _delete:    { label: Supprimer, action: delete }
+      filter:  ~
+      form:    
+        display:
+          [guid, libelle, ordre, interactif_list]
+      edit:
+        title: Modifier un parcours
+      new:
+        title: Créer un parcours
+      delete:    ~
+      export:
+        enabled: true
+        title: parcours export
+        filename: exportation

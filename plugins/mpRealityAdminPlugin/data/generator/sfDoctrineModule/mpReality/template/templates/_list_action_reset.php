@@ -1,0 +1,1 @@
+<span id="reset" class="f_right">Effacer</span>

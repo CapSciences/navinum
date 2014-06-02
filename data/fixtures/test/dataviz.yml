@@ -1,0 +1,255 @@
+Visiteur:
+  visiteur1:
+    guid:                 visiteur000001
+    email:                sredeuil@clever-age.com
+    contexte_creation_id: DEE2CD828595384C8A4F3305817AFE6D
+    langue_id:            8C5254FC6B05E4215EC60B27A5D9F85D
+    genre:                H
+    date_naissance:       '1976-12-27'
+    adresse:              4 Cours du Médoc
+    code_postal:          33300
+    ville:                Bordeaux
+    prenom:               Stéphane
+    nom:                  Redeuil
+    pseudo_son:           visiteur1
+    password_son:         visiteur1
+    num_mobile:           06 06 06 06 06 06
+    facebook_id:          facebook_id
+    google_id:            google_id
+    twitter_id:           twitter_id
+    flickr_id:            flickr_id
+    dailymotion_id:       dailymotion_id
+  visiteur2:
+    guid:                 visiteur000002
+    email:                test@mymail.com
+    contexte_creation_id: DEE2CD828595384C8A4F3305817AFE6D
+    langue_id:            8C5254FC6B05E4215EC60B27A5D9F85D
+    genre:                F
+    date_naissance:       '1982-02-12'
+    adresse:              rue des 3 conils
+    code_postal:          47000
+    ville:                Agen
+    prenom:               Michelle
+    nom:                  Bertier
+    pseudo_son:           visiteur2
+    password_son:         visiteur2
+    num_mobile:           06 06 06 06 06 06
+    facebook_id:          facebook_id
+    google_id:            google_id
+    twitter_id:           twitter_id
+    flickr_id:            flickr_id
+    dailymotion_id:       dailymotion_id
+  visiteur3:
+    guid:                 visiteur000003
+    email:                gperier@gmail.com
+    contexte_creation_id: DEE2CD828595384C8A4F3305817AFE6D
+    langue_id:            8C5254FC6B05E4215EC60B27A5D9F85D
+    genre:                F
+    date_naissance:       '1980-07-80'
+    adresse:              37 rue des dervallieres
+    code_postal:          44000
+    ville:                Nantes
+    prenom:               Gwneael
+    nom:                  Perier
+    pseudo_son:           visiteur3
+    password_son:         visiteur3
+    num_mobile:           0637326077
+    facebook_id:          100001023821652
+    google_id:            google_id
+    twitter_id:           twitter_id
+    flickr_id:            flickr_id
+    dailymotion_id:       dailymotion_id
+
+Visite:
+  visite1:
+    guid:            visite000001
+    visiteur_id:     visiteur000001
+    navinum_id:      
+    parcours_id:     5C7AE37F81E4BD9451C4B407EFC7FAA4
+    exposition_id:   2C055BAD85C20DFDB43BD76F8E495D2E
+  visite2:
+    guid:            visite000002
+    visiteur_id:     visiteur000001
+    navinum_id:      
+    parcours_id:     5C7AE37F81E4BD9451C4B407EFC7FAA4
+    exposition_id:   2C055BAD85C20DFDB43BD76F8E495D2E
+  visite3:
+    guid:            visite000003
+    visiteur_id:     visiteur000002
+    navinum_id:      
+    parcours_id:     5C7AE37F81E4BD9451C4B407EFC7FAA4
+    exposition_id:   2C055BAD85C20DFDB43BD76F8E495D2E
+  visite4:
+    guid:            visite000004
+    visiteur_id:     visiteur000003
+    navinum_id:      
+    parcours_id:     5C7AE37F81E4BD9451C4B407EFC7FAA4
+    exposition_id:   2C055BAD85C20DFDB43BD76F8E495D2E
+  visite5:
+    guid:            visite000005
+    visiteur_id:     visiteur000003
+    navinum_id:      
+    parcours_id:     10EF5DBC777977D6D6F619E95C7703AF
+    exposition_id:   6C9606AD3A9A801D721F0097ABD26417
+  visite6:
+    guid:            visite000006
+    visiteur_id:     visiteur000003
+    navinum_id:      
+    parcours_id:     10EF5DBC777977D6D6F619E95C7703AF
+    exposition_id:   6C9606AD3A9A801D721F0097ABD26417
+
+
+LogVisite:
+  lv1:
+    guid:             logvisite000001
+    interactif_id:    9068998837D861190E42236CD045CB11
+    interactif_libelle: atelier bois
+    exposition_id:    2C055BAD85C20DFDB43BD76F8E495D2E
+    visite_id:        visite000001
+    visiteur_id:      visiteur000001
+    score:            9999
+    connection:       mobile
+    start_at:         '2011-02-03 22:43'
+    end_at:           '2011-02-03 23:12'
+    resultats:        a:26:{s:15:"allow_user_conf";s:1:"f";s:8:"min_rows";i:1;s:9:"excl_mode";i:0;s:11:"filebrowser";s:4:"none";s:11:"quickupload";s:1:"f";s:7:"default";s:1:"t";s:11:"show_toggle";s:1:"t";s:5:"popup";s:1:"f";s:4:"skin";s:7:"default";s:7:"toolbar";s:11:"DrupalBasic";s:6:"expand";s:1:"t";s:5:"width";s:4:"100%";s:4:"lang";s:2:"en";s:9:"auto_lang";s:1:"t";s:10:"enter_mode";s:1:"p";s:16:"shift_enter_mode";s:2:"br";s:11:"font_format";s:35:"p;div;pre;address;h1;h2;h3;h4;h5;h6";s:13:"format_source";s:1:"t";s:13:"format_output";s:1:"t";s:2:"ss";s:1:"2";s:7:"filters";a:1:{s:8:"filter/0";i:1;}s:8:"css_mode";s:5:"theme";s:8:"css_path";s:0:"";s:12:"upload_basic";s:1:"f";s:15:"upload_advanced";s:1:"f";s:11:"user_choose";s:1:"f";}
+  lv2:
+    guid:             logvisite000002
+    interactif_id:    9068998837D861190E42236CD045CB11
+    interactif_libelle: atelier bois
+    visite_id:        visite000002
+    visiteur_id:      visiteur000002
+    score:            2040
+    connection:       insitu
+    start_at:         '2012-02-15 08:56'
+    end_at:           '2012-02-15 11:23'
+  lv3:
+    guid:             logvisite000003
+    interactif_id:    9068998837D861190E42236CD045CB11
+    interactif_libelle: atelier bois
+    visite_id:        visite000003
+    visiteur_id:      visiteur000003
+    score:            3002
+    connection:       web
+    start_at:         '2011-01-18 14:32'
+    end_at:           '2011-01-18 16:18'
+    resultats:        a:26:{s:15:"allow_user_conf";s:1:"f";s:8:"min_rows";i:1;s:9:"excl_mode";i:0;s:11:"filebrowser";s:4:"none";s:11:"quickupload";s:1:"f";s:7:"default";s:1:"t";s:11:"show_toggle";s:1:"t";s:5:"popup";s:1:"f";s:4:"skin";s:7:"default";s:7:"toolbar";s:14:"DrupalFiltered";s:6:"expand";s:1:"t";s:5:"width";s:4:"100%";s:4:"lang";s:2:"en";s:9:"auto_lang";s:1:"t";s:10:"enter_mode";s:1:"p";s:16:"shift_enter_mode";s:2:"br";s:11:"font_format";s:35:"p;div;pre;address;h1;h2;h3;h4;h5;h6";s:13:"format_source";s:1:"t";s:13:"format_output";s:1:"t";s:2:"ss";s:1:"2";s:7:"filters";a:1:{s:8:"filter/0";i:1;}s:8:"css_mode";s:5:"theme";s:8:"css_path";s:0:"";s:12:"upload_basic";s:1:"f";s:15:"upload_advanced";s:1:"f";s:11:"user_choose";s:1:"f";} 
+  lv4:
+    guid:             logvisite000004
+    interactif_id:    6AFBCDF1F9D9E6B55A62ABE43A6DA44C
+    interactif_libelle: Galerie 2011 - BD
+    visite_id:        visite000004
+    visiteur_id:      visiteur000001
+    score:            9991
+    connection:       insitu
+    start_at:         '2011-03-08 13:32'
+    end_at:           '2011-03-08 15:12'
+    resultats:        0
+
+MedailleType:
+  md1:
+    guid:    medailletype000001
+    libelle: jeu 
+  md2:
+    guid:    medailletype000002
+    libelle: évènement 
+
+
+Typologie:
+  typologie1:
+    guid:         typologie000001
+    libelle:      Enquêteur
+  typologie2:
+    guid:         typologie000002
+    libelle:      Acteur
+  typologie3:
+    guid:         typologie000003
+    libelle:      Joueur
+
+Medaille:
+  medaille1:
+    guid:         medaille000001
+    libelle:      Meilleur joueur
+    exposition_id: 2C055BAD85C20DFDB43BD76F8E495D2E
+    interactif_id: 9068998837D861190E42236CD045CB11
+    medaille_type_id: medailletype000001
+    description:  Best player of the world
+    condition_obtention: json
+  medaille2:
+    guid:         medaille000002
+    libelle:      Meilleur acteur
+    exposition_id: 2C055BAD85C20DFDB43BD76F8E495D2E
+    interactif_id: 9068998837D861190E42236CD045CB11
+    medaille_type_id: medailletype000002
+    description:  Meilleur tout
+    condition_obtention:
+    is_unique: 0
+
+VisiteurMedaille:
+  visiteur1medaille1:
+    guid:        visiteurmedaille000001
+    visiteur_id: visiteur000001
+    medaille_id: medaille000001
+  visiteur1medaille2:
+    guid:        visiteurmedaille000002
+    visiteur_id: visiteur000001
+    medaille_id: medaille000002
+  visiteur2medaille1:
+    guid:        visiteurmedaille000004
+    visiteur_id: visiteur000002
+    medaille_id: medaille000001
+  visiteur2medaille11:
+    guid:        visiteurmedaille000005
+    visiteur_id: visiteur000002
+    medaille_id: medaille000001
+  visiteur2medaille12:
+    guid:        visiteurmedaille000006
+    visiteur_id: visiteur000003
+    medaille_id: medaille000002
+
+Xp:
+  xp1Visiteur1Typologie1:
+    guid:         xp000001
+    score:        2300
+    visiteur_id:  visiteur000001
+    typologie_id: typologie000001
+  xp1Visiteur1Typologie2:
+    guid:         xp000002
+    score:        3800
+    visiteur_id:  visiteur000001
+    typologie_id: typologie000002
+  xp1Visiteur1Typologie3:
+    guid:         xp000003
+    score:        100
+    visiteur_id:  visiteur000001
+    typologie_id: typologie000003
+  xp1Visiteur2Typologie1:
+    guid:         xp000004
+    score:        100000
+    visiteur_id:  visiteur000002
+    typologie_id: typologie000001
+  xp1Visiteur2Typologie2:
+    guid:         xp000005
+    score:        666
+    visiteur_id:  visiteur000002
+    typologie_id: typologie000002
+  xp1Visiteur2Typologie3:
+    guid:         xp000006
+    score:        999
+    visiteur_id:  visiteur000002
+    typologie_id: typologie000003
+  xp1Visiteur3Typologie1:
+    guid:         xp0000014
+    score:        1
+    visiteur_id:  visiteur000003
+    typologie_id: typologie000001
+  xp1Visiteur3Typologie2:
+    guid:         xp0000015
+    score:        200
+    visiteur_id:  visiteur000003
+    typologie_id: typologie000002
+  xp1Visiteur3Typologie3:
+    guid:         xp0000016
+    score:        3356
+    visiteur_id:  visiteur000003
+    typologie_id: typologie000003
+

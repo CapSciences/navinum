@@ -1,0 +1,47 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           Rfid
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          rfid
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        uid:          { label:  Identifiant }
+        type:         { label: Type, default: 'visiteur'}
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+        is_tosync:    { label: A synchroniser}
+        is_active:    { label: Est actif}
+        is_resettable: { label: A resetter}
+        RfidGroupe: { label: Nom Groupe}
+      list:
+        title: Liste des Rfid
+        display: [uid, RfidGroupe, _type, is_resettable, created_at]
+        fields:
+          created_at: { label: Créé le, date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          is_tosync:  {label: A synchroniser}
+        batch_actions:
+          _assign_badges:
+            title:  Associer à un groupe Rfid
+      filter:  ~
+      form: ~
+      edit:
+        title: Modifier un Rfid
+      new:
+        title: Créer un Rfid
+      show:
+      export:
+        display: [uid, RfidGroupe, type, is_resettable, is_active, created_at]
+        enabled: true
+        title: Rfid export
+        filename: rfid
+

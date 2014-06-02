@@ -1,0 +1,10 @@
+RfidGroupe:
+  RfidGroupe1:
+    guid: rf000001
+    nom: rouge
+  RfidGroupe2:
+    guid: rf000002
+    nom: vert
+  RfidGroupe3:
+    guid: rf000003
+    nom: bleu

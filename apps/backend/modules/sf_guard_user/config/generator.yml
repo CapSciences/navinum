@@ -1,0 +1,40 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           sfGuardUser
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          sf_guard_user
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+        first_name:   { label:  Prénom }
+        last_name:   { label:  Nom }
+        email_address:   { label:  Email }
+        username:   { label:  Login }
+        password:   { label:  Mot de passe }
+        is_active:   { label:  Actif }
+        exposition_list:   { label:  Liste des expositions autorisées }
+        permissions_list: { label:  Liste des permissions autorisées }
+        is_tosync:    {label: A synchroniser}
+      list:
+        title: Liste des utilisateurs
+        display: [id, first_name, last_name, email_address, username, _permissions_list, created_at, updated_at]
+        fields:
+          created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+        sort:
+          [id, asc]
+      form:    ~
+      edit:   
+        title: Modifier un utilisateur
+      new:     
+        title: Créer un utilisateur

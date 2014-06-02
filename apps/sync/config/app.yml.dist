@@ -1,0 +1,22 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/11-App
+
+# default values
+all:
+  sync:
+    name:      intranet-1         #will be display to log
+    type:        intranet         #intranet or internet
+    tables:     [RfidGroupe, Rfid, RfidGroupeVisiteur, Flotte, Peripherique, Visiteur, PreferenceMediaVisiteur, PreferenceMedia, Contexte, Organisateur, Exposition, Parcours, ExpositionsParcours, Visite, Interactif, ParcoursInteractif, LogVisite, Xp, Typologie, Medaille, MedailleType, VisiteurMedaille, UserExposition, ExpositionVisiteurNeeds, Langue, LangueExpositionVisiteurNeeds, PreferenceMediaExpositionVisiteurNeeds, sfGuardUser, sfGuardPermission, sfGuardUserGroup, SentMessage, Evenement, EvenementExposition, TemplateMail, Csp, Notification, DeleteLog, Rulerz, RulerzListener]
+    internet_url: http://servervip.projects.clever-age.net/sync.php
+    database: navinum
+    dump_dir: sync
+    
+    
+test:
+  sync:
+    name:      intranet-1
+    type:        intranet         #intranet or internet
+    tables:     [RfidGroupe, Rfid, RfidGroupeVisiteur, Flotte, Peripherique, Visiteur, PreferenceMediaVisiteur, PreferenceMedia, Contexte, Organisateur, Exposition, Parcours, ExpositionsParcours, Visite, Interactif, ParcoursInteractif, LogVisite, Xp, Typologie, Medaille, MedailleType, VisiteurMedaille, UserExposition, ExpositionVisiteurNeeds, Langue, LangueExpositionVisiteurNeeds, PreferenceMediaExpositionVisiteurNeeds, sfGuardUser, sfGuardPermission, sfGuardUserGroup, SentMessage, Evenement, EvenementExposition, TemplateMail, Csp, Notification, DeleteLog, Rulerz, RulerzListener]
+    internet_url: http://navinum-sync.cap-sciences.net/sync_test.php
+    database: navinum_test
+    dump_dir: sync/test

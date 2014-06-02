@@ -1,0 +1,45 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           Visiteur
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          visiteur
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        guid:         { label:  Identifiant }
+        has_photo:    { label:  Photo }
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+        is_tosync:    {label: A synchroniser}
+        is_active:    {label: Actif}
+        has_newsletter:    {label: Newsletter}
+      list:
+        title: Liste des visiteurs
+        display: [nom, prenom, pseudo_son, password_son, date_naissance, code_postal, ville, type, email, genre, newsletter, csp, has_photo , is_active, created_at, updated_at]
+        sort:
+          [nom, asc]
+        fields:
+          created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+        object_actions:
+          _edit:      { label: Modifier, action: edit }
+          _delete:    { label: Supprimer, action: delete }
+      filter:  ~
+      form:    ~
+      edit:    
+        title: Modifier un visiteur
+      new:     
+        title: Créer un visiteur
+      show:    ~
+      export:
+        enabled: true
+        title: visiteur export
+        filename: exportation

@@ -1,0 +1,44 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           VisiteurMedaille
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          visiteur_medaille
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        guid:           { label: Identifiant}
+        visiteur_id:    { label: Visiteur}
+        medaille_id:    { label: Medaille}
+        connection:      { label: connection }
+        is_tosync:      { label: A synchroniser }
+        created_at:     { label: Date de création, date_format: 'F' }
+        updated_at:     { label: Date de mise à jour, date_format: 'F' }
+      list:
+        title: Liste des Médailles par visiteur
+        display: [ guid, medaille_id, Medaille, visiteur_id, Visiteur, created_at, updated_at]
+        sort: [created_at, asc]
+        fields:
+          created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+        object_actions:
+          _edit:      { label: Modifier, action: edit }
+          _delete:    { label: Supprimer, action: delete }
+        batch_actions:
+          _delete:    {  label: Supprimer, action: delete , credentials: admin}
+      filter:  
+        display: [guid, medaille_id, connection]
+      form:
+        display: [guid, visiteur_id, medaille_id, connection]
+      edit:
+        title: Modifier une médaille visiteur
+      new:
+        title: Créer un médaille visiteur
+      show:    ~

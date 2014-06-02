@@ -1,0 +1,806 @@
+### RfidGroupe
+RfidGroupe:
+  tableName:                   rfid_groupe
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    nom:                       { type: string(255), unique: true}
+    is_tosync:                 { type: boolean, default: 1 }
+
+### RFID
+Rfid:
+  tableName:                   rfid
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    uid:                       { type: string(255), notnull: true, primary: true }
+    groupe_id:                 { type: string(255), default: null }                         # visiteur provient d'un groupe
+    type:                      { type: string(64), default: null } #admin ou animateur ou visiteur
+    valeur1:                   { type: string(255), default: '' }
+    valeur2:                   { type: string(255), default: '' }
+    valeur3:                   { type: string(255), default: '' }
+    is_active:                 { type: boolean, default: 1 }
+    is_resettable:             { type: boolean, default: 1 }
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    RfidGroupe:                { class: RfidGroupe, local: groupe_id, foreign: guid, onDelete: SET NULL}
+  indexes:
+    index_is_resettable:
+      fields:                  [is_resettable]
+
+### RfidGroupeVisiteur
+RfidGroupeVisiteur:
+  tableName:                   rfid_groupe_visiteur
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    nom:                       { type: string(255), notnull: true}
+    rfid_groupe_id:            { type: string(255), notnull: true }
+    #langue_id:                 { type: string(255), notnull: true }
+    langue_id:                 { type: string(255), notnull: true }
+    email:                     { type: string(255), default: null, email: true }
+    csp_id:                    { type: string(255), default: null }
+    genre:                     string(10)                                            # homme femme   
+    age:                       integer(4)
+    code_postal:               integer(4)
+    commentaire:               clob
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    RfidGroupe:                { class: RfidGroupe, local: rfid_groupe_id, foreign: guid}
+    #Rfid:                      { class: Rfid, local: guid, foreign: uid, refClass: RfidGroupeVisiteurBadgeList }
+    Langue:                    { class: Langue, local: langue_id, foreign: guid}
+    Csp:                       { class: Csp, local: csp_id, foreign: guid, onDelete: SET NULL}
+
+### Flotte
+Flotte:
+  tableName:                   flotte
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    libelle:                   { type: string(255), unique: true}
+    exposition_id:             { type: string(255)}
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    Exposition:                { class: Exposition, local: exposition_id, foreign: guid, onDelete: SET NULL }
+
+### Peripherique
+Peripherique:
+  tableName:                   peripherique
+  actAs:
+    Timestampable:
+    caRulerzNotifier:
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    adresse_mac:               { type: string(64), unique: true }
+    adresse_ip:                string(32)
+    flotte_id:                 string(255)
+    interactif_id:             { type: string(255), notnull: true}
+    serial_number:             { type: string(255)}
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    Flotte:                    { class: Flotte, local: flotte_id, foreign: guid, onDelete: SET NULL }
+    Interactif:                { class: Interactif, local: interactif_id, foreign: guid, onDelete: CASCADE }
+
+### Visiteur
+Visiteur:
+  tableName:                   visiteur
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    password_son:               string(255)
+    email:                     { type: string(255), default: null, email: true }
+    contexte_creation_id:      { type: string(255)}                  # contexte dans le lequel le profil a été créé
+    langue_id:                 { type: string(255), default: null}
+    type:                      { type: string(32), default: 'visiteur' }
+    has_photo:                 {type: boolean, default: 0}
+    genre:                     string(10)                                            # homme femme
+    date_naissance:            { type: date, default: null }
+    adresse:                   string(255)
+    code_postal:               string(10)
+    ville:                     string(255)
+    prenom:                    string(255)
+    nom:                       string(255)
+    pseudo_son:                { type: string(255), default: null}
+    has_newsletter:            boolean
+    url_avatar:                string(255)
+    num_mobile:                string(64) 
+    facebook_id:               string(255)
+    google_id:                 string(255)
+    twitter_id:                string(255)
+    flickr_id:                 string(255)
+    dailymotion_id:            string(255)
+    is_anonyme:                boolean
+    csp_id:                    { type: string(255), default: null }
+    is_active:                 { type: boolean, default: 1 }
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    Contexte:                  { class: Contexte, local: contexte_creation_id, foreign: guid, onDelete: SET NULL }
+    PreferenceMedia:            { refClass: PreferenceMediaVisiteur, class: PreferenceMedia, local: visiteur_id, foreign: preference_media_id, type: many }
+    Langue:                    { class: Langue, local: langue_id, foreign: guid, onDelete: SET NULL}
+    Csp:                       { class: Csp, local: csp_id, foreign: guid, onDelete: SET NULL}
+
+  indexes:
+    index_email:
+      fields:                  [email]
+    index_password_son:
+      fields:                  [password_son]
+    index_pseudo_son:
+      fields:                  [pseudo_son]
+
+### PreferenceMediaVisiteur
+PreferenceMediaVisiteur:
+  tableName:                   preferencemedia_visiteur
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    preference_media_id:       { type: string(255), primary: true}
+    visiteur_id:               { type: string(255), primary: true}
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    PreferenceMedia:           { class: PreferenceMedia, local: preference_media_id, foreign: guid, onDelete: CASCADE }
+    Visiteur:                  { class: Visiteur, local: visiteur_id, foreign: guid, onDelete: CASCADE }
+
+### PreferenceMedia
+PreferenceMedia:
+  tableName:                   preferencemedia
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    libelle:                   { type:string(255) , unique: true }
+    is_tosync:                 { type: boolean, default: 1 }
+
+
+### Contexte
+Contexte:
+  tableName:                   contexte
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    libelle:                   { type: string(255), unique: true }
+    is_tosync:                 { type: boolean, default: 1 }
+
+
+### Organisateur
+Organisateur:
+  tableName:                   organisateur
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    libelle:                   { type: string(255), unique: true }
+    is_tosync:                 { type: boolean, default: 1 }
+
+
+### exposition
+Exposition:
+  tableName:                   exposition
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    libelle:                   { type:string(255) , unique: true }
+    contexte_id:               { type: string(255) }
+    organisateur_editeur_id:   { type: string(255) }
+    organisateur_diffuseur_id: { type: string(255) }
+    synopsis:                  { type: clob }
+    description:               { type: clob }
+    logo:                      { type: string(128) }
+    publics:                   { type: string(255) }
+    langues:                   { type: string(255) }
+    url_illustration:          { type: string(255) }
+    url_studio:                { type: string(255) }
+    start_at:                  { type: date, notnull: false }
+    end_at:                    { type: date, notnull: false }
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    Contexte:                  { class: Contexte, local: contexte_id, foreign: guid, onDelete: SET NULL }
+    OrganisateurEditeur:       { class: Organisateur, local: organisateur_editeur_id, foreign: guid, onDelete: SET NULL }
+    OrganisateurDiffuseur:     { class: Organisateur, local: organisateur_diffuseur_id, foreign: guid, onDelete: SET NULL }
+    sfGuardUser:                {refClass: UserExposition, class: sfGuardUser, local: exposition_id, foreign: user_id, type: many }
+
+
+### parcours
+Parcours:
+  tableName:                   parcours
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                     { type: string(255), notnull: true, primary: true }
+    libelle:                  { type:string(255) , unique: true }
+    ordre:                    { type: integer(5), default: null }
+    is_tosync:                { type: boolean, default: 1 }
+  relations:
+    Exposition:                {refClass: ExpositionsParcours, class: Exposition, local: parcours_id, foreign: exposition_id, type: many }
+
+### exposition-parcours
+ExpositionsParcours:
+  tableName:                   exposition_parcours
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    parcours_id:              { type: string(255), primary: true }
+    exposition_id:            { type: string(255), primary: true }
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    Parcours:    { class: Parcours, local: parcours_id, foreign: guid, onDelete: CASCADE }
+    Exposition:  { class: Exposition, local: exposition_id, foreign: guid, onDelete: CASCADE }
+
+### visite
+Visite:
+  tableName:                   visite
+  actAs:
+    Timestampable:
+    caRulerzNotifier:    
+  columns:
+    guid:                     { type: string(255), notnull: true, primary: true }
+    visiteur_id:              { type: string(255)}
+    navinum_id:               { type: string(255), default: null}
+    groupe_id:                { type: string(255), default: null }                         # visiteur provient d'un groupe
+    exposition_id:            { type: string(255), default: null}
+    exposition_libelle:       { type: string(255)}
+    parcours_id:              { type: string(255), default: null}
+    parcours_libelle:         { type: string(255)}
+    interactif_id:            { type: string(255), default: null}
+    connexion_id:             { type: string(255), default: null}
+    is_ending:                { type: boolean, default: 0 }
+    is_tosync:                { type: boolean, default: 1 }
+  relations:
+    Visiteur:                 { class: Visiteur, local: visiteur_id, foreign: guid, onDelete: CASCADE }
+    Exposition:               { class: Exposition, local: exposition_id, foreign: guid, onDelete: SET NULL }
+    Parcours:                 { class: Parcours, local: parcours_id, foreign: guid, onDelete: SET NULL }
+    Rfid:                     { class: Rfid, local: navinum_id, foreign: uid, onDelete: SET NULL }
+    RfidGroupeVisiteur:       { class: RfidGroupeVisiteur, local: groupe_id, foreign: guid, onDelete: SET NULL}
+    Interactif:               { class: Interactif, local: interactif_id, foreign: guid, onDelete: SET NULL }
+  indexes:
+    connexion_idx:
+      fields: [connexion_id]  
+    
+### Interactif
+Interactif:
+  tableName:                   interactif
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    libelle:                   { type:string(255) , unique: true }
+    source_type:               { type: enum, values: [natif, natif-cocos2d, natif-unity, natif-librairie, html5]}
+    synopsis:                  clob
+    description:               clob
+    logo:                      string(255)
+    categorie:                 string(128)
+    version:                   string(32)
+    editeur:                   string(255)
+    publics:                   string(255)     # champ libre sur les types de publics 
+    markets:                   string(255)     # ios, android, windows
+    url_market_ios:            string(255)
+    url_market_android:        string(255)
+    url_market_windows:        string(255)
+    langues:                   string(255)
+    image1:                    string(255)
+    image2:                    string(255)
+    image3:                    string(255)
+    date_diff:                 date            # Date de mise en production.
+    explications_resultats:    clob            # sert à comprendre comment décrypter les résultats des intéractifs
+    score:                     clob            # typo_acteur, typo_chercheur, typo_joueur => voir typo
+    variable:                  clob
+    url_scheme:                string(128)
+    url_fichier_interactif:    string(255)
+    url_pierre_de_rosette:     string(255)
+    url_illustration:          string(255)
+    url_interactif_type:      integer(6)
+    url_interactif_choice:    string(255)
+    url_visiteur_type:         integer(6)
+    url_start_at:              integer(6)
+    url_start_at_type:         string(255)
+    url_end_at:                integer(6)
+    url_end_at_type:           string(255)
+    refresh_deploiement:       { type: boolean, default: 0 } 
+    is_visiteur_needed:        { type: boolean, default: 0 }           # savoir si le profil visiteur est nécessaire pour lancer l'interactif
+    is_logvisite_needed:       { type: boolean, default: 0 }           # savoir si les log visites sont nécessaires pour lancer l'interactif
+    is_logvisite_verbose_needed: { type: boolean, default: 0 }  
+    is_parcours_needed:        { type: boolean, default: 0 }           # savoir si le parcours est nécessaire pour lancer l'interactif
+    ordre:                     integer(5)
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    Parcours:                  { refClass: ParcoursInteractif, class: Parcours, local: interactif_id, foreign: parcours_id, type: many }
+
+### parcours-interactif
+ParcoursInteractif:
+  tableName:                   parcours_interactif
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    interactif_id:             { type: string(255), notnull: true, primary: true}
+    parcours_id:               { type: string(255), notnull: true, primary: true}
+    num_order:                 integer(6)
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    Parcours:    { class: Parcours, local: parcours_id, foreign: guid, onDelete: CASCADE }
+    Interactif:  { class: Interactif, local: interactif_id, foreign: guid, onDelete: CASCADE }
+
+### log-visite
+LogVisite:
+  tableName:                   log_visite
+  actAs:
+    Timestampable:
+    caRulerzNotifier:      
+  columns:
+    guid:                      { type: string(255),  primary: true}
+    interactif_id:             { type: string(255)}
+    interactif_libelle:        { type: string(255)}
+    visite_id:                 { type: string(255)}
+    visiteur_id:               { type: string(255)}
+    exposition_id:             { type: string(255)}
+    connection:                { type: string(64)}
+    start_at:                  { type: timestamp, notnull: true}
+    end_at:                    timestamp
+    resultats:                 clob
+    score:                     integer                         # score total des xp sur les différentes typos
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    Exposition:                { class: Exposition, local: exposition_id, foreign: guid, onDelete: SET NULL }
+    Interactif:                { class: Interactif, local: interactif_id, foreign: guid, onDelete: SET NULL }
+    Visite:                    { class: Visite, local: visite_id, foreign: guid, onDelete: SET NULL }
+    Visiteur:                  { class: Visiteur, local: visiteur_id, foreign: guid, onDelete: SET NULL }
+
+### Xp
+Xp:
+  tableName:                   xp
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255),  primary: true}
+    score:                     { type: integer(6), notnull: true}
+    visiteur_id:               { type: string(255), notnull: true}
+    typologie_id:              { type: string(255), notnull: true}
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    Visiteur:                  { class: Visiteur, local: visiteur_id, foreign: guid, onDelete: CASCADE }
+    Typologie:                 { class: Typologie, local: typologie_id, foreign: guid, onDelete: CASCADE }
+
+### Typologie
+Typologie:
+  tableName:                   typologie
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    libelle:                   { type: string(255), unique: true }
+    description:               { type: clob }
+    is_tosync:                 { type: boolean, default: 1 }
+
+### Medaille
+Medaille:
+  tableName:                   medaille
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    libelle:                   { type:string(255) , unique: true }
+    image:                     string(255)
+    medaille_type_id:          { type: string(255) }
+    exposition_id:             { type: string(255) }
+    interactif_id:             { type: string(255) }
+    description:               clob
+    condition_obtention:       clob                             # une médaille peut etre obtenue sans condition
+    is_unique:                 { type: boolean, default: 1 }
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    Exposition:               { class: Exposition, local: exposition_id, foreign: guid, onDelete: SET NULL }
+    Interactif:               { class: Interactif, local: interactif_id, foreign: guid, onDelete: SET NULL }
+    MedailleType:             { class: MedailleType, local: medaille_type_id, foreign: guid, onDelete: SET NULL }
+
+### MedailleType
+MedailleType:
+  tableName:                   medaille_type
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    libelle:                   { type: string(255), notnull: true }
+    description:               { type: clob }
+    is_tosync:                 { type: boolean, default: 1 }
+
+### VisiteurMedaille    
+VisiteurMedaille:
+  tableName:                   visiteur_medaille
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    visiteur_id:               { type: string(255), notnull: true }
+    medaille_id:               { type: string(255), notnull: true }
+    is_tosync:                 { type: boolean, default: 1 }
+    connection:                { type: string(255), default: ''}
+  relations:
+    Visiteur:                  { class: Visiteur, local: visiteur_id, foreign: guid, onDelete: CASCADE }
+    Medaille:                  { class: Medaille, local: medaille_id, foreign: guid, onDelete: CASCADE }
+
+    
+### user-exposition    
+UserExposition:
+  tableName:     user_exposition
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    user_id:                  { type: string(255), notnull: true, primary: true}
+    exposition_id:            { type: string(255), notnull: true,  primary: true}
+    is_tosync:                { type: boolean, default: 1 }
+  relations:
+    sfGuardUser:              { class: sfGuardUser, local: user_id, foreign: id, onDelete: CASCADE }
+    Exposition:               { class: Exposition, local: exposition_id, foreign: guid, onDelete: CASCADE }
+    
+### ExpositionVisiteurNeeds :pour savoir quelles sont les prérequis sur une exposition     
+ExpositionVisiteurNeeds:
+  tableName:                      exposition_visiteurneeds
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    exposition_id:             { type: string(255), notnull: true}    
+    has_genre:                 { type: boolean, default: 0 }
+    has_date_naissance:        { type: boolean, default: 0 }
+    has_code_postal:           { type: boolean, default: 0 }
+    has_ville:                 { type: boolean, default: 0 }
+    has_adresse:               { type: boolean, default: 0 }
+    has_prenom:                { type: boolean, default: 0 }
+    has_nom:                   { type: boolean, default: 0 }
+    has_csp:                   { type: boolean, default: 0 }
+    has_num_mobile:            { type: boolean, default: 0 }
+    has_facebook_id:           { type: boolean, default: 0 }
+    has_google_id:             { type: boolean, default: 0 }
+    has_twitter_id:            { type: boolean, default: 0 }
+    has_flickr_id:             { type: boolean, default: 0 }
+    has_dailymotion_id:        { type: boolean, default: 0 }
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    Exposition:              { class: Exposition, local: exposition_id, foreign: guid, onDelete: CASCADE }
+    PreferenceMedia:         { refClass: PreferenceMediaExpositionVisiteurNeeds, class: PreferenceMedia, local: exposition_visiteurneeds_id, foreign: preference_media_id, type: many }
+    Langue:                  { refClass: LangueExpositionVisiteurNeeds, class: Langue, local: exposition_visiteurneeds_id, foreign: langue_id, type: many }
+   
+### Langue
+Langue:
+  tableName:                 langue
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:                            { type: string(255), notnull: true, primary: true }
+    libelle:                         { type: string(128), notnull: true, unique: true}
+    short_libelle:                   { type: string(10), notnull: true}
+    is_tosync:                       { type: boolean, default: 1 }
+
+### LangueExpositionVisiteurNeeds  
+LangueExpositionVisiteurNeeds:
+  tableName:                   langue_exposition_visiteurneeds
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    langue_id:                   { type: string(255), primary: true}
+    exposition_visiteurneeds_id: { type: string(255), primary: true}
+    is_tosync:                   { type: boolean, default: 1 }
+  relations:
+    Langue:                    { class: Langue, local: langue_id, foreign: guid, onDelete: CASCADE }
+    ExpositionVisiteurNeeds:   { class: ExpositionVisiteurNeeds, local: exposition_visiteurneeds_id, foreign: guid, onDelete: CASCADE }
+  
+### PreferenceMediaExpositionVisiteurNeeds  
+PreferenceMediaExpositionVisiteurNeeds:
+  tableName:                   preferencemedia_exposition_visiteurneeds
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    preference_media_id:          { type: string(255), primary: true}
+    exposition_visiteurneeds_id: { type: string(255), primary: true}
+    is_tosync:                   { type: boolean, default: 1 }
+  relations:
+    PreferenceMedia:            { class: PreferenceMedia, local: preference_media_id, foreign: guid, onDelete: CASCADE }
+    ExpositionVisiteurNeeds:   { class: ExpositionVisiteurNeeds, local: exposition_visiteurneeds_id, foreign: guid, onDelete: CASCADE }
+
+### DeleteLog
+DeleteLog:
+  tableName:                 delete_log
+  actAs:
+    Timestampable:
+  columns:
+    guid:                       { type: string(255), notnull: true, primary: true }
+    model_name:                 { type: string(255), notnull: true, primary: true }
+    is_tosync:                  { type: boolean, default: 1 }
+
+### SyncLog
+SyncLog:
+  tableName:                 sync_log
+  columns:
+    guid:                      { type: string(255), notnull: true, primary: true }
+    from_datetime_sync:        { type: timestamp, notnull: true }
+    to_datetime_sync:          { type: timestamp, notnull: true }
+    origin:                    { type: string(255) }
+    is_done:                   { type: boolean, default: 0 }
+
+### sfGuardUser
+sfGuardUser:
+  actAs: [Timestampable]
+  columns:
+    id:         { type: string(255), notnull: true, primary: true }
+    first_name: string(255)
+    last_name: string(255)
+    email_address:
+      type: string(255)
+      notnull: true
+      unique: true
+    username:
+      type: string(128)
+      notnull: true
+      unique: true
+    algorithm:
+      type: string(128)
+      default: sha1
+      notnull: true
+    salt: string(128)
+    password: string(128)
+    is_active:
+      type: boolean
+      default: 1
+    is_super_admin:
+      type: boolean
+      default: false
+    last_login:
+      type: timestamp
+    is_tosync:  { type: boolean, default: 1 }
+  indexes:
+    is_active_idx:
+      fields: [is_active]
+  relations:
+    Groups:
+      class: sfGuardGroup
+      local: user_id
+      foreign: group_id
+      refClass: sfGuardUserGroup
+      foreignAlias: Users
+    Permissions:
+      class: sfGuardPermission
+      local: user_id
+      foreign: permission_id
+      refClass: sfGuardUserPermission
+      foreignAlias: Users
+
+### sfGuardPermission
+sfGuardPermission:
+  actAs: [Timestampable]
+  columns:
+    name:
+      type: string(255)
+      unique: true
+    description: string(1000)
+    is_tosync:  { type: boolean, default: 1 }
+    
+### sfGuardUserPermission
+sfGuardUserPermission:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  actAs: [Timestampable]
+  columns:
+    user_id:       { type: string(255), primary: true }
+    permission_id: {type: integer, primary: true }
+    is_tosync:     { type: boolean, default: 1 }
+  relations:
+    User:
+      class: sfGuardUser
+      local: user_id
+      onDelete: CASCADE
+    Permission:
+      class: sfGuardPermission
+      local: permission_id
+      onDelete: CASCADE
+ 
+ 
+### sfGuardUserGroup
+sfGuardUserGroup:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  actAs: [Timestampable]
+  columns:
+    user_id:       { type: string(255), primary: true }
+    group_id:      { type: integer, primary: true }
+    is_tosync:     { type: boolean, default: 1 }
+  relations:
+    User:
+      class: sfGuardUser
+      local: user_id
+      onDelete: CASCADE
+    Group:
+      class: sfGuardGroup
+      local: group_id
+      onDelete: CASCADE
+  
+### sfGuardRememberKey  
+sfGuardRememberKey:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  actAs: [Timestampable]
+  columns:
+    user_id: { type: string(255)}
+    remember_key: string(32)
+    ip_address: string(50)
+    is_tosync:     { type: boolean, default: 1 }
+  relations:
+    User:
+      class: sfGuardUser
+      local: user_id
+      foreignAlias: RememberKeys
+      foreignType: one
+      onDelete: CASCADE
+      
+### sfGuardForgotPassword
+sfGuardForgotPassword:
+  options:
+    symfony:
+      form:   false
+      filter: false
+  actAs: [Timestampable]
+  columns:
+    user_id: { type: string(255), notnull: true }
+    unique_key: string(255)
+    expires_at:
+      type: timestamp
+      notnull: true
+    is_tosync:     { type: boolean, default: 1 }
+  relations:
+    User:
+      class: sfGuardUser
+      local: user_id
+      type: one
+      foreignType: one
+      foreignAlias: ForgotPassword
+      onDelete: CASCADE
+
+### SentMessage
+SentMessage:
+  tableName:                 sent_message
+  actAs:
+    Timestampable:
+  columns:
+    guid:               { type: string(255), notnull: true, primary: true }
+    mail_from:          { type: string(255), notnull: true }
+    mail_to:            { type: string(255), notnull: true }
+    subject:            { type: string(255), notnull: true }
+    content:            clob
+    is_tosync:     { type: boolean, default: 1 }
+
+ ### Evenement
+Evenement:
+  tableName:                 evenement
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:               { type: string(255), notnull: true, primary: true }
+    start_at:           { type: timestamp, notnull: true}
+    end_at:             timestamp
+    libelle :           { type: string(255), unique: true }
+    latitude:           string(32)
+    longitude:          string(32)
+    is_tosync:          { type: boolean, default: 1 }
+  relations: 
+    Exposition:       { refClass: EvenementExposition, class: Exposition, local: evenement_id, foreign: exposition_id, type: many }
+
+EvenementExposition:
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:  
+    exposition_id:             { type: string(255), primary: true}
+    evenement_id:               { type: string(255), primary: true}
+    is_tosync:                 { type: boolean, default: 1 }
+  relations:
+    Exposition:                { class: Exposition, local: exposition_id, foreign: guid, onDelete: CASCADE }
+    Evenement:                { class: Evenement, local: evenement_id, foreign: guid, onDelete: CASCADE }
+
+ ### TemplateMail 
+TemplateMail:
+  tableName:                 template_mail
+  actAs:
+    Timestampable:
+  columns:
+    guid:               { type: string(255), notnull: true, primary: true }
+    libelle :           { type:string(255) , unique: true }
+    contenu:            clob
+    is_tosync:     { type: boolean, default: 1 }
+
+Csp:
+  tableName:                 csp
+  actAs:
+    Timestampable:
+    caRulerzNotifier:  
+  columns:
+    guid:               { type: string(255), notnull: true, primary: true }
+    libelle :           { type: string(255), unique: true }
+    is_tosync:          { type: boolean, default: 1 }
+
+Notification:
+  tableName:                 notification
+  actAs:
+    Timestampable:
+  columns:
+    guid:               { type: string(255), notnull: true, primary: true }
+    libelle:            { type: string(255) }
+    visiteur_id:        { type: string(255), notnull: true }
+    visite_id:          { type: string(255), notnull: true }
+    from_model:         { type: string(255)}          # xp, account, typologie, evènement, highscore, cms
+    from_model_id:      { type: string(255)}          # note interactif_id présent dans logVisite
+    parameter:          { type: string(255)}          # si autre paramètre à ajouter
+    is_tosync:          { type: boolean, default: 1 }
+  relations:
+    Visiteur:           { class: Visiteur, local: visiteur_id, foreign: guid, onDelete: CASCADE }
+    
+    
+Rulerz:
+  tableName: rulerz
+  actAs:
+    Timestampable: ~
+  columns:
+    guid:               { type: string(255), notnull: true, primary: true }
+    libelle:            { type: string(255) }
+    action:             { type: text }
+    is_tosync:          { type: boolean, default: 1 }
+
+RulerzListener:
+  tableName: rulerz_listenner
+  actAs:
+    Timestampable: ~
+  columns:
+    guid:               { type: string(255), notnull: true, primary: true }
+    rulerz_id:          { type: string(255), notnull: true }
+    event:              { type: string(255) }
+    is_tosync:          { type: boolean, default: 1 }
+  relations:
+    Rulerz:             { class: Rulerz, local: rulerz_id, foreign: guid, foreignAlias: Listeners, onDelete: CASCADE}
+
+RulerzExecution:
+  tableName: rulerz_execution
+  actAs:
+    Timestampable: ~
+  columns:
+    guid:               { type: string(255), notnull: true, primary: true }
+    rulerz_id:          { type: string(255), notnull: true }
+    event:              { type: string(255) }
+    entity_uid:         { type: string(255) }
+    status:             { type: string(255) }
+    execution_data:     { type: text }
+    is_tosync:          { type: boolean, default: 1 }
+  relations:
+    Rulerz:             { class: Rulerz, local: rulerz_id, foreign: guid, foreignAlias: Executions, onDelete: CASCADE}

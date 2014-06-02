@@ -1,0 +1,31 @@
+body {margin:0;padding:0;background-color: #eee;}
+a {color:#466773;}.clear {clear:both;}
+#container {background: none repeat scroll 0 0 transparent;width: 100%;}
+
+
+/*************** Header*************/
+#header {background-image: url("../images/bg-header.jpg");background-repeat: repeat-x;height: 183px;overflow: hidden;position:relative;}
+#head_wrap {margin-left: auto;margin-right: auto;overflow: hidden;padding-top: 2%;width: 960px;height:86%; position: relative;}
+#head_wrap h2.user_login {background: url("../images/user_login.png") no-repeat left center;padding-left:40px;bottom: 20px;margin: 0;padding-left: 40px;position: absolute;}
+#logo {display: inline;float: left;margin-right: 10px;position: relative;width: 300px;}
+#logo h1 {margin: 0;}
+#logo h1 a {color: #F1F1F1;font-family: Tahoma,Geneva,sans-serif;font-size: 36px;font-weight: bold;letter-spacing: -3px;margin: 0;text-decoration: none;}
+
+/*************** Login Holder *************/
+#login-holder {margin: 15px auto 50px;overflow: hidden;padding: 25px;width: 300px;}
+#login-holder .bloc_field {margin-bottom:20px;overflow:hidden;}
+#login-holder .bloc_field.password_bloc {margin-bottom:3px;}
+
+
+/*************** Form style *************/
+form label {clear: both;color: #555555;font-size: 13px;font-weight: bold;margin-right: 10px;text-transform: uppercase;vertical-align: middle;}
+form input[type="text"], form input[type="password"] {-moz-border-radius: 3px 3px 3px 3px;border-radius: 3px 3px 3px 3px;-webkit-border-radius:3px 3px 3px 3px;background: none repeat scroll 0 0 #FEFEFE;border: 1px solid #bbb;clear: both;color: #333;font-size: 14px;margin-top: 8px;padding: 7px;width: 93%;}
+form input[type="submit"] {-moz-box-shadow: 0 1px 0 #0C2E5A;background: url("../images/bluebutton_bg.png") repeat scroll 0 0 transparent;border: 1px solid #0C2E5A;color: #B3E2FB;cursor: pointer;margin-top: 20px;padding: 2px 10px;-moz-border-radius: 5px 5px 5px 5px !important;-webkit-border-radius: 5px 5px 5px 5px !important;border-radius: 5px 5px 5px 5px !important;}
+form input[type="submit"]:hover {text-decoration: underline;}
+#signin_remember {margin-top:1px;}
+form .forgot-pwd {display:block;text-decoration: none;margin-bottom: 10px;}
+
+
+/*************** Required field *************/
+.error {
+background: url("../images/error.png") no-repeat 0 0 transparent;padding: 10px 8px 7px 27px;margin: 3px 0;background-color: #FCC;border: 1px solid #F00;font-family: arial;font-size: 10px;font-style: normal;font-weight: normal;color: #000;float: left;width: 86%;-moz-border-radius:5px;-webkit-border-radius: 5px;border-radius:5px;}

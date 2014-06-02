@@ -1,0 +1,114 @@
+Rfid:
+  rfid1:
+    uid: a666666
+    groupe_id: rf000001
+    type: 0
+    is_resettable: 1
+  rfid2:
+    uid: b666666
+    groupe_id: rf000001
+    type: 2
+    is_resettable: 0
+  rfid3:
+    uid: c666666
+    groupe_id: rf000002
+    type: visiteur
+    is_resettable: 1
+  rfid4:
+    uid: d666666
+    groupe_id: rf000002
+    type: animateur
+    is_resettable: 0
+  rfid5:
+    uid: e666666
+    groupe_id: rf000003
+    type: admin
+    is_resettable: 1
+  rfid6:
+    uid: f666666
+    groupe_id: rf000001
+    type: visiteur
+    is_resettable: 0
+  rfid7:
+    uid: 33f3f87e
+    groupe_id: null
+    type: 2
+    is_resettable: 1
+  rfid8:
+    uid: 33f42eee
+    groupe_id: rf000001
+    type: visiteur
+    is_resettable: 1
+  rfid9:
+    uid: 33F45A0E
+    groupe_id: null
+    type: 0
+    is_resettable: 1
+  rfid10:
+    uid: 35555544
+    groupe_id: null
+    type: 0
+    is_resettable: 1        
+  rfid11:
+    uid: 567D8898
+    groupe_id: null
+    type: 0
+    is_resettable: 1  
+  rfid12:
+    uid: 8B93517E
+    groupe_id: null
+    type: 1
+    is_resettable: 1    
+  rfid13:
+    uid: 8B94929E
+    groupe_id: null
+    type: 2
+    is_resettable: 1    
+  rfid14:
+    uid: 8b9497ce
+    groupe_id: null
+    type: 0
+    is_resettable: 1    
+  rfid15:
+    uid: BE5F948B
+    groupe_id: null
+    type: visiteur
+    is_resettable: 1
+  rfid16:
+    uid: FC1A81D1
+    groupe_id: null
+    type: 0
+    is_resettable: 1    
+  rfid17:
+    uid: 8B95EBFE
+    groupe_id: null
+    type: 0
+    is_resettable: 1
+  rfid18:
+    uid: 33F38D9E
+    groupe_id: null
+    type: 2
+    is_resettable: 1
+  rfid19:
+    uid: 33F3F38E
+    groupe_id: null
+    type: 1
+    is_resettable: 1
+  rfid20:
+    uid: 33F40E2E
+    groupe_id: null
+    type: 2
+    is_resettable: 1
+  rfid21:
+    uid: 8B973F5E
+    groupe_id: null
+    type: 2
+    is_resettable: 1
+  rfid22:
+    uid: FC1A81DA
+    groupe_id: null
+    type: 2
+    is_resettable: 1    
+    
+    
+    

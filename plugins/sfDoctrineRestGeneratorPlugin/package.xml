@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>sfDoctrineRestGeneratorPlugin</name>
+ <channel>plugins.symfony-project.org</channel>
+ <summary>This plugin permits to generate REST modules bound to Doctrine models.</summary>
+ <description>This plugin permits to generate REST modules bound to Doctrine models. It
+allows to easily create REST webservices, and provides an extensible framework
+for data exchange. Here are some key features :
+
+  * REST module generation &quot;à la admin-generator&quot;
+  * easy-to-customize generator.yml configuration file
+  * validation of the parameters passed to the service using symfony validators
+  * serialization as XML or JSON feeds
+  * possibility to embed related models
+  * possibility to embed extra fields
+  * ability to limit the number of results, with ou without pagination
+  * support for constraints unions (ie.,  http://api.example.org/city?city_id=12,13,14)
+  * hookable through events and filters
+  * abstract and replaceable objects serialization
+  * full HTTP support (GET, POST, PUT, DELETE)</description>
+ <lead>
+  <name>Xavier Lacot</name>
+  <user>xavier</user>
+  <email>xavier@lacot.org</email>
+  <active>yes</active>
+ </lead>
+ <date>2010-11-25</date>
+ <time>23:54:06</time>
+ <version>
+  <release>0.9.4</release>
+  <api>0.9.4</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+ <notes>
+* Allow to create or update related objects in the very same request: payload parsing in a recursive way, recursive validation of the payload array, recursive generation of the validators array. Thanks to dfeyer for his contributions on this topic
+* Added a basic &quot;show&quot; action (thanks dfeyer)
+* Improved the performance of the XML serializer
+* Added the capacity to serialize single objects (thanks dfeyer)
+* Added cleanupParameters() method to avoid code duplication (thanks dfeyer)
+* Added setFieldVisibility() method, in order to share code between index and show actions (thanks dfeyer)
+* Added configureFields() method, in order to share code between index and show actions (thanks dfeyer)
+* Fixed executeUpdate() so that the content is not a parameter of the request, but the content of the PUT request (thanks dfeyer)
+* Fix the setFieldVisibility() method, so that object additional fields don&apos;t get stripped if they&apos;re not listed in the &apos;get.display&apos; option
+* Have the XML serializer return a PHP array (thanks dfeyer)
+* Added the `formats_strict` option
+* Improved the deserialization abstraction
+* Added a YAML serializer
+* Improved the documentation on these topics
+ </notes>
+ <contents>
+  <dir baseinstalldir="." name="/">
+   <file baseinstalldir="." md5sum="ba909e12be8202f0db382320736abdaa" name="data/generator/sfDoctrineRestGenerator/default/parts/cleanupParameters.php" role="php" />
+   <file baseinstalldir="." md5sum="c2d104af6fef83b0d387abd25bd6501b" name="data/generator/sfDoctrineRestGenerator/default/parts/configuration.php" role="data" />
+   <file baseinstalldir="." md5sum="43492767990ca32544ab590fe53757cc" name="data/generator/sfDoctrineRestGenerator/default/parts/configureFields.php" role="php" />
+   <file baseinstalldir="." md5sum="d80a9293bbe3a24d0f54fb59c0df8251" name="data/generator/sfDoctrineRestGenerator/default/parts/createAction.php" role="data" />
+   <file baseinstalldir="." md5sum="fc2f9a8e6dccedff99431815e16f4535" name="data/generator/sfDoctrineRestGenerator/default/parts/createObject.php" role="data" />
+   <file baseinstalldir="." md5sum="e80ea704c1b5fed090b98e8adff45a6d" name="data/generator/sfDoctrineRestGenerator/default/parts/deleteAction.php" role="data" />
+   <file baseinstalldir="." md5sum="ea59702b9b82e7f9362535630f436f20" name="data/generator/sfDoctrineRestGenerator/default/parts/doSave.php" role="data" />
+   <file baseinstalldir="." md5sum="212381b5b690aa04888a3b0592dc98fe" name="data/generator/sfDoctrineRestGenerator/default/parts/fieldsConfiguration.php" role="data" />
+   <file baseinstalldir="." md5sum="bad8e9b375e90c1afe4a4250907d5031" name="data/generator/sfDoctrineRestGenerator/default/parts/getCreateValidators.php" role="data" />
+   <file baseinstalldir="." md5sum="17fe499fefe39d4bdb6afd62693031f7" name="data/generator/sfDoctrineRestGenerator/default/parts/getFormat.php" role="php" />
+   <file baseinstalldir="." md5sum="e238fd6343fd47ef621da9e044304b23" name="data/generator/sfDoctrineRestGenerator/default/parts/getIndexValidators.php" role="data" />
+   <file baseinstalldir="." md5sum="eb1c046cacff18aa394b51952290e0a7" name="data/generator/sfDoctrineRestGenerator/default/parts/getSerializer.php" role="php" />
+   <file baseinstalldir="." md5sum="5f15869bb09c4f77cdb1bde10cab3f07" name="data/generator/sfDoctrineRestGenerator/default/parts/getUpdateValidators.php" role="php" />
+   <file baseinstalldir="." md5sum="189bc02aee42b8f9a6484f802a51fef9" name="data/generator/sfDoctrineRestGenerator/default/parts/indexAction.php" role="data" />
+   <file baseinstalldir="." md5sum="11490c2219a53dc7f025e3c402788a67" name="data/generator/sfDoctrineRestGenerator/default/parts/paginationConfiguration.php" role="data" />
+   <file baseinstalldir="." md5sum="77e4c3fc90c0651022ed9c7c4ae5e439" name="data/generator/sfDoctrineRestGenerator/default/parts/parsePayload.php" role="data" />
+   <file baseinstalldir="." md5sum="b049ac743f65c357bfd2a6e9b8b7e492" name="data/generator/sfDoctrineRestGenerator/default/parts/query.php" role="data" />
+   <file baseinstalldir="." md5sum="9d26f6aeb2ad96e60b1b06fc44d0e1ad" name="data/generator/sfDoctrineRestGenerator/default/parts/queryAdditionnal.php" role="data" />
+   <file baseinstalldir="." md5sum="12f14e27cc4307af9dd924cc81b85b8a" name="data/generator/sfDoctrineRestGenerator/default/parts/queryExecute.php" role="php" />
+   <file baseinstalldir="." md5sum="43016d7b2849393aa009ca0d3e51048f" name="data/generator/sfDoctrineRestGenerator/default/parts/queryFetchOne.php" role="php" />
+   <file baseinstalldir="." md5sum="89845dd2d47128cb962441d42fbc46d1" name="data/generator/sfDoctrineRestGenerator/default/parts/setFieldVisibility.php" role="php" />
+   <file baseinstalldir="." md5sum="86ba266a0997d139bd10b42f1a86b699" name="data/generator/sfDoctrineRestGenerator/default/parts/showAction.php" role="php" />
+   <file baseinstalldir="." md5sum="026c37b5f884a2dae6723a76d8956dc7" name="data/generator/sfDoctrineRestGenerator/default/parts/sortConfiguration.php" role="data" />
+   <file baseinstalldir="." md5sum="c25ea679f2bb36fdc44a4020905406cc" name="data/generator/sfDoctrineRestGenerator/default/parts/updateAction.php" role="php" />
+   <file baseinstalldir="." md5sum="89f8383000964ee620afa2e8226ac900" name="data/generator/sfDoctrineRestGenerator/default/parts/updateObjectFromRequest.php" role="data" />
+   <file baseinstalldir="." md5sum="40a76721e515881b8a5e286cc79cd868" name="data/generator/sfDoctrineRestGenerator/default/parts/validate.php" role="php" />
+   <file baseinstalldir="." md5sum="63c0c245f2ff815b317cf6d39d6fac6e" name="data/generator/sfDoctrineRestGenerator/default/parts/validateCreate.php" role="data" />
+   <file baseinstalldir="." md5sum="68ca6286ea99b6fb25bec15e021d15f4" name="data/generator/sfDoctrineRestGenerator/default/parts/validateIndex.php" role="data" />
+   <file baseinstalldir="." md5sum="3516bd6ae7cd2b5f0a4da286464b33bc" name="data/generator/sfDoctrineRestGenerator/default/parts/validateShow.php" role="php" />
+   <file baseinstalldir="." md5sum="dc1e971d03413449994512a52a7e8221" name="data/generator/sfDoctrineRestGenerator/default/parts/validateUpdate.php" role="php" />
+   <file baseinstalldir="." md5sum="fa0dc415bd38a12d41b4b29bd672b9ba" name="data/generator/sfDoctrineRestGenerator/default/skeleton/actions/actions.class.php" role="data" />
+   <file baseinstalldir="." md5sum="4776b9d7bf02e96e7ef8e4f0140654f7" name="data/generator/sfDoctrineRestGenerator/default/skeleton/config/generator.yml" role="data" />
+   <file baseinstalldir="." md5sum="bf5f38d67568d73b8de7db565df839fd" name="data/generator/sfDoctrineRestGenerator/default/skeleton/config/view.yml" role="data" />
+   <file baseinstalldir="." md5sum="5557288884e6a517bfb9b3176aa08567" name="data/generator/sfDoctrineRestGenerator/default/skeleton/lib/configuration.php" role="data" />
+   <file baseinstalldir="." md5sum="8cf13e26b2caa7b2f87f8e30186d5279" name="data/generator/sfDoctrineRestGenerator/default/template/actions/actions.class.php" role="data" />
+   <file baseinstalldir="." md5sum="9ea0d70a8d800ef4c3ebaf8027dcfdc3" name="data/generator/sfDoctrineRestGenerator/default/template/templates/indexSuccess.php" role="data" />
+   <file baseinstalldir="." md5sum="fa551578914e904d0dac3b1680213078" name="lib/generator/sfDoctrineRestGenerator.class.php" role="data" />
+   <file baseinstalldir="." md5sum="ceeca12ab6984f6ae604484893f2bb4c" name="lib/generator/sfDoctrineRestGeneratorConfiguration.class.php" role="data" />
+   <file baseinstalldir="." md5sum="df89806de8f8ff13e479764a4727f7c6" name="lib/serializer/sfResourceSerializer.class.php" role="data" />
+   <file baseinstalldir="." md5sum="3cf9dc4e455281b74fa3e5928f9aae61" name="lib/serializer/sfResourceSerializerJson.class.php" role="data" />
+   <file baseinstalldir="." md5sum="814ff9e2896f350a932e3319536998d7" name="lib/serializer/sfResourceSerializerXml.class.php" role="data" />
+   <file baseinstalldir="." md5sum="77b2b72d8e6a975fc9d172ff6e1d65a9" name="lib/serializer/sfResourceSerializerYaml.class.php" role="php" />
+   <file baseinstalldir="." md5sum="eb935c09de706a77774e4dd6b83b95f7" name="lib/task/sfDoctrineRestGenerateModuleTask.class.php" role="data" />
+   <file baseinstalldir="." md5sum="42e5bbfed0992e1aa954a1b91282d5d7" name="LICENSE" role="data" />
+   <file baseinstalldir="." md5sum="b9e44c76aeef9d1b01e92e86f428af42" name="README" role="data" />
+   <file baseinstalldir="." md5sum="b9e44c76aeef9d1b01e92e86f428af42" name="README.markdown" role="data" />
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.4</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.1</min>
+   </pearinstaller>
+   <package>
+    <name>symfony</name>
+    <channel>pear.symfony-project.com</channel>
+    <min>1.3.0</min>
+    <max>2.0.0</max>
+    <exclude>2.0.0</exclude>
+   </package>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.8.0</release>
+    <api>0.8.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2010-05-09</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+* REST module generation &quot;à la admin-generator&quot;
+* easy-to-customize generator.yml configuration file
+* possibility to embed related models
+* possibility to embed extra fields
+* validation of the GET and POST constraints using Symfony validators
+* ability to limit the number of results, with/out pagination
+* support for constraints unions (ie.,  http://api.example.org/city?city_id=12,13,14)
+* abstract and replaceable objects serialization
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.0</release>
+    <api>0.9.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2010-05-14</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+* added a JSON serializer
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.1</release>
+    <api>0.9.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2010-05-14</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+* fixed a typo in the previous release
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.2</release>
+    <api>0.9.2</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2010-07-01</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+* Added events (thanks to Matthew Penrice)
+* Added a default_format parameter (thanks to Matthew Penrice)
+* Added PUT support
+* Switched to json as default serializer (faster and less verbose)
+* Improved the documentation
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.3</release>
+    <api>0.9.3</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2010-08-13</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+* Added `hide` and `embedded_relations_hide` options (thanks to Pascal Borreli)
+* Made the fields filtering faster
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9.4</release>
+    <api>0.9.4</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2010-11-25</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+* Allow to create or update related objects in the very same request: payload parsing in a recursive way, recursive validation of the payload array, recursive generation of the validators array. Thanks to dfeyer for his contributions on this topic
+* Added a basic &quot;show&quot; action (thanks dfeyer)
+* Improved the performance of the XML serializer
+* Added the capacity to serialize single objects (thanks dfeyer)
+* Added cleanupParameters() method to avoid code duplication (thanks dfeyer)
+* Added setFieldVisibility() method, in order to share code between index and show actions (thanks dfeyer)
+* Added configureFields() method, in order to share code between index and show actions (thanks dfeyer)
+* Fixed executeUpdate() so that the content is not a parameter of the request, but the content of the PUT request (thanks dfeyer)
+* Fix the setFieldVisibility() method, so that object additional fields don&apos;t get stripped if they&apos;re not listed in the &apos;get.display&apos; option
+* Have the XML serializer return a PHP array (thanks dfeyer)
+* Added the `formats_strict` option
+* Improved the deserialization abstraction
+* Added a YAML serializer
+* Improved the documentation on these topics
+   </notes>
+  </release>
+ </changelog>
+</package>

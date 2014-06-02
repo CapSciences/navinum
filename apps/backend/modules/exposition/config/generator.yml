@@ -1,0 +1,51 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           Exposition
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             true
+    singular:              ~
+    plural:                ~
+    route_prefix:          exposition
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        guid:         { label:  Identifiant }
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+        start_at:     {label: Commence le}
+        publics:      { label: Publics, help: "séparer les types de public par un point-virgule (enfants;adultes;adolescents)"}
+        langues:                { label: Langues, help: "séparer les langues par un point-virgule (fr;en)"}
+        end_at:       {label: Fini le}
+        parcours_list:   { label: Liste des parcours }
+        is_tosync:    {label: A synchroniser}
+      list:
+        title: Liste des expositions
+        display: [libelle, contexte, organisateur_editeur, organisateur_diffuseur, start_at, end_at, _parcours_list, created_at, updated_at]
+        sort:
+          [libelle, asc]
+        fields:
+          created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          start_at: { date_format: 'dd/MM/yyyy' }
+          end_at: { date_format: 'dd/MM/yyyy' }
+        object_actions:
+          _edit:      { label: Modifier, action: edit }
+          _delete:    { label: Supprimer, action: delete }
+      filter:  ~
+      form:
+        display:
+          [guid, libelle, contexte_id, organisateur_editeur_id, organisateur_diffuseur_id, synopsis, description, logo, publics, langues, url_illustration, url_studio, start_at, end_at, parcours_list]
+      edit:
+        title: Modifier une exposition
+      new:
+        title: Créer une exposition
+      delete:    ~
+      export:
+        enabled: true
+        title: exposition export
+        filename: exportation

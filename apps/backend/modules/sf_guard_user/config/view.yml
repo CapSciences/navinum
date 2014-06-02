@@ -1,0 +1,6 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/13-View
+
+all:
+  javascripts:    [/mpRealityAdminPlugin/js/jquery-1.4.4.min.js, main.js, hoverIntent.js, superfish.js, user.js]
+

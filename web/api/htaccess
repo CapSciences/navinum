@@ -1,0 +1,6 @@
+AuthName "Servervip API authentification."
+AuthType Basic
+AuthUserFile /your/path/navinum/web/api/.htpasswd
+AuthGroupFile /dev/null
+require user yourusername
+

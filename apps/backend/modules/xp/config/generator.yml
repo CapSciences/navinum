@@ -1,0 +1,46 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           Xp
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          xp
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        guid:         { label: Identifiant}
+        score:        { label: Score}
+        visiteur_id:  { label: Visiteur}
+        Typologie:    { label: Typologie}
+        typologie_id: { label: Typologie}
+        is_tosync:    { label: A synchroniser }
+        created_at:   { label: Date de création, date_format: 'F' }
+        updated_at:   { label: Date de mise à jour, date_format: 'F' }
+      list:
+        title: Liste des Xp Visiteur - Typologie
+        display: [ score, Visiteur, Typologie, created_at, updated_at]
+        sort:
+          [visiteur_id, asc]
+        fields:
+          created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+        object_actions:
+          _edit:      { label: Modifier, action: edit }
+          _delete:    { label: Supprimer, action: delete }
+        batch_actions:
+          _delete:    {  label: Supprimer, action: delete , credentials: admin}
+      filter:
+        display: [score, typologie_id]
+      form:
+        display: [guid, score, visiteur_id, typologie_id]
+      edit:
+        title: Modifier un Xp
+      new:
+        title: Créer un Xp
+      show:    ~

@@ -1,0 +1,16 @@
+PreferenceMedia:
+  preference1:
+    guid:         a5790
+    libelle:      sous-titrage
+  preference2:
+    guid:         b5790
+    libelle:      vocal
+  preference3:
+    guid:         c5790
+    libelle:      langage des signes
+  preference4:
+    guid:         d5790
+    libelle:      fort contraste
+  preference5:
+    guid:         e5790
+    libelle:      gros caractères

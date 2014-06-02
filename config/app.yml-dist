@@ -1,0 +1,34 @@
+all:
+# url and authentification api, used for phpBridgeApi, get around ajax crossdomain
+  api:
+    host: api2.your-domain.com/api.php
+    login: your-login
+    password: your-password
+
+  front_url:
+    navinum2.your-domain.com
+
+  rfid:
+      types:
+        0: type0
+        1: type1
+        2: type2
+
+  servervip2:
+# /!\ ne pas mettre de / à la fin  
+    notif_uri:  tcp://websocket.your-domain.com:8084
+
+prod:
+  service_sms:
+    allowed:    false
+    username:   yourusername
+    password:   yourpassword
+    api:        1243
+
+dev:
+  service_sms:
+    allowed:    false
+
+test:
+  service_sms:
+    allowed:  false

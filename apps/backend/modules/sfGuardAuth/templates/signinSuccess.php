@@ -1,0 +1,1 @@
+<?php include_partial('mpReality/login', array('form' => $form)); ?>

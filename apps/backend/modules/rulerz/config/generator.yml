@@ -1,0 +1,37 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           Rulerz
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             true
+    singular:              ~
+    plural:                ~
+    route_prefix:          rulerz
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+        is_tosync:    {label: A synchroniser}
+      list:    
+        title: Liste des règles notifications
+        display: [guid, libelle, created_at, updated_at ]
+        sort:
+          [libelle, asc]
+        fields:
+          created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+        object_actions:
+          _edit:      { label: Modifier, action: edit }
+          _delete:    { label: Supprimer, action: delete }
+          _show:    { label: Voir, action: show }
+      filter:  
+        display: [guid, libelle, created_at, updated_at ]
+      form:    ~
+      edit:    ~
+      new:     ~
+      show:    ~

@@ -1,0 +1,36 @@
+﻿#sf_admin_container tfoot tr,
+form input,
+form textarea,
+form .wysiwyg,
+.graybutton,
+#container .notice , 
+#container .error , 
+.ui-selectmenu,
+#header .dm_module_search input#dm_module_search_input,
+#sf_admin_list_batch_actions.first, #sf_admin_list_th_actions.last,
+.dashboard ul li a,
+.dashboard ul li a span
+{
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+}
+
+#sf_admin_container .content-box-header, #sf_admin_container .content-box{
+-moz-border-radius-topright: 6px;
+-moz-border-radius-topleft: 6px;
+-webkit-border-top-right-radius:6px;
+-webkit-border-top-left-radius:6px;
+border-top-left-radius: 6px;
+border-top-right-radius: 6px;
+}
+
+#sf_admin_container .content-box{
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+border-radius: 6px;
+}
+
+
+
+

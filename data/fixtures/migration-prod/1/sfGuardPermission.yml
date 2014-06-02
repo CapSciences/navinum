@@ -1,0 +1,4 @@
+sfGuardPermission:
+  Permission_dev_interactif:
+    id:             4
+    name: dev_interactif

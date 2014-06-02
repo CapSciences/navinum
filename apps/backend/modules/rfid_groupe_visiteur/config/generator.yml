@@ -1,0 +1,45 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           RfidGroupeVisiteur
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          rfid_groupe_visiteur
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        guid:           { label: Identifiant }
+        nom:            { label: Nom}
+        RfidGroupe:     { label: Groupe Rfid}
+        rfid_groupe_id: { label: Groupe Rfid}
+        langue_id:      { label: Langue}
+        email:          { label: Email}
+        csp_id:         { label: Catégorie Csp}
+        genre:          { label: Genre}
+        created_at:     { label: Date de création, date_format: 'F' }
+        updated_at:     { label: Date de mise à jour, date_format: 'F' }
+        is_tosync:      { label: A synchroniser}
+        age:            { label: Age}
+        code_postal:    { label: Code postal}
+        commentaire:    { label: Commentaire}
+      list:
+        title: Liste des Groupes Visiteurs Rfid
+        display: [nom, RfidGroupe, email, genre, age, code_postal, commentaire , created_at]
+        fields:
+          created_at: { label: Créé le, date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+      filter:
+        display: [rfid_groupe_id, csp_id, age, code_postal]
+      form:
+        display: [guid, contexte_creation_id, nom, rfid_groupe_id,  langue_id, email, csp_id, genre, age, code_postal, commentaire]
+      edit:
+        title: Modifier un Groupe Visiteur Rfid
+      new:
+        title: Créer un Groupe Visiteur Rfid
+      show:

@@ -1,0 +1,43 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           Typologie
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          typologie
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        guid:         { label: Identifiant}
+        libelle:      { label: Libelle}
+        description:  { label: Description}
+        is_tosync:    { label: A synchroniser }
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+      list:
+        title: Liste des Typologies
+        display: [ libelle, description, created_at, updated_at]
+        sort:
+          [libelle, asc]
+        fields:
+          created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+        object_actions:
+          _edit:      { label: Modifier, action: edit }
+          _delete:    { label: Supprimer, action: delete }
+        batch_actions:
+          _delete:    {  label: Supprimer, action: delete , credentials: admin}
+      filter:  ~
+      form:
+        display: [guid, libelle, description]
+      edit:
+        title: Modifier une typologie
+      new:
+        title: Créer une Typologie
+      show:    ~

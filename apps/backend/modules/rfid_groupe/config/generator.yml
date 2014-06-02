@@ -1,0 +1,48 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           RfidGroupe
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          rfid_groupe
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        guid:          { label:  Identifiant }
+        nom:           { label: Label}
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+        is_tosync:    { label: A synchroniser}
+      list:
+        title: Liste des groupes rfid
+        display: [nom, created_at]
+        fields:
+          created_at: { label: Créé le, date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+        object_actions:
+          _edit: ~
+          _delete: ~
+          dissocier: 
+            name: 'Dissocier les badges'
+            action: dissociate
+      filter:  ~
+      form:
+        display: [guid, nom]
+      edit:
+        title: Modifier un groupe Rfid
+      new:
+        title: Créer un groupe Rfid
+      show:
+      export:
+        display: [guid, nom,created_at]
+        enabled: true
+        title: Groupe Rfid export
+        filename: groupe_rfid
+
+

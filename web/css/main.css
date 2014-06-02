@@ -1,0 +1,125 @@
+div.menu{width:100%; height:47px; background-color: #AAA}
+div.menu ul{}
+div.menu ul li a, ul.menu li a:visited {color: #000}
+div.clear{clear:both}
+
+#list_bloc_content{position:absolute}
+
+span.bloc {
+  cursor: default;
+}
+
+.double_list_select-selected, .double_list_select{width:450px;}
+
+ul li ul li.create{ 
+}
+
+div#sf_admin_container{
+  margin:16px;
+}
+
+div.sf_admin_table_content {
+    padding: 0px;
+}
+
+div#sf_admin_container .title{border:0; position: absolute; padding: 0; margin: 0; width: 75%;}
+div#sf_admin_container .title span.new-record{margin-top:8px;position:absolute; right: 100px;}
+div#sf_admin_container h1{color: #000; padding-right: 30px; position: absolute; margin: 9px; float:left;z-index: 2;}
+
+.notice, .error{
+   font-size: 1.3em;
+   margin: 16px;
+   padding: 24px 72px;
+   border-color:#aaa;
+   background-color: #bbb;
+   background-repeat: no-repeat;
+   background-position:10px 50%;
+	-moz-border-radius: 6px;
+	-webkit-border-radius:6px;
+	 border-radius: 6px;
+	 color:#fff;
+}
+
+.notice{  background-image:url(/images/ok.png);}
+.error{   background-image: url(/images/error.png) ;}
+
+
+div.content-box div.error{font-size:1em; display:inline-block;margin:2px; padding:2px; width:auto;background: none; color:#f00;}
+
+#sf_admin_container .sf_admin_form #interactif_url_start_at, #sf_admin_container .sf_admin_form #interactif_url_end_at{width: 30px}
+
+
+#sf_admin_container .sf_admin_form .sf_admin_form_field_url_start_at_type,  
+#sf_admin_container .sf_admin_form .sf_admin_form_field_url_start_at_type div,
+#sf_admin_container .sf_admin_form .sf_admin_form_field_url_end_at_type,  
+#sf_admin_container .sf_admin_form .sf_admin_form_field_url_end_at_type div{
+  width:80px;
+  padding: 0;
+}
+
+#sf_admin_container .sf_admin_form .sf_admin_form_field_url_end_at 
+#sf_admin_container .sf_admin_form .sf_admin_form_field_url_end_at div{
+  display:inline;
+}
+
+#sf_admin_container .sf_admin_form .sf_admin_form_field_url_start_at
+#sf_admin_container .sf_admin_form .sf_admin_form_field_url_end_at{
+  width: 180px;
+}
+
+#sf_admin_container .sf_admin_form .sf_admin_form_field_url_start_at_type #interactif_url_start_at_type,
+#sf_admin_container .sf_admin_form .sf_admin_form_field_url_end_at_type #interactif_url_end_at_type{
+    margin: -34px 0 0 183px;
+    position: absolute;
+}
+
+#sf_admin_container .sf_admin_form .sf_admin_form_field_url_start_at_type label,
+#sf_admin_container .sf_admin_form .sf_admin_form_field_url_end_at_type label{
+	display: none
+}
+
+#sf_admin_container .sf_admin_form input.date_display, 
+#sf_admin_container .sf_admin_form input[type="text"].date_display{
+	width: 160px
+}
+
+input.ui-button{padding:0}
+
+#sf_admin_content{position:relative}
+
+#blocFilter .sf_admin_filter div.sf_admin_form_row{
+  padding: 8px 0;
+  margin:0;
+  border-bottom: 1px solid #EEEEEE;
+}
+
+#blocFilter .sf_admin_filter .sf_admin_form_row div.label{text-align:right;line-height:14px;}
+#blocFilter .sf_admin_filter .sf_admin_form_row div.field{text-align:right}
+
+#blocFilter .sf_admin_filter .sf_admin_form_row div.field div.double_list{
+  margin-top: 22px;
+}
+
+#synchro_result{
+  overflow-x: auto; /* Use horizontal scroller if needed; for Firefox 2, not needed in Firefox 3 */
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */ /*
+  width: 99%; */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+div#container div#login-holder div#loginbox div#login-inner form#loginform input.submit-login{
+color:#fff !important;
+}
+
+#container div.bloc_field .error {
+    line-height: 18px;
+    height:auto;
+    width:auto;
+}
+
+#container #head_wrap h2.user_login{
+  bottom: 9px;
+}

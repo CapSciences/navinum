@@ -1,0 +1,48 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           MedailleType
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          medaille_type
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+        guid:         { label:  Identifiant }
+        libelle:      { label:  Libellé }
+        description:  { label:  Description }
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+        is_tosync:    { label: A synchroniser}
+      list:
+        title: Liste des types de médailles
+        display: [libelle, description, created_at, updated_at]
+        sort:
+          [libelle, asc]
+        fields:
+          created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+        object_actions:
+          _edit:      { label: Modifier, action: edit }
+          _delete:    { label: Supprimer, action: delete }
+        batch_actions:
+          _delete:    {  label: Supprimer, action: delete , credentials: admin}
+      filter:  ~
+      form:
+        display: [guid, libelle, description]
+      edit:
+        title: Modifier un type de médaille
+      new:
+        title: Créer un type de médaille
+      show:    ~
+      delete:  ~
+      export:
+        enabled: true
+        title: type médaille export
+        filename: exportation

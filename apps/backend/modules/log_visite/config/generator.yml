@@ -1,0 +1,45 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           logVisite
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             true
+    singular:              ~
+    plural:                ~
+    route_prefix:          log_visite
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: []
+      fields:  
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+        is_tosync:    {label: A synchroniser}
+        start_at: {label: Début le}
+        end_at: {label: Fini le}
+      list:
+        title: Liste des log visites
+        display: [connection, exposition, exposition_contexte, exposition_organisateur_diffuseur, exposition_organisateur_editeur, parcours, interactif_libelle, visiteur_id, visiteur_created_at, visiteur_pseudo_son, visiteur_contexte, visiteur_genre, visiteur_date_naissance, visiteur_code_postal, visiteur_preference_media, resultats, score, start_at, end_at]
+        fields:
+          start_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          end_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          visiteur_created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          visiteur_date_naissance: { date_format: 'dd/MM/yyyy' }
+          is_tosync:    {label: A synchroniser}
+          exposition_organisateur_diffuseur: {label: Diffuseur}
+          exposition_organisateur_editeur: {label: Editeur}
+          exposition_contexte: {label: Contexte}
+        actions: []
+        object_actions: []
+      filter:  ~
+      form:    ~
+      edit:    ~
+      new:     ~
+      show:    ~
+      export:
+        display: [connection, exposition, exposition_contexte, exposition_organisateur_diffuseur, exposition_organisateur_editeur, parcours, interactif_libelle, visiteur_id, visiteur_created_at, visiteur_contexte, visiteur_genre, visiteur_date_naissance, visiteur_code_postal, visiteur_preference_media, start_at, end_at, resultats, score]
+        enabled: true
+        title: Log Visites export
+        filename: log_visites

@@ -1,0 +1,6 @@
+Contexte:
+<?php for($a=0;$a<10000;$a++): ?>
+  contexte<?php echo $a ?>:
+    guid:         "az<?php echo $a ?>"
+    libelle:      "Grande expo<?php echo $a ?>"
+<?php endfor;?>    

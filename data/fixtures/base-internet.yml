@@ -1,0 +1,22 @@
+sfGuardUser:
+  User_admin:
+    id:             10
+    first_name:     stéphane
+    last_name:      redeuil
+    email_address:  sredeuil@clever-age.com
+    username:       admin
+    password:       admin
+    is_super_admin: true
+    Permissions: [Permission_admin]
+
+sfGuardPermission:
+  Permission_admin:
+    id:             1
+    name:           admin
+    description:    Administrator permission
+  Permission_commissaire:
+    id:             2
+    name:           commissaire
+  Permission_utilisateur:
+    id:             3
+    name:           utilisateur

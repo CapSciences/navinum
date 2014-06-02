@@ -1,0 +1,61 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           Visite
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             true
+    singular:              ~
+    plural:                ~
+    route_prefix:          visite
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: []
+      fields:
+        Rfid:    { label:  Rfid}
+        groupe_id:    { label:  Groupe}
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+        is_tosync:    {label: A synchroniser}
+        start_at: {label: Début le}
+        end_at: {label: Fini le}
+      list:
+        title: Liste des visites
+        display: [guid, Rfid, RfidGroupeVisiteur, exposition_libelle, ExpositionContexte,groupe_id, parcours_libelle, created_at, visiteur_id, visiteur_contexte, _visiteur_langue, visiteur_email, visiteur_nom, visiteur_prenom, visiteur_pseudo_son, visiteur_genre, visiteur_date_naissance, visiteur_code_postal, visiteur_preference_media, visiteur_num_mobile, visiteur_google_id, visiteur_twitter_id, visiteur_flickr_id, visiteur_dailymotion_id]
+        fields:
+          Exposition: { label: Nom exposition}
+          ExpositionContexte: { label: Exposition contexte}
+          Parcours: { label: Parcours}
+          visiteur_id: { label: Id visiteur}
+          visiteur_contexte: { label: Visiteur contexte création}
+          visiteur_langue: { label: Langue visiteur}
+          visiteur_email: { label: Email visiteur}
+          visiteur_nom: { label: Nom visiteur}
+          visiteur_prenom: { label: Prénom visiteur}
+          visiteur_pseudo_son: { label: Pseudo visiteur}
+          visiteur_genre: { label: Genre visiteur}
+          visiteur_date_naissance: { label: Date naissance visiteur}
+          visiteur_code_postal: { label: CP visiteur}
+          visiteur_preference_media: { label: Preference média visiteur}
+          visiteur_num_mobile: { label: Mobile visiteur}
+          visiteur_google_id: { label: Google visiteur}
+          visiteur_twitter_id: { label: Twitter visiteur}
+          visiteur_flickr_id: { label: Flickr visiteur}
+          visiteur_dailymotion_id: { label: Dailymotion visiteur}
+          created_at: { label: Créé le, date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          is_tosync:    {label: A synchroniser}
+        actions: []
+        object_actions: []
+      filter:  ~
+      form:    ~
+      edit:    ~
+      new:     ~
+      show:    ~
+      export:
+        display: [exposition_libelle, ExpositionContexte, parcours_libelle, created_at, visiteur_id, visiteur_contexte, visiteur_langue, visiteur_email, visiteur_nom, visiteur_prenom, visiteur_pseudo_son, visiteur_genre, visiteur_date_naissance, visiteur_code_postal, visiteur_preference_media, visiteur_num_mobile, visiteur_google_id, visiteur_twitter_id, visiteur_flickr_id, visiteur_dailymotion_id]
+        enabled: true
+        title: Visite export
+        filename: visite

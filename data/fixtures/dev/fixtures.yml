@@ -1,0 +1,632 @@
+RfidGroupe:
+  RfidGroupe1:
+    guid: rf000001
+    nom: rouge
+  RfidGroupe2:
+    guid: rf000002
+    nom: vert
+  RfidGroupe3:
+    guid: rf000003
+    nom: bleu
+
+Rfid:
+  rfid1:
+    uid: a666666
+    groupe_id: rf000001
+    type: admin
+    is_resettable: 1
+  rfid2:
+    uid: b666666
+    groupe_id: rf000001
+    type: animateur
+    is_resettable: 0
+  rfid3:
+    uid: c666666
+    groupe_id: rf000002
+    type: visiteur
+    is_resettable: 1
+  rfid4:
+    uid: d666666
+    groupe_id: rf000002
+    type: animateur
+    is_resettable: 0
+  rfid5:
+    uid: e666666
+    groupe_id: rf000003
+    type: admin
+    is_resettable: 1
+  rfid6:
+    uid: f666666
+    groupe_id: rf000001
+    type: visiteur
+    is_resettable: 0
+
+Organisateur:
+  organisateur1:
+    guid:         a213456
+    libelle:      Cap sciences
+  organisateur2:
+    guid:         b213456
+    libelle:      Aquitaine Cap métiers
+
+Parcours:
+  parcours1:
+    guid:         a36789
+    libelle:      Intégral
+    ordre:        5
+  parcours2:
+    guid:         b36789
+    libelle:      Enfants
+    ordre:        4
+  parcours3:
+    guid:         c36789
+    libelle:      Pro
+    ordre:        1
+  parcours4:
+    guid:         d36789
+    libelle:      Sociaux
+    ordre:        3
+  parcours5:
+    guid:         e36789
+    libelle:      Techno
+    ordre:        2
+
+ExpositionVisiteurNeeds:
+  ExpositionVisiteurNeeds1:
+    guid:                  a9865R44
+    exposition_id:         a5890894
+    has_genre:             1
+    has_date_naissance:    1
+    has_code_postal:       1
+    has_ville:             1
+    has_adresse:           1
+    has_prenom:            1
+    has_nom:               1
+
+
+ExpositionVisiteurNeeds:
+  ExpositionVisiteurNeeds1:
+    guid:                  a9865R44
+    exposition_id:         a5890894
+    has_genre:             1
+    has_date_naissance:    1
+    has_code_postal:       1
+    has_ville:             1
+    has_adresse:           1
+    has_prenom:            1
+    has_nom:               1
+
+Langue:
+  Langue1:
+    guid:          a6953
+    libelle:       français
+    short_libelle: fr
+  Langue2:
+    guid:          b6953
+    libelle:       anglais
+    short_libelle: en
+
+LangueExpositionVisiteurNeeds:
+  levn1:
+    langue_id:                    a6953
+    exposition_visiteurneeds_id:  a9865R44
+  levn2:
+    langue_id:                    b6953
+    exposition_visiteurneeds_id:  a9865R44
+
+Interactif:
+  interactif1:
+    guid:         a87653
+    source_type:  html5
+    libelle:      Anticyclone
+    is_visiteur_needed:           1
+    is_logvisite_needed:          1
+    is_logvisite_verbose_needed:  1
+    is_parcours_needed:           1
+    url_fichier_interactif:    /borne.swf
+    url_pierre_de_rosette:     /url_pierre_de_rosette
+    url_illustration:          /url_illustration
+    url_interactif_type:      0
+    url_interactif_choice:    c87653,d87653
+    url_visiteur_type:         0
+    url_start_at:              24
+    url_start_at_type:         h
+    url_end_at:                12
+    url_end_at_type:           h
+    ordre:        4
+  interactif2:
+    guid:         b87653
+    source_type:  natif
+    libelle:      Dépression
+    is_visiteur_needed:           1
+    is_logvisite_needed:          1
+    is_logvisite_verbose_needed:  1
+    is_parcours_needed:           1
+    url_fichier_interactif:    /flash1.swf
+    url_pierre_de_rosette:     /url_pierre_de_rosette
+    url_illustration:          /url_illustration
+    ordre:        2
+  interactif3:
+    guid:         c87653
+    source_type:  html5
+    libelle:      Le vigneron
+    is_parcours_needed:           1
+    url_fichier_interactif:    /mov.mov
+    url_pierre_de_rosette:     /url_pierre_de_rosette
+    url_illustration:          /url_illustration
+    ordre:        1
+  interactif4:
+    guid:         d87653
+    source_type:  natif
+    libelle:      Le cordonnier
+    is_logvisite_needed:          1
+    is_logvisite_verbose_needed:  1
+    url_fichier_interactif:    /pdf.pdf
+    url_pierre_de_rosette:     /url_pierre_de_rosette
+    url_illustration:          /url_illustration
+    ordre:        3
+  interactif5:
+    guid:         e87653
+    source_type:  html5
+    libelle:      Le dynosaure
+    is_logvisite_needed:          1
+    is_logvisite_verbose_needed:  1
+    url_fichier_interactif:    /test.mpg
+    url_pierre_de_rosette:     /url_pierre_de_rosette
+    url_illustration:          /url_illustration
+    ordre:        5
+  interactif6:
+    guid:         f87653
+    source_type:  natif
+    libelle:      Les araignés
+    is_logvisite_needed:          1
+    is_logvisite_verbose_needed:  1
+    url_fichier_interactif:    /interactif_bidule.swf
+    url_pierre_de_rosette:     /url_pierre_de_rosette
+    url_illustration:          /url_illustration
+    ordre:        6
+
+PreferenceMedia:
+  preference1:
+    guid:         a5790
+    libelle:      sous-titrage
+  preference2:
+    guid:         b5790
+    libelle:      vocal
+  preference3:
+    guid:         c5790
+    libelle:      langage des signes
+  preference4:
+    guid:         d5790
+    libelle:      fort contraste
+  preference5:
+    guid:         e5790
+    libelle:      gros caractères
+
+PreferenceMediaVisiteur:
+  hmv1:
+    preference_media_id:        a5790
+    visiteur_id:               a098765
+
+Visiteur:
+  visiteur1:
+    guid:                 a098765
+    email:                sredeuil@clever-age.com
+    contexte_creation_id: b12345678
+    langue_id:            a6953
+    genre:                H
+    date_naissance:       '1976-12-27'
+    adresse:              4 Cours du Médoc
+    code_postal:          33300
+    ville:                Bordeaux
+    prenom:               Stéphane
+    nom:                  Redeuil
+    pseudo_son:           sredeuil
+    password_son:         monmotdepasse1
+    url_avatar:           /url_avatar
+    num_mobile:           06 06 06 06 06 06
+    facebook_id:          facebook_id
+    google_id:            google_id
+    twitter_id:           twitter_id
+    flickr_id:            flickr_id
+    dailymotion_id:       dailymotion_id
+  visiteur2:
+    guid:                 b098765
+    email:                test@mymail.com
+    contexte_creation_id: a12345678
+    langue_id:            b6953
+    genre:                F
+    date_naissance:       '1982-02-12'
+    adresse:              rue des 3 conils
+    code_postal:          47000
+    ville:                Agen
+    prenom:               Michelle
+    nom:                  Bertier
+    pseudo_son:           mbertier
+    password_son:         monmotdepasse2
+    url_avatar:           /url_avatar
+    num_mobile:           06 06 06 06 06 06
+    facebook_id:          facebook_id
+    google_id:            google_id
+    twitter_id:           twitter_id
+    flickr_id:            flickr_id
+    dailymotion_id:       dailymotion_id
+
+Exposition:
+  expo1:
+    guid:                     a5890894
+    libelle:                  Le vent
+    contexte_id:              'e12345678'
+    #organisateur_editeur_id:  'a213456'
+    #organisateur_diffuseur_id: 'a213456'
+    start_at:                 '2011-01-01'
+    end_at:                   '2011-12-31'
+  expo2:
+    guid:                     b5890894
+    libelle:                  Les métiers du monde
+    contexte_id:              e12345678
+    #organisateur_editeur_id:  a213456
+    #organisateur_diffuseur_id: b213456
+    start_at:                 '2010-01-01'
+    end_at:                   '2012-12-31'
+
+Contexte:
+  contexte1:
+    guid:         a12345678
+    libelle:      Grande expo
+  contexte2:
+    guid:         b12345678
+    libelle:      Gallerie
+  contexte3:
+    guid:         c12345678
+    libelle:      Plateforme
+  contexte4:
+    guid:         d12345678
+    libelle:      Coup de projecteur
+  contexte5:
+    guid:         e12345678
+    libelle:      Site web    
+    
+ExpositionsParcours:
+  ep1:
+    parcours_id:        d36789          
+    exposition_id:      b5890894
+  ep2:
+    parcours_id:        a36789              
+    exposition_id:      a5890894
+  ep3:
+    parcours_id:        b36789              
+    exposition_id:      a5890894
+   
+ParcoursInteractif:
+  pi1:
+    interactif_id:    b87653               
+    parcours_id:      a36789         
+    num_order:        1   
+  pi2:
+    interactif_id:    a87653               
+    parcours_id:      b36789         
+    num_order:        2        
+  pi3:
+    interactif_id:    c87653               
+    parcours_id:      c36789         
+    num_order:        1    
+  pi4:
+    interactif_id:    d87653               
+    parcours_id:      d36789         
+    num_order:        2
+  
+Visite:
+  visite1:
+    guid:            a004567         
+    visiteur_id:     a098765         
+    navinum_id:      a666666         
+    parcours_id:     d36789
+    exposition_id:  a5890894
+  visite2:
+    guid:            b004567                 
+    visiteur_id:     a098765         
+    navinum_id:      b666666         
+    parcours_id:     c36789
+    exposition_id:  a5890894
+  visite3:
+    guid:            c004567                 
+    visiteur_id:     b098765         
+    navinum_id:      c666666         
+    parcours_id:     a36789
+    exposition_id:  b5890894
+  visite4:
+    guid:            d004567                 
+    visiteur_id:     b098765         
+    navinum_id:      d666666         
+    parcours_id:     b36789
+    exposition_id:  b5890894
+
+LogVisite:
+  lv1:
+    guid:             lv5678901
+    interactif_id:    a87653
+    visite_id:        a004567
+    visiteur_id:      a098765
+    score:            1000
+    connection:       mobile
+    start_at:         '2011-02-03 22:43'
+    end_at:           '2011-02-03 23:12'
+    resultats:        a:26:{s:15:"allow_user_conf";s:1:"f";s:8:"min_rows";i:1;s:9:"excl_mode";i:0;s:11:"filebrowser";s:4:"none";s:11:"quickupload";s:1:"f";s:7:"default";s:1:"t";s:11:"show_toggle";s:1:"t";s:5:"popup";s:1:"f";s:4:"skin";s:7:"default";s:7:"toolbar";s:11:"DrupalBasic";s:6:"expand";s:1:"t";s:5:"width";s:4:"100%";s:4:"lang";s:2:"en";s:9:"auto_lang";s:1:"t";s:10:"enter_mode";s:1:"p";s:16:"shift_enter_mode";s:2:"br";s:11:"font_format";s:35:"p;div;pre;address;h1;h2;h3;h4;h5;h6";s:13:"format_source";s:1:"t";s:13:"format_output";s:1:"t";s:2:"ss";s:1:"2";s:7:"filters";a:1:{s:8:"filter/0";i:1;}s:8:"css_mode";s:5:"theme";s:8:"css_path";s:0:"";s:12:"upload_basic";s:1:"f";s:15:"upload_advanced";s:1:"f";s:11:"user_choose";s:1:"f";}
+  lv2:
+    guid:             lv5678902
+    interactif_id:    b87653
+    visite_id:        b004567
+    visiteur_id:      a098765
+    score:            2000
+    connection:       institut
+    start_at:         '2012-02-15 08:56'
+    end_at:           '2012-02-15 11:23'
+  lv3:
+    guid:             lv5678903
+    interactif_id:    c87653
+    visite_id:        c004567
+    visiteur_id:      b098765
+    score:            3000
+    connection:       web
+    start_at:         '2011-01-18 14:32'
+    end_at:           '2011-01-18 16:18'
+    resultats:        a:26:{s:15:"allow_user_conf";s:1:"f";s:8:"min_rows";i:1;s:9:"excl_mode";i:0;s:11:"filebrowser";s:4:"none";s:11:"quickupload";s:1:"f";s:7:"default";s:1:"t";s:11:"show_toggle";s:1:"t";s:5:"popup";s:1:"f";s:4:"skin";s:7:"default";s:7:"toolbar";s:14:"DrupalFiltered";s:6:"expand";s:1:"t";s:5:"width";s:4:"100%";s:4:"lang";s:2:"en";s:9:"auto_lang";s:1:"t";s:10:"enter_mode";s:1:"p";s:16:"shift_enter_mode";s:2:"br";s:11:"font_format";s:35:"p;div;pre;address;h1;h2;h3;h4;h5;h6";s:13:"format_source";s:1:"t";s:13:"format_output";s:1:"t";s:2:"ss";s:1:"2";s:7:"filters";a:1:{s:8:"filter/0";i:1;}s:8:"css_mode";s:5:"theme";s:8:"css_path";s:0:"";s:12:"upload_basic";s:1:"f";s:15:"upload_advanced";s:1:"f";s:11:"user_choose";s:1:"f";} 
+  lv4:
+    guid:             lv5678904
+    interactif_id:    d87653
+    visite_id:        d004567
+    visiteur_id:      b098765
+    score:            9999
+    connection:       institut
+    start_at:         '2011-03-08 13:32'
+    end_at:           '2011-03-08 15:12'
+    resultats:        0
+
+PreferenceMediaExpositionVisiteurNeeds:
+  PreferenceMediaExpositionVisiteurNeeds1:
+    preference_media_id:          a5790
+    exposition_visiteurneeds_id: a9865R44
+
+sfGuardUser:
+  User_admin:
+    id:             10
+    first_name:     stéphane
+    last_name:      redeuil
+    email_address:  sredeuil@clever-age.com
+    username:       test
+    password:       test
+    is_super_admin: true
+    Permissions: [Permission_admin]
+  Interactif_user:
+    id:             11
+    first_name:     stéphane
+    last_name:      redeuil
+    email_address:  sredeuil2@clever-age.com
+    username:       interactif
+    password:       interactif
+    is_super_admin: false
+    Permissions: [Permission_dev_interactif]
+
+sfGuardPermission:
+  Permission_admin:
+    id:             1
+    name:           admin
+    description:    Administrator permission
+  Permission_commissaire:
+    id:             2
+    name:           commissaire
+  Permission_utilisateur:
+    id:             3
+    name:           utilisateur
+  Permission_dev_interactif:
+    id:             4
+    name: dev_interactif
+  
+Typologie:
+  typologie1:
+    guid:         a12345678
+    libelle:      Enquêteur
+  typologie2:
+    guid:         b12345678
+    libelle:      Acteur
+  typologie3:
+    guid:         c12345678
+    libelle:      Joueur
+
+Medaille:
+  medaille1:
+    guid:         a12345678
+    libelle:      Meilleur joueur
+    exposition_id: a5890894
+    interactif_id: a87653
+    medaille_type_id: md2345671
+    description:  Best player of the world
+    condition_obtention: json
+  medaille2:
+    guid:         b12345678
+    libelle:      Meilleur acteur
+    exposition_id: a5890894
+    interactif_id: a87653
+    medaille_type_id: md2345671
+    description:  Meilleur tout
+    condition_obtention:
+    is_unique: 0
+  medaille3:
+    guid:         c12345678
+    libelle:      Meilleur tout
+    exposition_id: a5890894
+    interactif_id: a87653
+    medaille_type_id: md2345671
+    description:  Meilleur tout
+    condition_obtention: json
+    is_unique: 0
+
+VisiteurMedaille:
+  visiteur1medaille1:
+    guid:        vm234567891
+    visiteur_id: a098765
+    medaille_id: a12345678
+  visiteur1medaille2:
+    guid:        vm234567892
+    visiteur_id: b098765
+    medaille_id: b12345678
+  visiteur1medaille3:
+    guid:        vm234567893
+    visiteur_id: b098765
+    medaille_id: c12345678
+  visiteur2medaille1:
+    guid:        vm234567894
+    visiteur_id: b098765
+    medaille_id: a12345678
+  visiteur2medaille11:
+    guid:        vm234567895
+    visiteur_id: b098765
+    medaille_id: c12345678
+  visiteur2medaille12:
+    guid:        vm234567896
+    visiteur_id: b098765
+    medaille_id: c12345678
+
+Xp:
+  xp1Visiteur1Typologie1:
+    guid:         axp4567890
+    score:        2300
+    visiteur_id:  a098765
+    typologie_id: a12345678
+  xp1Visiteur1Typologie2:
+    guid:         bxp4567890
+    score:        3800
+    visiteur_id:  a098765
+    typologie_id: b12345678
+  xp1Visiteur1Typologie3:
+    guid:         cxp4567890
+    score:        100
+    visiteur_id:  a098765
+    typologie_id: c12345678
+  xp1Visiteur2Typologie1:
+    guid:         dxp4567890  
+    score:        100000
+    visiteur_id:  b098765
+    typologie_id: a12345678
+  xp1Visiteur2Typologie2:
+    guid:         exp4567890  
+    score:        666
+    visiteur_id:  b098765
+    typologie_id: b12345678
+  xp1Visiteur2Typologie3:
+    guid:         fxp4567890  
+    score:        999
+    visiteur_id:  b098765
+    typologie_id: c12345678
+
+MedailleType:
+  md1:
+    guid: md2345671
+    libelle: jeu 
+  md2:
+    guid: md2345672
+    libelle: évènement 
+
+Csp:
+  csp1:
+    guid:     csp12345a
+    libelle:  agriculteur, exploitant
+  csp2:
+    guid:     csp12345b
+    libelle:  artisan, commerçant, chef d’entreprise
+  csp3:
+    guid:     csp12345c
+    libelle:  cadre, profession intellectuelle supérieure
+  csp4:
+    guid:     csp12345d
+    libelle:  profession intermédiaire
+  csp5:
+    guid:     csp12345e
+    libelle:  employé
+  csp6:
+    guid:     csp12345f
+    libelle:  ouvrier
+  csp7:
+    guid:     csp12345g
+    libelle:  retraité
+  csp8:
+    guid:     csp12345h
+    libelle:  élève
+  csp9:
+    guid:     csp12345i
+    libelle:  étudiant
+  csp10:
+    guid:     csp12345j
+    libelle:  sans activité professionnelle
+
+Evenement:
+  evenement1:
+    guid:     e12345678
+    libelle:  Evenement1
+    latitude:   48.87079
+    longitude:  2.31689
+    start_at:   '2011-01-01'
+    end_at:     '2012-01-01'
+  evenement2:
+    guid:     e12345679
+    libelle:  Evenement2
+    latitude:   48.87079
+    longitude:  2.31689
+    start_at:   '2011-01-01'
+    end_at:     '2012-01-01'
+  evenement3:
+    guid:     e12345670
+    libelle:  Evenement3
+    latitude:   48.87079
+    longitude:  2.31689
+    start_at:   '2011-01-01'
+    end_at:     '2012-01-01'
+  evenement4:
+    guid:     e12345671
+    libelle:  Evenement4
+    latitude:   48.87079
+    longitude:  2.31689
+    start_at:   '2011-01-01'
+    end_at:     '2012-01-01'
+  evenement5:
+    guid:     e12345672
+    libelle:  Evenement5
+    latitude:   48.87079
+    longitude:  2.31689
+    start_at:   '2011-01-01'
+    end_at:     '2012-01-01'
+
+TemplateMail:
+  templateMail1:
+    guid: tm1234567a
+    libelle: pseudo
+    contenu: mon pseudo %s
+  templateMail2:
+    guid: tm1234567b
+    libelle: pseudo4
+    contenu: mon pseudo %s
+  templateMail3:
+    guid: tm1234567c
+    libelle: pseudo1
+    contenu: mon pseudo %s
+  templateMail4:
+    guid: tm1234567d
+    libelle: pseudo2
+    contenu: mon pseudo %s
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

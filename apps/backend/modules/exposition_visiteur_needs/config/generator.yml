@@ -1,0 +1,57 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           ExpositionVisiteurNeeds
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             true
+    singular:              ~
+    plural:                ~
+    route_prefix:          exposition_visiteur_needs
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  
+        exposition_name:       { is_real: true ,label:  Exposition }
+        has_genre:             { label:  Genre }
+        langue_list:           { label:  Langue }
+        has_date_naissance:    { label:  Date de naissance }
+        has_code_postal:       { label:  Code postal }
+        has_ville:             { label:  Ville }
+        has_csp:               { label:  Csp }
+        has_adresse:           { label:  Adresse }
+        has_prenom:            { label:  Prénom }
+        has_nom:               { label:  Nom }
+        has_num_mobile:        { label:  Mobile }
+        has_facebook_id:       { label:  Facebook }
+        has_google_id:         { label:  Google }
+        has_twitter_id:        { label:  Twitter }
+        has_flickr_id:         { label:  FlickR }
+        has_dailymotion_id:    { label:  Dailymotion } 
+        preference_media_list:  { label:  Preference médias } 
+        created_at:   { label:  Date de création, date_format: 'F' }
+        updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+        is_tosync:    {label: A synchroniser}
+      list:    
+        title: Liste des besoins visiteurs sur une expo
+        display: [exposition_name, _langue_list, has_genre, has_date_naissance, has_code_postal, _preference_media_list, created_at, updated_at ]
+        table_method: doSelectJoinExposition
+        fields:
+          created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+        object_actions:
+          _edit:      { label: Modifier, action: edit }
+          _delete:    { label: Supprimer, action: delete }
+        sort: [exposition_name, asc]
+
+      filter:  ~
+      form: 
+        display:   
+          [exposition_id, has_genre, has_date_naissance, has_code_postal, langue_list, preference_media_list ]
+      edit:    
+        title: Modifier les besoins visiteurs
+      new:     
+        title: Ajouter les besoins visiteurs sur une expo
+      show:    ~

@@ -1,0 +1,10 @@
+{
+    "require": {
+        "guzzle/guzzle": "3.0.*",
+        "colinmollenhour/credis": "dev-master",
+        "chrisboulton/php-resque": "dev-master",
+        "cboden/Ratchet": "0.2.*",
+
+        "webpower/luasandbox": "dev-master"
+    }
+}

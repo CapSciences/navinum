@@ -1,0 +1,307 @@
+Contexte:
+  contexte1:
+    guid:         i12345678
+    libelle:      Petite expo
+  contexte2:
+    guid:         j12345678
+    libelle:      Garden party
+
+Organisateur:
+  organisateur1:
+    guid:         i213456
+    libelle:      Clever Age
+
+Langue:
+  Langue1:
+    guid:             i6953
+    libelle:          allemand 
+    short_libelle:    de  
+    
+PreferenceMedia:     
+  preference1:
+    guid:         i5790
+    libelle:      Braille
+  
+ExpositionVisiteurNeeds:
+  ExpositionVisiteurNeeds1:
+    guid:                  i9865R44
+    exposition_id:         i5890894
+    has_genre:             1
+    has_date_naissance:    1
+    has_code_postal:       1
+    has_ville:             1
+    has_adresse:           1
+    has_prenom:            1
+    has_nom:               1
+
+LangueExpositionVisiteurNeeds:
+  levn1:
+    langue_id:                    i6953
+    exposition_visiteurneeds_id:  i9865R44
+
+PreferenceMediaExpositionVisiteurNeeds:
+  PreferenceMediaExpositionVisiteurNeeds1:                   
+    preference_media_id:          i5790
+    exposition_visiteurneeds_id: i9865R44
+  
+    
+Parcours:
+  parcours1:
+    guid:         i36789
+    libelle:      Musical
+  parcours2:
+    guid:         j36789
+    libelle:      Paint Ball
+  parcours3:
+    guid:         k36789
+    libelle:      Electronique
+  parcours4:
+    guid:         l36789
+    libelle:      Mécanique
+  parcours5:
+    guid:         m36789
+    libelle:      Mathématique
+    
+Interactif:
+  interactif1:
+    guid:         i87653
+    libelle:      Batterie
+    is_visiteur_needed:           1
+    is_logvisite_needed:          1
+    is_logvisite_verbose_needed:  1 
+    is_parcours_needed:           1
+    url_fichier_interactif:    /borne.swf
+    url_pierre_de_rosette:     /url_pierre_de_rosette
+    url_illustration:          /url_illustration
+    url_interactif_type:      0 
+    url_interactif_choice:    k87653,l87653
+    url_visiteur_type:         0  
+    url_start_at:              10     
+    url_start_at_type:         m 
+    url_end_at:                60     
+    url_end_at_type:           m 
+  interactif2:
+    guid:         j87653
+    libelle:      Guitare
+    is_visiteur_needed:           1
+    is_logvisite_needed:          1
+    is_logvisite_verbose_needed:  1 
+    is_parcours_needed:           1
+    url_fichier_interactif:    /flash1.swf
+    url_pierre_de_rosette:     /url_pierre_de_rosette
+    url_illustration:          /url_illustration
+  interactif3:
+    guid:         k87653
+    libelle:      Pythagore
+    is_parcours_needed:           1
+    url_fichier_interactif:    /mov.mov
+    url_pierre_de_rosette:     /url_pierre_de_rosette
+    url_illustration:          /url_illustration
+  interactif4:
+    guid:         l87653
+    libelle:      Einstein
+    is_logvisite_needed:          1
+    is_logvisite_verbose_needed:  1 
+    url_fichier_interactif:    /pdf.pdf
+    url_pierre_de_rosette:     /url_pierre_de_rosette
+    url_illustration:          /url_illustration
+  interactif5:
+    guid:         m87653
+    libelle:      Synthétiseur
+    is_logvisite_needed:          1
+    is_logvisite_verbose_needed:  1 
+    url_fichier_interactif:    /test.mpg
+    url_pierre_de_rosette:     /url_pierre_de_rosette
+    url_illustration:          /url_illustration
+  interactif6:
+    guid:         n87653
+    libelle:      La roue
+    is_logvisite_needed:          1
+    is_logvisite_verbose_needed:  1 
+    url_fichier_interactif:    /interactif_bidule.swf
+    url_pierre_de_rosette:     /url_pierre_de_rosette
+    url_illustration:          /url_illustration
+        
+ 
+PreferenceMediaVisiteur:
+  hmv1:
+    preference_media_id:        i5790    
+    visiteur_id:               i098765
+    
+Visiteur:
+   visiteur1:
+      guid:                 i098765                   
+      email:                xgardart@clever-age.com                   
+      contexte_creation_id: j12345678             
+      langue_id:            i6953
+      genre:                H             
+      date_naissance:       '1982-06-22'
+      adresse:              4 rue de la victoire
+      code_postal:          33000     
+      ville:                La Rochelle        
+      prenom:               Xavier           
+      nom:                  Godart          
+      pseudo_son:           sredeuil 
+      password_son:         monmotdepasse10
+      url_avatar:           /url_avatar          
+      num_mobile:           06 06 06 06 06 06     
+      facebook_id:          facebook_id     
+      google_id:            google_id     
+      twitter_id:           twitter_id    
+      flickr_id:            flickr_id    
+      dailymotion_id:       dailymotion_id   
+   visiteur2:
+      guid:                 j098765                   
+      email:                monmail@mymail.com                   
+      contexte_creation_id: i12345678             
+      langue_id:            i6953           
+      genre:                F             
+      date_naissance:       '1992-07-12'
+      adresse:              rue Bertholot      
+      code_postal:          14000  
+      ville:                Caen        
+      prenom:               William           
+      nom:                  Pottier          
+      pseudo_son:           wpottier  
+      password_son:          monmotdepasse20
+      url_avatar:           /url_avatar          
+      num_mobile:           06 06 06 06 06 06     
+      facebook_id:          facebook_id     
+      google_id:            google_id     
+      twitter_id:           twitter_id    
+      flickr_id:            flickr_id    
+      dailymotion_id:       dailymotion_id 
+      
+OrganisateurContexte:
+  oc1:
+    contexte_id:         i12345678         
+    organisateur_id:     i213456      
+  oc2:
+    contexte_id:         j12345678         
+    organisateur_id:     i213456
+    
+Exposition:
+  expo1:     
+    guid:                     i5890894               
+    libelle:                  Les instruments de musique               
+    contexte_id:              j12345678         
+    organisateur_editeur_id:  i213456
+    organisateur_diffuseur_id: i213456
+    start_at:                 '2011-08-01'
+    end_at:                   '2011-18-31'
+  expo2:     
+    guid:                     j5890894               
+    libelle:                  L'école             
+    contexte_id:              i12345678         
+    organisateur_editeur_id:  i213456
+    organisateur_diffuseur_id: i213456
+    start_at:                 '2011-02-01'
+    end_at:                   '2011-03-31'
+    
+ExpositionsParcours:
+  ep1:
+    parcours_id:        l36789          
+    exposition_id:      j5890894
+  ep2:
+    parcours_id:        i36789              
+    exposition_id:      i5890894
+  ep3:
+    parcours_id:        j36789              
+    exposition_id:      i5890894
+   
+ParcoursInteractif:
+  pi1:
+    interactif_id:    j87653               
+    parcours_id:      i36789         
+    num_order:        1   
+  pi2:
+    interactif_id:    j87653               
+    parcours_id:      l36789         
+    num_order:        2        
+  pi3:
+    interactif_id:    k87653               
+    parcours_id:      k36789         
+    num_order:        1    
+  pi4:
+    interactif_id:    l87653               
+    parcours_id:      k36789         
+    num_order:        2
+  
+Visite:
+  visite1:
+    guid:            i004567         
+    visiteur_id:     i098765         
+    navinum_id:      i666666         
+    parcours_id:     l36789
+    exposition_id:  i5890894
+  visite2:
+    guid:            j004567                 
+    visiteur_id:     i098765         
+    navinum_id:      i666666         
+    parcours_id:     k36789
+    exposition_id:   i5890894
+  visite3:
+    guid:            k004567                 
+    visiteur_id:     j098765         
+    navinum_id:      k333333         
+    parcours_id:     i36789
+    exposition_id:   j5890894
+  visite4:
+    guid:            l004567                 
+    visiteur_id:     j098765         
+    navinum_id:      l333333         
+    parcours_id:     j36789
+    exposition_id:  j5890894
+    
+LogVisite:
+  lv1:
+    interactif_id:    i87653         
+    visite_id:        i004567         
+    visiteur_id:      i098765         
+    start_at:         '2011-05-03 09:43'
+    end_at:           '2011-05-03 17:12'
+    resultats:        a:26:{s:15:"allow_user_conf";s:1:"f";s:8:"min_rows";i:1;s:9:"excl_mode";i:0;s:11:"filebrowser";s:4:"none";s:11:"quickupload";s:1:"f";s:7:"default";s:1:"t";s:11:"show_toggle";s:1:"t";s:5:"popup";s:1:"f";s:4:"skin";s:7:"default";s:7:"toolbar";s:11:"DrupalBasic";s:6:"expand";s:1:"t";s:5:"width";s:4:"100%";s:4:"lang";s:2:"en";s:9:"auto_lang";s:1:"t";s:10:"enter_mode";s:1:"p";s:16:"shift_enter_mode";s:2:"br";s:11:"font_format";s:35:"p;div;pre;address;h1;h2;h3;h4;h5;h6";s:13:"format_source";s:1:"t";s:13:"format_output";s:1:"t";s:2:"ss";s:1:"2";s:7:"filters";a:1:{s:8:"filter/0";i:1;}s:8:"css_mode";s:5:"theme";s:8:"css_path";s:0:"";s:12:"upload_basic";s:1:"f";s:15:"upload_advanced";s:1:"f";s:11:"user_choose";s:1:"f";}
+  lv2:
+    interactif_id:    j87653         
+    visite_id:        j004567         
+    visiteur_id:      i098765         
+    start_at:         '2011-04-15 08:56'
+    end_at:           '2011-04-15 11:23'
+  lv3:
+    interactif_id:    k87653         
+    visite_id:        k004567         
+    visiteur_id:      j098765         
+    start_at:         '2011-03-14 14:32'
+    end_at:           '2011-03-14 16:18'
+    resultats:        a:26:{s:15:"allow_user_conf";s:1:"f";s:8:"min_rows";i:1;s:9:"excl_mode";i:0;s:11:"filebrowser";s:4:"none";s:11:"quickupload";s:1:"f";s:7:"default";s:1:"t";s:11:"show_toggle";s:1:"t";s:5:"popup";s:1:"f";s:4:"skin";s:7:"default";s:7:"toolbar";s:14:"DrupalFiltered";s:6:"expand";s:1:"t";s:5:"width";s:4:"100%";s:4:"lang";s:2:"en";s:9:"auto_lang";s:1:"t";s:10:"enter_mode";s:1:"p";s:16:"shift_enter_mode";s:2:"br";s:11:"font_format";s:35:"p;div;pre;address;h1;h2;h3;h4;h5;h6";s:13:"format_source";s:1:"t";s:13:"format_output";s:1:"t";s:2:"ss";s:1:"2";s:7:"filters";a:1:{s:8:"filter/0";i:1;}s:8:"css_mode";s:5:"theme";s:8:"css_path";s:0:"";s:12:"upload_basic";s:1:"f";s:15:"upload_advanced";s:1:"f";s:11:"user_choose";s:1:"f";} 
+  lv4:
+    interactif_id:    l87653         
+    visite_id:        l004567         
+    visiteur_id:      j098765         
+    start_at:         '2011-11-08 10:22'
+    end_at:           '2011-11-08 16:52'
+    resultats:        0
+
+sfGuardUser:
+  User_admin:
+    id:             111
+    first_name:     Xavier
+    last_name:      Godart
+    email_address:  xgodart@clever-age.com
+    username:       xgodart
+    password:       xgodart
+    is_super_admin: false
+    Permissions: [Permission_commissaire] 
+    
+sfGuardPermission:
+  Permission_admin:
+    id:             1
+    name:           admin
+    description:    Administrator permission
+  Permission_commissaire:
+    id:             2
+    name:           commissaire
+  Permission_utilisateur:
+    id:             3
+    name:           utilisateur
+    

@@ -1,0 +1,23 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/11-App
+
+all:
+  default_from: your.email@email.com
+  default_from_name: YourName
+  create_visiteur_subject: 'Bienvenue'
+  reset_password_subject: 'Votre nouveau mot de passe'
+  send_pseudo_subject: 'Votre pseudo'
+  host_image_src: 'http://your-server/mail'
+
+prod:
+### send sms with a clickatell service
+  service_sms:
+    allowed:    false
+    username:   yourusername
+    password:   yourpassword
+    api:        12345
+
+dev:
+  service_sms:
+    allowed:  false
+

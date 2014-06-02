@@ -1,0 +1,276 @@
+rulerz:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Rulerz
+    module:               rulerz
+    prefix_path:          /rulerz
+    column:               guid
+    with_wildcard_routes: true
+
+template_mail:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                TemplateMail
+    module:               template_mail
+    prefix_path:          /template_mail
+    column:               guid
+    with_wildcard_routes: true
+
+evenement:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Evenement
+    module:               evenement
+    prefix_path:          /evenement
+    column:               guid
+    with_wildcard_routes: true
+
+csp:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Csp
+    module:               csp
+    prefix_path:          /csp
+    column:               guid
+    with_wildcard_routes: true
+
+visiteur_medaille:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                VisiteurMedaille
+    module:               visiteur_medaille
+    prefix_path:          /visiteur_medaille
+    column:               guid
+    with_wildcard_routes: true
+
+medaille:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Medaille
+    module:               medaille
+    prefix_path:          /medaille
+    column:               guid
+    with_wildcard_routes: true
+
+typologie:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Typologie
+    module:               typologie
+    prefix_path:          /typologie
+    column:               guid
+    with_wildcard_routes: true
+
+xp:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Xp
+    module:               xp
+    prefix_path:          /xp
+    column:               guid
+    with_wildcard_routes: true
+
+peripherique:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Peripherique
+    module:               peripherique
+    prefix_path:          /peripherique
+    column:               guid
+    with_wildcard_routes: true
+
+flotte:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Flotte
+    module:               flotte
+    prefix_path:          /flotte
+    column:               guid
+    with_wildcard_routes: true
+
+medaille_type:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                MedailleType
+    module:               medaille_type
+    prefix_path:          /medaille_type
+    column:               guid
+    with_wildcard_routes: true
+
+rfid_groupe_visiteur:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                RfidGroupeVisiteur
+    module:               rfid_groupe_visiteur
+    prefix_path:          /rfid_groupe_visiteur
+    column:               guid
+    with_wildcard_routes: true
+
+rfid:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Rfid
+    module:               rfid
+    prefix_path:          /rfid
+    column:               uid
+    with_wildcard_routes: true
+
+rfid_groupe:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                RfidGroupe
+    module:               rfid_groupe
+    prefix_path:          /rfid_groupe
+    column:               guid
+    with_wildcard_routes: true
+
+sync_log:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                SyncLog
+    module:               sync_log
+    prefix_path:          /sync_log
+    column:               guid
+    with_wildcard_routes: true
+
+langue:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Langue
+    module:               langue
+    prefix_path:          /langue
+    column:               guid
+    with_wildcard_routes: true
+
+visiteur:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Visiteur
+    module:               visiteur
+    prefix_path:          /visiteur
+    column:               guid
+    with_wildcard_routes: true
+
+exposition_visiteur_needs:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                ExpositionVisiteurNeeds
+    module:               exposition_visiteur_needs
+    prefix_path:          /exposition_visiteur_needs
+    column:               guid
+    with_wildcard_routes: true
+
+log_visite:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                logVisite
+    module:               log_visite
+    prefix_path:          /log_visite
+    column:               visite_id
+    with_wildcard_routes: true
+
+visite:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Visite
+    module:               visite
+    prefix_path:          /visite
+    column:               guid
+    with_wildcard_routes: true
+
+sf_guard_user:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                sfGuardUser
+    module:               sf_guard_user
+    prefix_path:          /sf_guard_user
+    column:               id
+    with_wildcard_routes: true
+
+preference_media:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                PreferenceMedia
+    module:               preference_media
+    prefix_path:          /preference_media
+    column:               guid
+    with_wildcard_routes: true
+
+interactif:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Interactif
+    module:               interactif
+    prefix_path:          /interactif
+    column:               guid
+    with_wildcard_routes: true
+
+exposition:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Exposition
+    module:               exposition
+    prefix_path:          /exposition
+    column:               guid
+    with_wildcard_routes: true
+
+organisateur:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Organisateur
+    module:               organisateur
+    prefix_path:          /organisateur
+    column:               guid
+    with_wildcard_routes: true
+
+contexte:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Contexte
+    module:               contexte
+    prefix_path:          /contexte
+    column:               guid
+    with_wildcard_routes: true
+
+parcours:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Parcours
+    module:               parcours
+    prefix_path:          /parcours
+    column:               guid
+    with_wildcard_routes: true
+
+
+
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/10-Routing
+
+
+sf_guard_signin:
+  url:   /login
+  param: { module: sfGuardAuth, action: signin }
+
+sf_guard_signout:
+  url:   /logout
+  param: { module: sfGuardAuth, action: signout }
+
+sf_guard_password:
+  url:   /request_password
+  param: { module: sfGuardAuth, action: password }
+
+
+
+# default rules
+homepage:
+  url:   /
+  param: { module: default, action: index }
+
+# generic rules
+# please, remove them by adding more specific rules
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*
