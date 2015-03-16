@@ -22,7 +22,7 @@ class rfid_groupe_visiteurActions extends autorfid_groupe_visiteurActions
     $validators['guid'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
     $validators['nom'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
     $validators['rfid_groupe_id'] = new sfValidatorString(array( 'required' => false));
-    $validators['langue_id'] = new sfValidatorInteger(array( 'required' => false));
+    $validators['langue_id'] = sfValidatorString(array( 'required' => false));
     $validators['email'] = new sfValidatorEmail(array('max_length' => 255, 'required' => false));
     $validators['csp'] = new sfValidatorInteger(array('required' => false));
     $validators['genre'] = new sfValidatorString(array('max_length' => 10, 'required' => false));

@@ -16,6 +16,7 @@ class visiteActions extends autovisiteActions
     $validators = array();
     $validators['guid'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
     $validators['visiteur_id'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
+    $validators['groupe_id'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
     $validators['navinum_id'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
     $validators['exposition_id'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
     $validators['parcours_id'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
@@ -35,7 +36,7 @@ class visiteActions extends autovisiteActions
       'visiteur_id' => new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('Visite')->getRelation('Visiteur')->getAlias(), 'required' => true)),
       'navinum_id' => new csRfidValidator(array('model' => Doctrine_Core::getTable('Visite')->getRelation('Rfid')->getAlias(), 'required' => true)),
       'groupe_id' => new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('Visite')->getRelation('RfidGroupeVisiteur')->getAlias(), 'required' => false)),
-      'exposition_id' => new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('Visite')->getRelation('Exposition')->getAlias(), 'required' => true)),
+      'exposition_id' => new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('Visite')->getRelation('Exposition')->getAlias(), 'required' => false)),
       'parcours_id' => new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('Visite')->getRelation('Parcours')->getAlias(), 'required' => false)),
       'interactif_id' => new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('Visite')->getRelation('Interactif')->getAlias(), 'required' => false)),
       'connexion_id' => new sfValidatorString(array('required' => false)),
@@ -98,6 +99,8 @@ class visiteActions extends autovisiteActions
       }
     
     $navinum_id = $parameters['navinum_id'];
+
+    $visiteur_id = $parameters['visiteur_id'];
     
     if(isset($parameters['parcours_id']) && !$parameters['parcours_id'])
     {
@@ -159,21 +162,96 @@ class visiteActions extends autovisiteActions
   			}else{
 					 throw new sfException('Unknown rfid '.$navinum_id);
   			}
-      $this->object = Doctrine_Core::getTable($this->model)->findOneByNavinumId($navinum_id);
     }
-    
+
+      $this->object = Doctrine_Core::getTable($this->model)
+          ->createQuery('v')
+          ->where('v.navinum_id = ?', $navinum_id)
+          ->andWhere('v.visiteur_id = ?', $visiteur_id)
+          ->andWhere('v.guid != ""')
+          ->fetchOne();
+
     if (!$this->object)
     {
       $this->object = $this->createObject();
       $this->object->set('guid', Guid::generate());
     }
-    
+
+      if(isset($parameters['exposition_id']) && $this->object->getExpositionId() === null){
+
+          $this->object->set('exposition_id', $parameters['exposition_id']);
+          $exposition = Doctrine_Core::getTable('Exposition')->findOneBy('guid', $parameters['exposition_id']);
+
+          if($exposition != false && $exposition->getUniversId() != null){
+              $univers_id = $exposition->getUniversId();
+              $contexte_id = $exposition->getContexteId();
+
+            // find visiteur medaille for univers
+                $nb_visiteur_medailles = Doctrine_Core::getTable('VisiteurMedaille')
+                  ->createQuery('vm')
+                 ->select('count(*) count')
+                  ->where('vm.univers_id = ?', $univers_id)
+                  ->addWhere('vm.visiteur_id = ?', $visiteur_id)
+                  ->count();
+                if($nb_visiteur_medailles == 0){
+                    // medaille first medaille to insert
+                    $first_medaille = Doctrine_Core::getTable('UniversMedaille')
+                        ->createQuery('um')
+                        ->select('um.medaille_id')
+                        ->leftJoin('um.Medaille m')
+                        ->where('um.univers_id = ?', $univers_id)
+                        ->andWhere('m.is_first_medaille = 1')
+                        ->limit(1)
+                        ->fetchOne();
+
+                    if($first_medaille != false && $first_medaille->getMedailleId() != null){
+                        // insert visiteur medaille
+                        VisiteurMedailleTable::createVisiteurMedaille($visiteur_id, $first_medaille->getMedailleId(), $univers_id, $contexte_id);
+
+                        $univers_status =  Doctrine_Core::getTable('UniversStatus')
+                            ->createQuery('us')
+                            ->where('us.univers_id = ?', $univers_id)
+                            ->orderBy('level asc')
+                            ->limit(1)
+                            ->fetchOne();
+                        if($univers_status != false && $univers_status->getGuid() != null){
+                            $gain_id = null;
+                            $expiration_days = 0;
+                            if($univers_status->getGainId() != null){
+                                $gain_id = $univers_status->getGainId();
+                                $expiration_days = $univers_status->getGain()->getExpirationDays();
+                            }
+                            VisiteurUniversStatusGainTable::setNewVisiteurUniversStatus($univers_status->getGuid(), $univers_id, $visiteur_id, $gain_id, $expiration_days, $contexte_id);
+                        }
+
+                    }
+                }
+          }
+      }
+
     // update and save it
     $this->updateObjectFromRequest($content);
     $this->object->set('navinum_id', $navinum_id);
-    
-    $response = $this->doSave();
-		
+    $this->object->set('visiteur_id', $visiteur_id);
+      // Is there rfidGroup
+      if(!isset($parameters['groupe_id'])){
+          $groupe = Doctrine_Query::create()
+              ->select('rfgv.guid as groupe_visiteur_id, rfid.uid as navinum_id, rfg.guid as groupe_id')
+              ->from('Rfid rfid, RfidGroupe rfg, RfidGroupeVisiteur rfgv')
+              ->where('rfid.uid = ?', $navinum_id)
+              ->andWhere('rfid.groupe_id = rfg.guid')
+              ->andWhere('rfgv.rfid_groupe_id = rfg.guid')
+              ->fetchOne(array(), Doctrine::HYDRATE_ARRAY);
+          if(is_array($groupe) && isset($groupe['groupe_visiteur_id']) && !empty($groupe['groupe_visiteur_id'])){
+              $this->object->set('groupe_id', $groupe['groupe_visiteur_id']);
+          }
+      }
+
+      $response = $this->doSave();
+
+
+
+
 
     if(isset($connexion_id) && !empty($connexion_id)) {
       // Notify websocket server
@@ -187,6 +265,8 @@ class visiteActions extends autovisiteActions
 
     return $response;
   }
+
+
 
 
     /**
@@ -255,7 +335,6 @@ class visiteActions extends autovisiteActions
 
         $response = $this->doSave();
 
-
         if(isset($connexion_id) && !empty($connexion_id)) {
             // Notify websocket server
             caNotificationsTools::getInstance()->notifyAuth($this->object['guid'], $connexion_id);
@@ -292,7 +371,7 @@ class visiteActions extends autovisiteActions
   public function validateUpdate($payload)
   {
   	$validators = $this->getUpdateValidators();
-    $validators['exposition_id']->setOption('required', true);
+    //$validators['exposition_id']->setOption('required', true);
     unset($validators['created_at'], $validators['updated_at']);
     $params = $this->parsePayload($payload);
     // est ce que le guid exposition existe?
@@ -540,9 +619,7 @@ class visiteActions extends autovisiteActions
   protected function setFieldVisibilityParcours()
   {
     $hidden_keys = array (
-    'visiteur_id' =>0,
-    'navinum_id' =>1,
-    'parcours_id' =>2,
+    'is_tosync' =>2,
     'created_at' => 3,
     'updated_at' => 4,
     );
@@ -555,6 +632,8 @@ class visiteActions extends autovisiteActions
       }
     }
   }
+
+
 
     public function executeCollectAnonymousVisite(sfWebRequest $request){
         $this->forward404unless($request->getParameter('visiteur_id') && $request->getParameter('visite_id'));
@@ -580,6 +659,8 @@ class visiteActions extends autovisiteActions
             return sfView::SUCCESS;
         }
 
+
+
         // check visite
         $visite = Doctrine_Core::getTable('Visite')->findOneByGuid($visite_id);
         if (!$visite)
@@ -593,6 +674,8 @@ class visiteActions extends autovisiteActions
 
             // get anonymous_visiteur
             $anonymous_visiteur_id = $visite->getVisiteurId();
+
+            //$anonymous_visiteur_id->deleteActionFromCreateVisiteur();
 
             // already change
             if($anonymous_visiteur_id == $visiteur_id){
@@ -623,6 +706,14 @@ class visiteActions extends autovisiteActions
                 $visiteur_medaille->save();
             }
 
+            // visiteur medaille
+            $visiteur_univers = Doctrine_Core::getTable('VisiteurUniversStatusGain')->findByVisiteurId($anonymous_visiteur_id);
+            $details['VisiteurUniversStatusGain'] = count($visiteur_univers);
+            foreach($visiteur_univers as $visiteur_univer){
+                $visiteur_univer->setVisiteurId($visiteur_id);
+                $visiteur_univer->save();
+            }
+
             // udate Xp
             $xps = Doctrine_Core::getTable('Xp')->findByVisiteurId($anonymous_visiteur_id);
             $details['Xp'] = count($xps);
@@ -637,6 +728,13 @@ class visiteActions extends autovisiteActions
                 $notification->setVisiteurId($visiteur_id);
                 $notification->save();
             }
+
+            $fileSystem = new sfFilesystem();
+            $finder = new sfFinder;
+
+            $path = sfConfig::get('sf_web_dir')."/visiteur/".$anonymous_visiteur_id;
+            @$fileSystem->mirror(sfConfig::get('sf_web_dir')."/visiteur/".$anonymous_visiteur_id, sfConfig::get('sf_web_dir')."/visiteur/".$visiteur_id, $finder, array('override' => true));
+
             $result =  array(array_merge(array('message' => 'ok'), array('details' =>$details)));
             $this->output = $serializer->serialize($result, 'result');
             return sfView::SUCCESS;

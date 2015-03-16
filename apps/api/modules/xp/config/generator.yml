@@ -18,7 +18,7 @@ generator:
 #        embedded_relations_hide:
 #          Category:                    [id]    # you can hide fields inside a certain embedded relation
 #        global_additional_fields:      []      # list here additionnal calculated global fields
-         hide:                          [created_at, updated_at, is_tosync, visiteur_id, guid]    # list here the fields you don't want to expose
+         hide:                          [created_at, updated_at, is_tosync, guid]    # list here the fields you don't want to expose
 #        max_items:                     0       # uncomment to fix an absolute limit to the number of items in the response
 #        object_additional_fields:      []      # list here additionnal calculated fields
 #        pagination_enabled:            false   # set to true to activate the pagination

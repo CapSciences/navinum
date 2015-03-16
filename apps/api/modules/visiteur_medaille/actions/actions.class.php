@@ -18,11 +18,14 @@ class visiteur_medailleActions extends autovisiteur_medailleActions
   public function getIndexValidators()
   {
   	$validators = array();
+    $validators['guid'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
     $validators['visiteur_id'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
     $validators['medaille_type_id'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
     $validators['medaille_id'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
     $validators['interactif_id'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
+    $validators['univers_id'] = new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('VisiteurMedaille')->getRelation('Univers')->getAlias(), 'required' => false));
     $validators['exposition_id'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
+    $validators['contexte_id'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
     $validators['created_at'] = new sfValidatorDateTime(array('required' => false));
     $validators['updated_at'] = new sfValidatorDateTime(array('required' => false));
     $validators['sort_by'] = new sfValidatorChoice(array('choices' => array (
@@ -261,8 +264,9 @@ class visiteur_medailleActions extends autovisiteur_medailleActions
     $validators['force'] = new sfValidatorBoolean(array('required' => false));
     $validators['visiteur_id'] = new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('VisiteurMedaille')->getRelation('Visiteur')->getAlias(),'required' => true));
     $validators['medaille_id'] = new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('VisiteurMedaille')->getRelation('Medaille')->getAlias(),'required' => true));
+    $validators['univers_id'] = new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('VisiteurMedaille')->getRelation('Univers')->getAlias(), 'required' => false));
     $validators['connection'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
-
+    $validators['contexte_id'] = new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('VisiteurMedaille')->getRelation('Contexte')->getAlias(), 'required' => false));
     return $validators;
   }
 
@@ -291,21 +295,20 @@ class visiteur_medailleActions extends autovisiteur_medailleActions
       $this->validateCreate($content, $params);
       $this->getResponse()->setContentType($serializer->getContentType());
 
-      //@todo validation des conditions
-      if(!isset($params['force']) || $params['force'] == true)
-      {
         $this->object = $this->createObject();
         $this->updateObjectFromRequest($content);
-        $connection =  isset($params['connection'])?$params['connection']: 'insitu';
-        if($this->object->hasAlreadyMedaille($connection))
+        //$connection =  isset($params['connection'])?$params['connection']: 'insitu';
+        if($this->object->hasAlreadyMedaille($params['univers_id'], $params['contexte_id']))
         {
           throw new Exception(sprintf("The medal %s is unique for this visitor %s", $this->object->getMedailleId(), $this->object->getVisiteurId()));
         }
-        
         $this->doSave();
+
+        VisiteurUniversStatusGainTable::hasNewStatus($this->object->getVisiteurId(), $this->object->getMedailleId(), $this->object->getContexteId());
+
         $output = array(array('message' => "ok"));
         $this->output = $serializer->serialize($output);
-      }
+
 
     }
     catch (Exception $e)

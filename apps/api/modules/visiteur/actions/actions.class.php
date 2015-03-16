@@ -33,7 +33,7 @@ class visiteurActions extends autovisiteurActions
     {
         $validators = array();
         $validators['visiteur_id'] = new sfValidatorString(array('max_length' => 255, 'required' => true));
-        $validators['filebase64'] = new sfValidatorString(array('required' => true));
+        $validators['filebase64'] = new sfValidatorString(array('max_length' => 999999999999, 'required' => true));
         $validators['filename'] = new sfValidatorString(array('required' => true));
         $validators['interactif_id'] = new sfValidatorString(array('required' => true));
         return $validators;
@@ -63,7 +63,7 @@ class visiteurActions extends autovisiteurActions
   public function getCreateAnonymousValidators()
   {
     $validators = array();
-    $validators['contexte_creation_id'] = new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('Visiteur')->getRelation('Contexte')->getAlias()));
+    $validators['contexte_creation_id'] = new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('Visiteur')->getRelation('Contexte')->getAlias(), 'required' => false));
     $validators['pseudo'] = new sfValidatorString(array('max_length' => 255, 'required' => true));
 
     return $validators;
@@ -136,15 +136,7 @@ class visiteurActions extends autovisiteurActions
     $result = array('message' => 'ok');
     $this->output = $serializer->serialize($result, 'result');
     // set anonymous log_viiste associated
-    /*
-    caNotificationsTools::getInstance()->sendNotification('general:notif', 'visiteur:'.$this->visiteur->getGuid(), array(
-        'title' => sprintf('Clic clac %s', $this->visiteur->getPseudoSon()),
-        'message' => 'J\'ai bien enregistré ta photo'
-    ), array(
-        'model' => 'visiteur',
-        'model_id' => $this->visiteur->getGuid()
-    ));
-    */
+
     return sfView::SUCCESS;
   }
 
@@ -245,10 +237,11 @@ class visiteurActions extends autovisiteurActions
 
     try
     {
-      $this->validateCreateAnonymous($content, $parameters);
+      $this->validateCreateAnonymous($parameters);
 
       $visiteur = new Visiteur();
-      $visiteur = $visiteur->createAnonymous($parameters['contexte_creation_id']);
+        //$parameters['contexte_creation_id']
+      $visiteur = $visiteur->createAnonymous(null);
       $visiteur->setPseudoSon($parameters['pseudo']);
       $visiteur->save();
       $result = $visiteur->getGuid();
@@ -329,14 +322,18 @@ class visiteurActions extends autovisiteurActions
     return sfView::SUCCESS;
   }
 
+    public function query($params){
+        $q = parent::query($params);
+        return $q;
+    }
+
+
     public function executeBrowseDocuments(sfWebRequest $request)
     {
         $request->setRequestFormat('html');
         $this->forward404Unless($request->isMethod(sfRequest::GET));
         $visiteurs = $request->getParameter('visiteur_id');
         $interactifs = $request->getParameter('interactif_id');
-        $interactifs_info = array();
-        //$with_visiteur_infos = $request->getParameter('with_visiteur_infos');
 
         $serializer = $this->getSerializer();
         $this->getResponse()->setContentType($serializer->getContentType());
@@ -347,7 +344,6 @@ class visiteurActions extends autovisiteurActions
             $this->output = $serializer->serialize(array($error), 'error');
             return sfView::SUCCESS;
         }
-        $visiteur_keys = array();
         $interactif_keys = array();
 
         $visiteur_keys = explode(',', $visiteurs);
@@ -450,6 +446,11 @@ class visiteurActions extends autovisiteurActions
     $validators['updated_at'] = new sfValidatorDateTime(array('required' => false));
     $validators['is_active'] = new sfValidatorBoolean(array('required' => false));
     $validators['is_anonyme'] = new sfValidatorBoolean(array('required' => false));
+    $validators['with_lastLogVisite'] = new sfValidatorBoolean(array('required' => false));
+    $validators['with_xp'] = new sfValidatorBoolean(array('required' => false));
+    $validators['with_medailles'] = new sfValidatorBoolean(array('required' => false));
+    $validators['with_universStatus'] = new sfValidatorBoolean(array('required' => false));
+    $validators['with_universGain'] = new sfValidatorBoolean(array('required' => false));
     return $validators;
   }
 
@@ -458,7 +459,6 @@ class visiteurActions extends autovisiteurActions
   {
     foreach($this->objects as $key=> $object)
     {
-      unset($this->objects[$key]['Contexte']['created_at'], $this->objects[$key]['Contexte']['updated_at']);
       if(array_key_exists('PreferenceMediaVisiteur', $object))
       {
 	      foreach($object['PreferenceMediaVisiteur'] as $key2 => $preferenceMedia)
@@ -534,7 +534,7 @@ class visiteurActions extends autovisiteurActions
     try
     {
       $params = $this->parsePayload($content);
-      $this->validateCreate($content, $params);
+      $this->validateCreate($params);
       $this->getResponse()->setContentType($serializer->getContentType());
 
       $visiteur = Doctrine_Core::getTable('Visiteur')->findOneBy("pseudo_son",array($params['pseudo_son']));
@@ -545,16 +545,6 @@ class visiteurActions extends autovisiteurActions
         $this->output = $serializer->serialize($result, 'error');
         return sfView::SUCCESS;
       }
-        /*
-      $visiteur = Doctrine_Core::getTable('Visiteur')->findOneBy("password_sonAndpseudo_son",array(md5($params['password_son']), $params['pseudo_son']));
-      if ($visiteur)
-      {
-        $this->getResponse()->setStatusCode(406);
-        $result = array(array('message' => sprintf('visitor already exist %s : %s ', $params['password_son'], $params['pseudo_son']), 'code' => 'E_VISITEUR_01'));
-        $this->output = $serializer->serialize($result, 'error');
-        return sfView::SUCCESS;
-      }
-        */
     }
     catch (Exception $e)
     {
@@ -586,10 +576,9 @@ class visiteurActions extends autovisiteurActions
     $this->updateObjectFromRequest($content);
     $this->clear_password = $params['password_son'];
 
-
     /** @var $object Visiteur */
+      // do not remove this
       $object = $this->doSave();
-
 
     return $this->doSave();
   }
@@ -599,7 +588,7 @@ class visiteurActions extends autovisiteurActions
    * @param   sfWebRequest   $request a request object
    * @return  string
    */
-  public function executeCreateFacebook(sfWebRequest $request)
+  public function executeCreateSocialOAuth(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST));
     $content = $request->getContent();
@@ -612,14 +601,31 @@ class visiteurActions extends autovisiteurActions
 
     $request->setRequestFormat('html');
     $serializer = $this->getSerializer();
-//die('here');
+
     try
     {
       $params = $this->parsePayload($content);
-      $this->validateCreateFacebook($content, $params);
+      $this->validateCreateSocialOAuth($params);
       $this->getResponse()->setContentType($serializer->getContentType());
 
-      $visiteur = Doctrine_Core::getTable('Visiteur')->findOneBy("facebook_id",array($params['facebook_id']));
+      $socialAuth = null;
+      if(isset($params['facebook_id'])){
+          $socialAuth = 'facebook';
+          $visiteur = Doctrine_Core::getTable('Visiteur')->findOneBy("facebook_id",array($params['facebook_id']));
+      }else if(isset($params['twitter_id'])){
+          $socialAuth = 'twitter';
+          $visiteur = Doctrine_Core::getTable('Visiteur')->findOneBy("twitter_id",array($params['twitter_id']));
+      }else if(isset($params['google_id'])){
+          $socialAuth = 'google';
+          $visiteur = Doctrine_Core::getTable('Visiteur')->findOneBy("google_id",array($params['google_id']));
+      }else{
+          // cannot find social auth
+          $this->getResponse()->setStatusCode(406);
+          $error = array(array('message' => 'No social auth parameter'));
+          $this->output = $serializer->serialize($error, 'error');
+          $this->setTemplate('index');
+          return sfView::SUCCESS;
+      }
 
       if ($visiteur)
       {
@@ -629,13 +635,12 @@ class visiteurActions extends autovisiteurActions
 
           $this->getRequest()->setParameter('guid', $visiteur->getGuid());
           $this->getRequest()->setMethod("GET");
+          if($params["social_url_photo"]){
+              $has_photo = $this->getSocialPhoto($params["social_url_photo"], $visiteur);
+              $visiteur->setHasPhoto($has_photo);
+          }
 
           return $this->forward("visiteur", "index");
-
-          //$this->output = $serializer->serialize($visiteur, $this->model);
-        //$this->getResponse()->setStatusCode(406);
-        //$result = array(array('message' => sprintf('visitor already exist %s', $params['facebook_id']), 'code' => 'E_VISITEUR_02', 'guid' => $visiteur->getGuid()));
-        return sfView::SUCCESS;
       }
     }
     catch (Exception $e)
@@ -663,33 +668,28 @@ class visiteurActions extends autovisiteurActions
       return sfView::SUCCESS;
     }
 
+    // create visiteur if  not exist
     $this->object = $this->createObject();
     $this->object->setIsAnonyme(0);
     // Create a client and provide a base URL
-    /*$url = 'http://graph.facebook.com/'.$params["facebook_photo"].'/picture';
-    $client = new Client();
-
-    // Download the image to a PHP temp stream
-    $imageResponse = $client->get($url)->send();
-    // Be sure to seek to the beginning of the entity body
-    $imageResponse->getBody()->seek(0);
-
-    if($this->object->setPhoto((string)$imageResponse->getBody()) === false)
-    {
-      $this->getResponse()->setStatusCode(406);
-      $error = array("message" => "error writing photo file");
-      $this->output = $serializer->serialize($error, 'error');
-      return sfView::SUCCESS;
-    }*/
-
-    $url = "http://graph.facebook.com/".$params["facebook_photo"]."/picture";
-    $content_file = file_get_contents($url);
-    $this->object->createDataFolder();
-    file_put_contents($this->object->getVisiteurDataPath().'/photo.jpg', $content_file);
-    $this->object->setHasPhoto(true);
-
+    if($params["social_url_photo"]){
+        $has_photo = $this->getSocialPhoto($params["social_url_photo"], $this->object);
+        $this->object->setHasPhoto($has_photo);
+    }
     $this->updateObjectFromRequest($content);
     return $this->doSave();
+  }
+
+  private  function getSocialPhoto($url, $object){
+      $object->createDataFolder();
+      $content_file = file_get_contents($url);
+      if($content_file){
+            if(file_put_contents($object->getVisiteurDataPath().'/photo.jpg', $content_file) === false){
+                return false;
+            }else{
+                return true;
+            }
+      }
   }
 
   /**
@@ -697,7 +697,7 @@ class visiteurActions extends autovisiteurActions
    *
    * @param   string   $payload  A payload string
    */
-  public function validateCreateAnonymous($payload, $params)
+  public function validateCreateAnonymous($params)
   {
     $validators = $this->getCreateAnonymousValidators();
     $this->validate($params, $validators);
@@ -708,7 +708,7 @@ class visiteurActions extends autovisiteurActions
    *
    * @param   string   $payload  A payload string
    */
-  public function validateCreate($payload, $params)
+  public function validateCreate($params)
   {
     $validators = $this->getCreateValidators();
     $this->validate($params, $validators);
@@ -719,9 +719,9 @@ class visiteurActions extends autovisiteurActions
    *
    * @param   string   $payload  A payload string
    */
-  public function validateCreateFacebook($payload, $params)
+  public function validateCreateSocialOAuth($params)
   {
-    $validators = $this->getCreateFacebookValidators();
+    $validators = $this->getCreateSocialOAuthValidators();
     $this->validate($params, $validators);
   }
 
@@ -748,8 +748,10 @@ class visiteurActions extends autovisiteurActions
       'genre' => new sfValidatorString(array('max_length' => 10, 'required' => false)),
       'date_naissance' => new sfValidatorDate(array('required' => false)),
       'adresse' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'adresse2' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'code_postal' => new sfValidatorString(array('max_length' => 10, 'required' => false)),
       'ville' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'pays ' => new sfValidatorString(array('max_length' => 128, 'required' => false)),
       'prenom' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'nom' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'csp_id' => new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('Visiteur')->getRelation('Csp')->getAlias(), 'required' => false)),
@@ -761,11 +763,12 @@ class visiteurActions extends autovisiteurActions
       'twitter_id' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'flickr_id' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'dailymotion_id' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'biographie' => new sfValidatorString(array('max_length' => 25500, 'required' => false)),
       'is_anonyme' => new sfValidatorBoolean(array('required' => false)),
       'is_active' => new sfValidatorBoolean(array('required' => false)),
       'is_tosync' => new sfValidatorBoolean(array('required' => false)),
       'has_newsletter' => new sfValidatorBoolean(array('required' => false)),
-      'preference_media_id' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'preference_media_id' => new sfValidatorString(array('max_length' => 255, 'required' => false))
     );
   }
 
@@ -773,7 +776,7 @@ class visiteurActions extends autovisiteurActions
    * Returns the list of validators for a create request.
    * @return  array  an array of validators
    */
-  public function getCreateFacebookValidators()
+  public function getCreateSocialOAuthValidators()
   {
     return array(
       'password_son' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
@@ -785,24 +788,27 @@ class visiteurActions extends autovisiteurActions
       'genre' => new sfValidatorString(array('max_length' => 10, 'required' => false)),
       'date_naissance' => new sfValidatorDate(array('required' => false)),
       'adresse' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'adresse2' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'code_postal' => new sfValidatorString(array('max_length' => 10, 'required' => false)),
       'ville' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'pays' => new sfValidatorString(array('max_length' => 128, 'required' => false)),
       'prenom' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'nom' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'csp_id' => new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('Visiteur')->getRelation('Csp')->getAlias(), 'required' => false)),
       'pseudo_son' => new sfValidatorString(array('max_length' => 255, 'required' => true)),
       'url_avatar' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'num_mobile' => new sfValidatorString(array('max_length' => 64, 'required' => false)),
-      'facebook_id' => new sfValidatorString(array('max_length' => 255, 'required' => true)),
+      'facebook_id' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'google_id' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'twitter_id' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'flickr_id' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'dailymotion_id' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'biographie' => new sfValidatorString(array('max_length' => 25500, 'required' => false)),
       'is_anonyme' => new sfValidatorBoolean(array('required' => false)),
       'is_active' => new sfValidatorBoolean(array('required' => false)),
       'is_tosync' => new sfValidatorBoolean(array('required' => false)),
       'has_newsletter' => new sfValidatorBoolean(array('required' => false)),
-      'facebook_photo' =>  new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'social_url_photo' => new sfValidatorString(array('max_length' => 255, 'required' => false))
     );
   }
 
@@ -823,11 +829,13 @@ class visiteurActions extends autovisiteurActions
       'genre' => new sfValidatorString(array('max_length' => 10, 'required' => false)),
       'date_naissance' => new sfValidatorDate(array('required' => false)),
       'adresse' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'adresse2' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'code_postal' => new sfValidatorString(array('max_length' => 10, 'required' => false)),
       'ville' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'pays' => new sfValidatorString(array('max_length' => 128, 'required' => false)),
       'prenom' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'nom' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
-      'csp_id' => new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('Visiteur')->getRelation('Csp')->getAlias(), 'required' => false)),
+        'csp_id' => new sfValidatorDoctrineChoice(array('model' => Doctrine_Core::getTable('Visiteur')->getRelation('Csp')->getAlias(), 'required' => false)),
       'pseudo_son' => new sfValidatorString(array('max_length' => 255, 'required' => true)),
       'url_avatar' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'num_mobile' => new sfValidatorString(array('max_length' => 64, 'required' => false)),
@@ -836,6 +844,7 @@ class visiteurActions extends autovisiteurActions
       'twitter_id' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'flickr_id' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'dailymotion_id' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'biographie' => new sfValidatorString(array('max_length' => 25500, 'required' => false)),
       'is_anonyme' => new sfValidatorBoolean(array('required' => false)),
       'has_newsletter' => new sfValidatorBoolean(array('required' => false)),
       'is_active' => new sfValidatorBoolean(array('required' => false)),
@@ -982,19 +991,6 @@ class visiteurActions extends autovisiteurActions
                 return sfView::SUCCESS;
             }
         }
-        /*
-        if(isset($parameters['password_son']) && isset($parameters['pseudo_son'])){
-            $visiteur = Doctrine::getTable('Visiteur')->isUpdatePseudoAndPasswordUnique($parameters['guid'], $parameters['pseudo_son'], md5($parameters['password_son']));
-            if ($visiteur)
-            {
-                $this->getResponse()->setStatusCode(406);
-                $result = array(array('message' => sprintf('visitor already exist %s : %s ', $parameters['password_son'], $parameters['pseudo_son']), 'code' => 'E_VISITEUR_01'));
-                $this->output = $serializer->serialize($result, 'error');
-                return sfView::SUCCESS;
-            }
-        }
-        */
-
     }
     catch (Exception $e)
     {
@@ -1045,15 +1041,20 @@ class visiteurActions extends autovisiteurActions
 
       if(($is_new || $this->is_anonyme_converted == true) && $this->object->getEmail() != ''){
 
-          //die($this->getPartial('newVisiteur', array("password" => $this->clear_password, "pseudo" => $this->object->getPseudoSon(), "email" => $this->object->getEmail())));
-
-          $message = new ApiCreateVisiteurMessage($this->getPartial('newVisiteur', array("password" => $this->clear_password, "pseudo" => $this->object->getPseudoSon(), "email" => $this->object->getEmail())));
-          $message->setTo($this->object->getEmail());
-
-          $this->getMailer()->send($message);
+          $template = Doctrine_Query::create()
+              ->from('TemplateMail t')
+              ->where('t.key_search = ?', 'new_visiteur')
+              ->fetchOne();
+          if($template !== false){
+              $array_replace = array(
+                  '$pseudo' => $this->object->getPseudoSon(),
+                  '$password' => $this->clear_password,
+                  '$host_image_src' => sfConfig::get('app_host_image_src'),
+                  '$email' => $this->object->getEmail()
+              );
+              $template->sendEmail($this->object->getEmail(), $array_replace);
+          }
       }
-
-
 
     $this->getRequest()->setParameter('guid', $this->object->getGuid());
     $this->getRequest()->setMethod("GET");
@@ -1154,9 +1155,56 @@ class visiteurActions extends autovisiteurActions
     }
 
     $this->queryExecute($params);
+
     foreach($this->objects as &$objects){
         if($objects['has_photo'] != true){
             $objects['has_photo'] = false;
+        }
+
+        if($objects['date_naissance'] == '0000-00-00'){
+            $objects['date_naissance'] = '';
+        }
+        //unset($objects['VisiteurMedaille']);
+        if($request->getParameter('with_univers', '0') == '1'){
+            $objects['VisiteurUnivers'] = VisiteurTable::getMedaillesByUnivers($objects['guid']);
+        }
+        // XP
+        if($request->getParameter('with_xp', '0') == '1'){
+            $objects['Xp'] = Doctrine_Query::create()
+                ->select('xp.score, xp.typologie_id, typo.libelle, xp.updated_at')
+                ->from('Xp xp')
+                ->leftJoin('xp.Typologie typo')
+                ->where('xp.visiteur_id = ?',$objects['guid'])
+                ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+        }
+
+        if($request->getParameter('with_lastLogVisite', '0') == '1'){
+
+            $logVisite = Doctrine_Query::create()
+                ->from('LogVisite lv')
+                ->where('lv.visiteur_id = ?',$objects['guid'])
+                ->limit(1)
+                ->orderBy('lv.created_at desc')
+                ->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
+            unset($logVisite['updated_at'], $logVisite['is_tosync']);
+            $objects['LastLogVisite'] = $logVisite;
+
+            if($logVisite){
+                if(isset($logVisite['exposition_id']) && $logVisite['exposition_id'] != null){
+                    $last_univers = Doctrine_Query::create()
+                        ->select('e.univers_id')
+                        ->from('Exposition e')
+                        ->where('e.guid = ?', $logVisite['exposition_id'])
+                        ->limit(1)
+                        ->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
+                    $last_univers = $last_univers['univers_id'];
+                }else{
+                    $last_univers = sfConfig::get('app_cyou_univers_id', 'CE81341D20E16C61E60DB52BF5F466D1');
+                }
+
+                $objects['last_visited_univers_id'] = $last_univers;
+            }
+
         }
     }
 
@@ -1221,37 +1269,6 @@ class visiteurActions extends autovisiteurActions
     }
     return sfView::SUCCESS;
   }
-  
-  /**
-   * Manages the visibility of fields in record collections and in relations.
-   * This method will hide some fields, based on the configuration file
-   *
-   * @return  void
-   */
-  protected function setFieldVisibility()
-  {
-    foreach ($this->objects as $i => $object)
-    {
-      unset(
-        $this->objects[$i]['is_tosync'],
-        $this->objects[$i]['Contexte']['is_tosync'],
-        $this->objects[$i]['Langue']['is_tosync'],
-        $this->objects[$i]['Langue']['updated_at'],
-        $this->objects[$i]['Langue']['created_at']
-      );
-      if(isset($this->objects[$i]['PreferenceMediaVisiteur']))
-      {
-        foreach($this->objects[$i]['PreferenceMediaVisiteur'] as $a => $object2)
-        {
-          if(isset($this->objects[$i]['PreferenceMediaVisiteur'][$a]['is_tosync']))
-          {
-            unset($this->objects[$i]['PreferenceMediaVisiteur'][$a]['is_tosync']);
-          }
-        }
-      }
-    }
-  }
-
 
   /**
    * Returns the list of validators for a get request.
@@ -1337,5 +1354,4 @@ class visiteurActions extends autovisiteurActions
     $this->getResponse()->setContentType($serializer->getContentType());
     $this->output = $serializer->serialize($visiteur->getNeeds($needs));
   }
-
 }

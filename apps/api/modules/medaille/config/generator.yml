@@ -14,9 +14,10 @@ generator:
 #        additional_params:             []      # list here additionnal params names, which are not object properties
 #        default_format:                json    # the default format of the response. If not set, will default to json. accepted values are "json", "xml" or "yaml"
 #        display:                       []      # list here the fields to render in the response
-#        embed_relations:               []      # list here relations to embed in the response
-#        embedded_relations_hide:
-#          Category:                    [id]    # you can hide fields inside a certain embedded relation
+        embed_relations:               [Exposition, Interactif]      # list here relations to embed in the response
+        embedded_relations_hide:
+          Exposition:                    [theme_id,contexte_id,organisateur_editeur_id,organisateur_diffuseur_id,latitude,longitude,publics,langues,url_studio,start_at,end_at,is_tosync, updated_at, created_at]    # you can hide fields inside a certain embedded relation
+          Interactif:                    [categorie,source_type,version,editeur,publics,date_diff,explications_resultats,score, url_fichier_interactif,url_pierre_de_rosette,url_illustration, url_interactif_type,url_interactif_choice,url_visiteur_type,url_start_at,url_start_at_type,url_end_at,url_end_at_type,refresh_deploiement,is_visiteur_needed,is_logvisite_needed,is_logvisite_verbose_needed,is_parcours_needed, ordre, is_tosync, updated_at, created_at]
 #        global_additional_fields:      []      # list here additionnal calculated global fields
         hide:                          [is_tosync]    # list here the fields you don't want to expose
 #        max_items:                     0       # uncomment to fix an absolute limit to the number of items in the response
@@ -28,3 +29,4 @@ generator:
 #        sort_default:                  []      # set to [column, asc|desc] in order to sort on a column
 #        filters:                               # list here the filters
 #          created_at:                  { date_format: 'd-m-Y', multiple: true }  # for instance
+

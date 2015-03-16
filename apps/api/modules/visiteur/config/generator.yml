@@ -11,14 +11,20 @@ generator:
 #        formats_strict:                true
 #        separator:                     ','     # separator used for multiple filters
       get:
-#        additional_params:             []      # list here additionnal params names, which are not object properties
+        additional_params:             [with_lastLogVisite, with_xp, with_univers, social_url_photo]      # list here additionnal params names, which are not object properties
 #        default_format:                xml    # the default format of the response. If not set, will default to json. accepted values are "json", "xml" or "yaml"
 #        display:                       []      # list here the fields to render in the response
         embed_relations:               [PreferenceMediaVisiteur, Contexte, Langue]      # list here relations to embed in the response
-#        embedded_relations_hide:
+        embedded_relations_hide:
+#          Langue:      [is_tosync, created_at, updated_at]
+#          Contexte:      [is_tosync, created_at, updated_at]
+#          PreferenceMediaVisiteur:  [is_tosync, created_at, updated_at]
+#          VisiteurMedaille:         [guid, is_tosync, created_at, updated_at, visiteur_id]
+#          VisiteurUniversStatus:    [is_tosync, created_at, updated_at]
+#          VisiteurUniversGain:      [is_tosync, created_at, updated_at]
 #          Category:                    [id]    # you can hide fields inside a certain embedded relation
 #        global_additional_fields:      []      # list here additionnal calculated global fields
-        hide:                          [is_tosync]    # list here the fields you don't want to expose
+        hide:                          [ contexte_creation_id, langue_id, is_tosync ]    # list here the fields you don't want to expose
 #        max_items:                     0       # uncomment to fix an absolute limit to the number of items in the response
 #        object_additional_fields:      []      # list here additionnal calculated fields
 #        pagination_enabled:            false   # set to true to activate the pagination
