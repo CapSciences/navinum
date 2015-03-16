@@ -62,6 +62,19 @@ class Interactif extends BaseInteractif
     if($this->isNew())
     {
       $this->createDataFolder();
+        if($this->getGuid() == null && $this->getLibelle() != ''){
+            $this->setGuid(Guid::generate());
+            /*
+            if($this->getLibelle() == ''){
+                $referer = $_SERVER["HTTP_REFERER"];
+                $request = ($_SERVER['REQUEST_URI']);
+                $get = print_r($_GET, true);
+                $post = print_r($_POST, true);
+                //die("referer=".$referer."\n<br/>"."request=".$request."\n<br/>"."get=".$get."\n<br/>"."post=".$post);
+                mail('sredeuil@clever-age.com;s.etheve@cap-sciences.net', '[SERVERVIP] interactif null', "referer=".$referer."\n<br/>"."request=".$request."get=".$get."\n<br/>"."post=".$post);
+            }
+            */
+        }
     }
 
     $this->setIsTosync(1);
@@ -92,12 +105,12 @@ class Interactif extends BaseInteractif
         $finder->follow_link();
         $dirs = array();
         $visiteur_id = '';
-        $path = '/' . $interactif_id . '/' . $visiteur_id_param;
+        $path = '/' . $interactif_id . '/';
         //die($sf_root_dir.$path);
         $cpt_offset = 0;
         $cpt_page_size = 0;
         $old_visiteur = '';
-        foreach($finder->in($sf_root_dir.$path) as $file) {
+        foreach($finder->in($sf_root_dir.$path.'/'.$visiteur_id_param) as $file) {
             //echo 'search in '. $file;
 
             if(is_file($file)) {
@@ -138,8 +151,8 @@ class Interactif extends BaseInteractif
                         $filename = $split[1];
 
                         if($filename == '.DS_Store')continue;
-
-                        $result = array("url" => $host_url . $path. '/' . $visiteur_id. '/' . $filename, "creation_date" => date("Y-m-d H:i:s", filemtime($file)));
+                        $url_path = str_replace('//', '/', $path. '/' . $visiteur_id. '/' . $filename);
+                        $result = array("url" => $host_url . $url_path, "creation_date" => date("Y-m-d H:i:s", filemtime($file)));
 
                         $dirs["visiteurs"][$visiteur_id][] = array_merge($visiteur, $result);
                     }

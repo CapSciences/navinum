@@ -24,4 +24,50 @@ class ParcoursForm extends BaseParcoursForm
       $this->widgetSchema->setHelp('libelle','<b>Attention :</b> le parcours ne sera visible dans le listing que pendant 8h après l\'enregistrement. Il sera définitivement visible une fois attaché à une exposition.');
     }
   }
+
+
+    public function saveInteractifList($con = null)
+    {
+        if (!$this->isValid())
+        {
+            throw $this->getErrorSchema();
+        }
+
+        if (!isset($this->widgetSchema['interactif_list']))
+        {
+            // somebody has unset this widget
+            return;
+        }
+
+        if (null === $con)
+        {
+            $con = $this->getConnection();
+        }
+
+        $existing = $this->object->Interactif->getPrimaryKeys();
+        $values = $this->getValue('interactif_list');
+        if (!is_array($values))
+        {
+            $values = array();
+        }
+
+        $unlink = array_diff($existing, $values);
+        if (count($unlink))
+        {
+            $this->object->unlink('Interactif', array_values($unlink));
+
+            // trace for synchro
+            $delete_log = new DeleteLog();
+            $delete_log->setGuid(Guid::generate());
+            $delete_log->setExtra('parcours_id: "'. $this->getObject()->getGuid() . '"|interactif_id: "'. implode('", "', array_values($unlink)).'"');
+            $delete_log->setModelName('ParcoursInteractif');
+            $delete_log->save();
+        }
+
+        $link = array_diff($values, $existing);
+        if (count($link))
+        {
+            $this->object->link('Interactif', array_values($link));
+        }
+    }
 }

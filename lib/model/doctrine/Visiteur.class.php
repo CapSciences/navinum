@@ -12,6 +12,7 @@
  */
 class Visiteur extends BaseVisiteur
 {
+
   public function  __toString() {
     return $this->getPseudoSon() ? $this->getPseudoSon() : '';
   }
@@ -113,13 +114,13 @@ class Visiteur extends BaseVisiteur
         $finder = new sfFinder;
         $dirs = array();
         $interactif_id = '';
-        $path = '/' . $visiteur_id . '/' . $interactif_id_param;
+        $path = '/' . $visiteur_id . '/';
         //die($sf_root_dir.$path);
 
         $cpt_offset = 0;
         $cpt_page_size = 0;
         $old_interactif = '';
-        foreach($finder->in($sf_root_dir.$path) as $file) {
+        foreach($finder->in($sf_root_dir.$path.'/'.$interactif_id_param) as $file) {
             //echo 'search in '. $file;
             if(is_file($file)) {
                 //echo $file .' == ' . filectime($file) .'<br>';
@@ -147,7 +148,9 @@ class Visiteur extends BaseVisiteur
 
                         if($filename == '.DS_Store')continue;
 
-                        $result = array("url" => $host_url . $path. '/' . $interactif_id. '/' . $filename, "creation_date" => date("Y-m-d H:i:s", filemtime($file)));
+                        $url_path = str_replace('//', '/', $path. '/' . $interactif_id. '/' . $filename);
+
+                        $result = array("url" => $host_url . $url_path, "creation_date" => date("Y-m-d H:i:s", filemtime($file)));
 
 
                         $interactif = array();
@@ -189,13 +192,93 @@ class Visiteur extends BaseVisiteur
         return file_get_contents($this->getVisiteurDataPath().$path);
     }
 
+    public function deleteActionFromCreateAnonymousVisiteur(){
+        $visiteur_createdAt_from = $this->get('created_at');
+        $visiteur_createdAt_to = date('Y-m-d H:i:s', strtotime('+10 seconds', strototime($visiteur_createdAt_from)));
+
+        $univers_id = sfConfig::get('app_cyou_univers_id', 'CE81341D20E16C61E60DB52BF5F466D1');
+
+        $univers_status =  Doctrine_Core::getTable('UniversStatus')
+            ->createQuery('us')
+            ->where('us.univers_id = ?', $univers_id)
+            ->orderBy('level asc')
+            ->limit(1)
+            ->fetchOne();
+
+        if($univers_status !== false && $univers_status->getGuid() !== null){
+            VisiteurUniversStatusGainTable::getInstance()
+                ->andWhere('univers_id = ?', $univers_id)
+                ->andWhere('visiteur_id = ?', $this->getGuid())
+                ->andWhere('univers_status_id = ?', $univers_status->getGuid())
+                ->andWhere('created_at >= ?', $visiteur_createdAt_from)
+                ->andWhere('created_at <= ?', $visiteur_createdAt_to)
+                ->delete();
+
+            LogVisiteTable::getInstance()
+                ->andWhere('visiteur_id = ?', $this->getGuid())
+                ->andWhere('created_at >= ?', $visiteur_createdAt_from)
+                ->andWhere('created_at <= ?', $visiteur_createdAt_to)
+                ->delete();
+
+            XpTable::getInstance()
+                ->andWhere('visiteur_id = ?', $this->getGuid())
+                ->andWhere('created_at >= ?', $visiteur_createdAt_from)
+                ->andWhere('created_at <= ?', $visiteur_createdAt_to)
+                ->delete();
+        }
+    }
+
+    public function setFirstUniversStatus(){
+        if($univers_id = sfConfig::get('app_cyou_univers_id', 'CE81341D20E16C61E60DB52BF5F466D1')){
+            // medaille first medaille to insert
+            $first_medaille = Doctrine_Core::getTable('UniversMedaille')
+                ->createQuery('um')
+                ->select('um.medaille_id')
+                ->leftJoin('um.Medaille m')
+                ->where('um.univers_id = ?', $univers_id)
+                ->andWhere('m.is_first_medaille = 1')
+                ->limit(1)
+                ->fetchOne();
+            if($first_medaille !== false && $first_medaille->getMedailleId() !== null){
+                // insert visiteur medaille
+                VisiteurMedailleTable::createVisiteurMedaille($this->getGuid(), $first_medaille->getMedailleId(), $univers_id, $this->getContexteCreationId());
+
+                $univers_status =  Doctrine_Core::getTable('UniversStatus')
+                    ->createQuery('us')
+                    ->where('us.univers_id = ?', $univers_id)
+                    ->orderBy('level asc')
+                    ->limit(1)
+                    ->fetchOne();
+
+                if($univers_status !== false && $univers_status->getGuid() !== null){
+                    $gain_id = null;
+                    $expiration_days = 0;
+                    if($univers_status->getGainId() != null){
+                        $gain_id = $univers_status->getGainId();
+                        $expiration_days = $univers_status->getGain()->getExpirationDays();
+                    }
+
+                    VisiteurUniversStatusGainTable::setNewVisiteurUniversStatus($univers_status->getGuid(), $univers_id, $this->getGuid(), $gain_id, $expiration_days, $this->getContexteCreationId());
+                    //LogVisiteTable::createLogVisite($this->getGuid(), '999', $this->getContexteCreationId());
+                    XpTable::createXp(XpTable::TYPO_CONNAISSANCE, $this->getGuid(), '333');
+                    XpTable::createXp(XpTable::TYPO_PLAISIR, $this->getGuid(), '333');
+                    XpTable::createXp(XpTable::TYPO_ECHANGE, $this->getGuid(), '333');
+
+
+                }
+            }
+        }
+    }
 
   public function save(Doctrine_Connection $conn = null)
   {
+      $is_new = 0;
     if($this->isNew())
     {
-      $this->createDataFolder();
+        $this->createDataFolder();
+        $is_new = 1;
     }
+      //die((bool) $is_new);
       if($this->getHasPhoto() == 1){
           $avatar = 'http://'.sfConfig::get('app_front_url') . '/visiteur/'.$this->getGuid().'/photo.jpg';
           $this->setUrlAvatar($avatar);
@@ -207,6 +290,11 @@ class Visiteur extends BaseVisiteur
 
     $this->setIsTosync(1);
     parent::save($conn);
+    if($is_new === 1){
+        // Affectation de l'univers CYou au nouveau visiteur
+        $this->setFirstUniversStatus();
+    }
+
   }
 
   public function  delete(Doctrine_Connection $conn = null)
@@ -224,7 +312,7 @@ class Visiteur extends BaseVisiteur
     @$fileSystem->remove($this->getVisiteurDataPath());
   }
 
-  public function createAnonymous($context_creation_id)
+  public function createAnonymous($context_creation_id = null)
   {
     $this->setGuid(Guid::generate());
     $this->setIsAnonyme(1);
@@ -288,4 +376,6 @@ class Visiteur extends BaseVisiteur
 
     return $score_total;
   }
+
+
 }

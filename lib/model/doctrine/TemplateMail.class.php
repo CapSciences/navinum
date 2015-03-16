@@ -13,7 +13,7 @@
 class TemplateMail extends BaseTemplateMail
 {
   public function  __toString() {
-    return $this->getLibelle() ? $this->getLibelle() : '';
+    return $this->getKeySearch() ? $this->getKeySearch() : '';
   }
 
   public function __call($method, $arguments)
@@ -34,7 +34,7 @@ class TemplateMail extends BaseTemplateMail
     parent::save($conn);
   }
 
-  public function  delete(Doctrine_Connection $conn = null)
+  public function delete(Doctrine_Connection $conn = null)
   {
     $guid = $this->getGuid();
 
@@ -45,5 +45,27 @@ class TemplateMail extends BaseTemplateMail
     $delete_log->setModelName(get_class($this));
     $delete_log->save();
   }
+
+    public function sendEmail($email_to, $array_replace = array()){
+
+        $template = $this;
+        $subject = '';
+        $body = '';
+        if($template){
+            $subject = $template->getSubject();
+            $body = $template->getContent();
+        }
+
+        foreach($array_replace as $key => $replace){
+            $subject = str_replace($key, $replace, $subject);
+            $body = str_replace($key, $replace, $body);
+        }
+
+        $message = new ApiCreateVisiteurMessage($subject, $body);
+        $message->setTo($email_to);
+
+        sfContext::getInstance()->getMailer()->send($message);
+    }
+
 
 }

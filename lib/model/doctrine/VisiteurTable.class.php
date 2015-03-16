@@ -67,9 +67,65 @@ class VisiteurTable extends Doctrine_Table
             ->select('guid')
             ->where('pseudo_son = ?', $pseudo)
             ->andWhere('guid != ?', $guid)
+            ->andWhere('is_anonyme = 0')
             ->execute(array(), Doctrine::HYDRATE_ARRAY);
 
         return $results;
+    }
+
+    public static function getMedaillesByUnivers($visiteur_id){
+        $univers_array = array();
+        $medailles = Doctrine_Query::create()
+            ->from('VisiteurMedaille VisiteurMedaille')
+            ->leftJoin('VisiteurMedaille.Medaille Medaille')
+            ->leftJoin('Medaille.Univers Univers')
+            ->where('VisiteurMedaille.visiteur_id = ?',$visiteur_id)
+            ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+
+        foreach($medailles as $medaille){
+            foreach($medaille['Medaille']['Univers'] as $univers){
+                $univers_id = $univers['guid'];
+                if(!isset($univers_array[$univers_id]['guid'])){
+                    $univers_array[$univers_id] = array();
+                    $univers_array[$univers_id]['guid'] = $univers['guid'];
+                    $univers_array[$univers_id]['libelle'] = $univers['libelle'];
+                    $univers_array[$univers_id]['Medailles'] = array();
+                }
+
+                if(!in_array($medaille['Medaille']['guid'], $univers_array[$univers_id]['Medailles'])){
+                    $univers_array[$univers_id]['Medailles'][] = $medaille['Medaille']['guid'];
+                }
+
+                $visiteur_status = Doctrine_Query::create()
+                    ->from('VisiteurUniversStatusGain vusg')
+                    ->leftJoin('vusg.UniversStatus UniversStatus')
+                    ->leftJoin('vusg.Gain Gain')
+                    ->where('vusg.univers_id = ?',$univers_id)
+                    ->andWhere('vusg.visiteur_id = ?', $visiteur_id)
+                    ->orderBy('vusg.created_at desc')
+                    ->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+
+                foreach($visiteur_status as &$vs){
+                    if(isset($vs['UniversStatus']['image1']) && $vs['UniversStatus']['image1'] != ''){
+                        $vs['UniversStatus']['image1'] = 'http://'. sfConfig::get('app_front_url') . '/univers_status/'.$vs['UniversStatus']['image1'];
+                    }
+                    if(isset($vs['UniversStatus']['image2']) && $vs['UniversStatus']['image2'] != ''){
+                        $vs['UniversStatus']['image2'] = 'http://'. sfConfig::get('app_front_url') . '/univers_status/'.$vs['UniversStatus']['image2'];
+                    }
+                    if(isset($vs['UniversStatus']['image3']) && $vs['UniversStatus']['image3'] != ''){
+                        $vs['UniversStatus']['image3'] = 'http://'. sfConfig::get('app_front_url') . '/univers_status/'.$vs['UniversStatus']['image3'];
+                    }
+
+                    if(isset($vs['Gain']['image']) && $vs['Gain']['image'] != ''){
+                        $vs['Gain']['image'] = 'http://'. sfConfig::get('app_front_url') . '/gain/'.$vs['Gain']['image'];
+                    }
+                }
+
+                unset($visiteur_status['guid'], $visiteur_status['visiteur_id'], $visiteur_status['univers_id'], $visiteur_status['univers_status_id'], $visiteur_status['updated_at'], $visiteur_status['gain_id'], $visiteur_status['is_tosync']);
+                $univers_array[$univers_id]['VisiteurStatus'] = $visiteur_status;
+            }
+        }
+        return $univers_array;
     }
 
 

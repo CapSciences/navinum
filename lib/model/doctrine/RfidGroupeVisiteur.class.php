@@ -30,14 +30,18 @@ class RfidGroupeVisiteur extends BaseRfidGroupeVisiteur
 
 	        foreach($rfids as $rfid)
 	        {
+
 	            $visiteur = new Visiteur();
 	            $visiteur = $visiteur->createAnonymous($contexte_creation_id);
               $visiteur->save();
-	            //$collectionVisiteur->add($visiteur);
+
+
+                //$collectionVisiteur->add($visiteur);
 
               $visite = new Visite();
               $visite->setGuid(Guid::generate());
               $visite->setGroupeId($this->guid);
+              $visite->setNavinumId($rfid['uid']);
               $visite->setVisiteurId($visiteur->getGuid());
               $visite->save();
               //$collectionVisite->add($visite);
@@ -67,6 +71,12 @@ class RfidGroupeVisiteur extends BaseRfidGroupeVisiteur
       return parent::__call($method, $arguments);
     }
   }
+
+    public function save(Doctrine_Connection $conn = null)
+    {
+        $this->setIsTosync(1);
+        parent::save($conn);
+    }
 
   public function  delete(Doctrine_Connection $conn = null)
   {

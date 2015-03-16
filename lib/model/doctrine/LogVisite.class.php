@@ -86,7 +86,8 @@ class LogVisite extends BaseLogVisite
   public function save(Doctrine_Connection $conn = null)
   {
     $this->setIsTosync(1);
-    if($this->getInteractif() != null)
+
+    if($this->getInteractifId() != null && $this->getInteractif()->getGuid() != '' && $this->getInteractif()->getLibelle())
     {
       $this->setInteractifLibelle($this->getInteractif()->getLibelle());
     }

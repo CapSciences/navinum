@@ -7,6 +7,10 @@
  */
 class XpTable extends Doctrine_Table
 {
+    const TYPO_CONNAISSANCE = '2F66F8436F2EB1D2FD49EF34C557B835';
+    const TYPO_ECHANGE      = '9699EAD098F2D2EDFE8A5F0C41F5992B';
+    const TYPO_PLAISIR      = '3A784B8D7113FDBEBD15391A54CC2F32';
+
     /**
      * Returns an instance of this class.
      *
@@ -35,6 +39,16 @@ class XpTable extends Doctrine_Table
           ->from('Xp xp')->execute(array($typologie_id, $visiteur_id), Doctrine::HYDRATE_ARRAY);
 
         return $res[0]['total'];
+    }
+
+    public static function createXp($typologie_id, $visiteur_id, $score){
+        $xp = new Xp();
+        $xp->setGuid(Guid::generate());
+        $xp->setTypologieId($typologie_id);
+        $xp->setScore($score);
+        $xp->setVisiteurId($visiteur_id);
+        $xp->save();
+        return $xp->getGuid();
     }
 
 }

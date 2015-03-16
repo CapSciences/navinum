@@ -77,6 +77,31 @@ class LogVisiteTable extends Doctrine_Table
 
     }
 
+    public static function createLogVisite($visiteur_id, $score, $contexte_id, $visite_id = null, $interactif_id = null, $exposition_id = null)
+    {
+        $log_visite = new LogVisite();
+        $log_visite->setGuid(Guid::generate());
+        $log_visite->setVisiteurId($visiteur_id);
+        $log_visite->setContexteId($contexte_id);
+        if($interactif_id != null){
+            $log_visite->setInteractifId($interactif_id);
+        }else{
+            $log_visite->setInteractif(null);
+            $log_visite->setInteractifId(null);
+        }
+        if($visite_id != null){
+            $log_visite->setVisiteId($visite_id);
+        }
+        if($exposition_id != null){
+            $log_visite->setExpositionId($exposition_id);
+        }
+        $log_visite->setScore($score);
+        $log_visite->save();
+
+        return $log_visite->getGuid();
+
+    }
+
 
 
 }

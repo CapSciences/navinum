@@ -15,7 +15,7 @@ class TemplateMailFormFilter extends BaseTemplateMailFormFilter
 	unset($this["is_tosync"]);
 	/*unset($this["updated_at"]);
 	unset($this["created_at"]);*/
-	$this->getWidget('libelle')->setOption('with_empty', false);
-	$this->getWidget('contenu')->setOption('with_empty', false);
+	$this->getWidget('subject')->setOption('with_empty', false);
+	$this->getWidget('content')->setOption('with_empty', false);
   }
 }

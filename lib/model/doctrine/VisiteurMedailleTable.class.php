@@ -16,4 +16,15 @@ class VisiteurMedailleTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('VisiteurMedaille');
     }
+
+    public static function createVisiteurMedaille($visiteur_id, $medaille_id, $univers_id, $contexte_id){
+        $new_visiteur_medaille = new VisiteurMedaille();
+        $new_visiteur_medaille->setGuid(Guid::generate());
+        $new_visiteur_medaille->setVisiteurId($visiteur_id);
+        $new_visiteur_medaille->setUniversId($univers_id);
+        $new_visiteur_medaille->setMedailleId($medaille_id);
+        $new_visiteur_medaille->setContexteId($contexte_id);
+        $new_visiteur_medaille->save();
+        return $new_visiteur_medaille->getGuid();
+    }
 }

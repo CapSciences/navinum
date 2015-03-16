@@ -12,4 +12,5 @@
  */
 class SentMessage extends BaseSentMessage
 {
+
 }

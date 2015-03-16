@@ -35,11 +35,12 @@ class VisiteurMedaille extends BaseVisiteurMedaille
     parent::save($conn);
   }
 
-  public function hasAlreadyMedaille($connection = "insitu")
+  public function hasAlreadyMedaille($univers_id, $contexte_id)
   {
     if($this->getMedaille())
   	{
-  		$isUnique = $this->getMedaille()->getIsUnique();
+        $isUnique = $this->getMedaille()->getIsUnique();
+
   		if($isUnique == true)
   		{
         $visiteur_id = is_null($this->getVisiteurId()) ? $this->getVisiteur()->getGuid() : $this->getVisiteurId();
@@ -49,9 +50,9 @@ class VisiteurMedaille extends BaseVisiteurMedaille
 		    	->from("VisiteurMedaille vm")
 			    ->select("count(*) as isUnique")
 		    	->where("vm.visiteur_id = ?", $visiteur_id)
-                ->andWhere('vm.connection = ?', $connection)
-          ->andWhere("vm.medaille_id = ? ", $medaille_id);
-		    $resultat = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
+                ->andWhere("vm.medaille_id = ? ", $medaille_id);
+
+            $resultat = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
 
 		    if($resultat[0]["isUnique"] > 0)
 		    	return true;

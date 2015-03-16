@@ -19,5 +19,9 @@ class MedailleFormFilter extends BaseMedailleFormFilter
 	$this->getWidget('image')->setOption('with_empty', false);
 	$this->getWidget('description')->setOption('with_empty', false);
 	$this->getWidget('condition_obtention')->setOption('with_empty', false);
+    $this->getWidget('univers_list')->setOption('multiple', false);
+    $this->getWidget('univers_list')->setOption('add_empty', true);
+    $this->getValidator('univers_list')->setOption('multiple', false);
   }
+
 }
