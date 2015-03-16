@@ -9,15 +9,35 @@ all:
   send_pseudo_subject: 'Votre pseudo'
   host_image_src: 'http://your-server/mail'
 
+
+
+
 prod:
+
 ### send sms with a clickatell service
   service_sms:
     allowed:    false
+
+
+
+
+
+
     username:   yourusername
     password:   yourpassword
     api:        12345
 
+  gain:
+    admin_email: youmail@yourdomain.com
+	
 dev:
   service_sms:
     allowed:  false
+
+
+
+
+
+
+
 
