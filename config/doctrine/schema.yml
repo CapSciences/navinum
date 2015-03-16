@@ -39,16 +39,15 @@ RfidGroupeVisiteur:
     caRulerzNotifier:  
   columns:
     guid:                      { type: string(255), notnull: true, primary: true }
-    nom:                       { type: string(255), notnull: true}
+    nom:                       { type: string(255), notnull: true }
     rfid_groupe_id:            { type: string(255), notnull: true }
-    #langue_id:                 { type: string(255), notnull: true }
     langue_id:                 { type: string(255), notnull: true }
     email:                     { type: string(255), default: null, email: true }
     csp_id:                    { type: string(255), default: null }
-    genre:                     string(10)                                            # homme femme   
-    age:                       integer(4)
-    code_postal:               integer(4)
-    commentaire:               clob
+    genre:                     { type: string(10), default: null }                                            # homme femme
+    age:                       { type: integer(4), default: null }
+    code_postal:               { type: integer(4), default: null }
+    commentaire:               { type: clob, default: null }
     is_tosync:                 { type: boolean, default: 1 }
   relations:
     RfidGroupe:                { class: RfidGroupe, local: rfid_groupe_id, foreign: guid}
@@ -105,8 +104,10 @@ Visiteur:
     genre:                     string(10)                                            # homme femme
     date_naissance:            { type: date, default: null }
     adresse:                   string(255)
+    adresse2:                  string(255)
     code_postal:               string(10)
     ville:                     string(255)
+    pays:                      string(128)
     prenom:                    string(255)
     nom:                       string(255)
     pseudo_son:                { type: string(255), default: null}
@@ -118,13 +119,14 @@ Visiteur:
     twitter_id:                string(255)
     flickr_id:                 string(255)
     dailymotion_id:            string(255)
+    biographie:                { type: clob }
     is_anonyme:                boolean
     csp_id:                    { type: string(255), default: null }
     is_active:                 { type: boolean, default: 1 }
     is_tosync:                 { type: boolean, default: 1 }
   relations:
     Contexte:                  { class: Contexte, local: contexte_creation_id, foreign: guid, onDelete: SET NULL }
-    PreferenceMedia:            { refClass: PreferenceMediaVisiteur, class: PreferenceMedia, local: visiteur_id, foreign: preference_media_id, type: many }
+    PreferenceMedia:           { refClass: PreferenceMediaVisiteur, class: PreferenceMedia, local: visiteur_id, foreign: preference_media_id, type: many }
     Langue:                    { class: Langue, local: langue_id, foreign: guid, onDelete: SET NULL}
     Csp:                       { class: Csp, local: csp_id, foreign: guid, onDelete: SET NULL}
 
@@ -179,7 +181,7 @@ Organisateur:
   tableName:                   organisateur
   actAs:
     Timestampable:
-    caRulerzNotifier:  
+    caRulerzNotifier:
   columns:
     guid:                      { type: string(255), notnull: true, primary: true }
     libelle:                   { type: string(255), unique: true }
@@ -195,25 +197,30 @@ Exposition:
   columns:
     guid:                      { type: string(255), notnull: true, primary: true }
     libelle:                   { type:string(255) , unique: true }
-    contexte_id:               { type: string(255) }
-    organisateur_editeur_id:   { type: string(255) }
-    organisateur_diffuseur_id: { type: string(255) }
-    synopsis:                  { type: clob }
-    description:               { type: clob }
-    logo:                      { type: string(128) }
-    publics:                   { type: string(255) }
-    langues:                   { type: string(255) }
-    url_illustration:          { type: string(255) }
-    url_studio:                { type: string(255) }
-    start_at:                  { type: date, notnull: false }
-    end_at:                    { type: date, notnull: false }
+    theme_id:                  { type: string(255), notnull: true}
+    univers_id:                { type: string(255), default: null }
+    contexte_id:               { type: string(255), default: null }
+    organisateur_editeur_id:   { type: string(255), default: null }
+    organisateur_diffuseur_id: { type: string(255), default: null }
+    latitude:                  { type: string(16), default: null }
+    longitude:                 { type: string(16), default: null }
+    synopsis:                  { type: clob, default: null }
+    description:               { type: clob, default: null }
+    logo:                      { type: string(128), default: null }
+    publics:                   { type: string(255), default: null }
+    langues:                   { type: string(255), default: null }
+    url_illustration:          { type: string(255), default: null }
+    url_studio:                { type: string(255), default: null }
+    start_at:                  { type: date, default: null }
+    end_at:                    { type: date, default: null }
     is_tosync:                 { type: boolean, default: 1 }
   relations:
+    Theme:                     { class: Theme, local: theme_id, foreign: guid, onDelete: SET NULL }
     Contexte:                  { class: Contexte, local: contexte_id, foreign: guid, onDelete: SET NULL }
     OrganisateurEditeur:       { class: Organisateur, local: organisateur_editeur_id, foreign: guid, onDelete: SET NULL }
     OrganisateurDiffuseur:     { class: Organisateur, local: organisateur_diffuseur_id, foreign: guid, onDelete: SET NULL }
-    sfGuardUser:                {refClass: UserExposition, class: sfGuardUser, local: exposition_id, foreign: user_id, type: many }
-
+    sfGuardUser:               {refClass: UserExposition, class: sfGuardUser, local: exposition_id, foreign: user_id, type: many }
+    Univers:                   { class: Univers, local: univers_id, foreign: guid, onDelete: SET NULL }
 
 ### parcours
 Parcours:
@@ -251,13 +258,13 @@ Visite:
     caRulerzNotifier:    
   columns:
     guid:                     { type: string(255), notnull: true, primary: true }
-    visiteur_id:              { type: string(255)}
-    navinum_id:               { type: string(255), default: null}
+    visiteur_id:              { type: string(255), notnull: true }
+    navinum_id:               { type: string(255), default: null }
     groupe_id:                { type: string(255), default: null }                         # visiteur provient d'un groupe
     exposition_id:            { type: string(255), default: null}
-    exposition_libelle:       { type: string(255)}
+    exposition_libelle:       { type: string(255), default: null}
     parcours_id:              { type: string(255), default: null}
-    parcours_libelle:         { type: string(255)}
+    parcours_libelle:         { type: string(255), default: null}
     interactif_id:            { type: string(255), default: null}
     connexion_id:             { type: string(255), default: null}
     is_ending:                { type: boolean, default: 0 }
@@ -282,37 +289,37 @@ Interactif:
   columns:
     guid:                      { type: string(255), notnull: true, primary: true }
     libelle:                   { type:string(255) , unique: true }
-    source_type:               { type: enum, values: [natif, natif-cocos2d, natif-unity, natif-librairie, html5]}
-    synopsis:                  clob
-    description:               clob
-    logo:                      string(255)
-    categorie:                 string(128)
-    version:                   string(32)
-    editeur:                   string(255)
-    publics:                   string(255)     # champ libre sur les types de publics 
-    markets:                   string(255)     # ios, android, windows
-    url_market_ios:            string(255)
-    url_market_android:        string(255)
-    url_market_windows:        string(255)
-    langues:                   string(255)
-    image1:                    string(255)
-    image2:                    string(255)
-    image3:                    string(255)
-    date_diff:                 date            # Date de mise en production.
-    explications_resultats:    clob            # sert à comprendre comment décrypter les résultats des intéractifs
-    score:                     clob            # typo_acteur, typo_chercheur, typo_joueur => voir typo
-    variable:                  clob
-    url_scheme:                string(128)
-    url_fichier_interactif:    string(255)
-    url_pierre_de_rosette:     string(255)
-    url_illustration:          string(255)
-    url_interactif_type:      integer(6)
-    url_interactif_choice:    string(255)
-    url_visiteur_type:         integer(6)
-    url_start_at:              integer(6)
-    url_start_at_type:         string(255)
-    url_end_at:                integer(6)
-    url_end_at_type:           string(255)
+    source_type:               { type: enum, values: [natif, natif-cocos2d, natif-cocos2dJS, natif-unity, natif-librairie, html5, video]}
+    synopsis:                  { type: clob, default: null}
+    description:               { type: clob, default: null}
+    logo:                      { type: string(255), default: null}
+    categorie:                 { type: string(128), default: null}
+    version:                   { type: string(32), default: null}
+    editeur:                   { type: string(255), default: null}
+    publics:                   { type: string(255), default: null}     # champ libre sur les types de publics
+    markets:                   { type: string(255), default: null}    # ios, android, windows
+    url_market_ios:            { type: string(255), default: null}
+    url_market_android:        { type: string(255), default: null}
+    url_market_windows:        { type: string(255), default: null}
+    langues:                   { type: string(255), default: null}
+    image1:                    { type: string(255), default: null}
+    image2:                    { type: string(255), default: null}
+    image3:                    { type: string(255), default: null}
+    date_diff:                 { type: date, default: null}            # Date de mise en production.
+    explications_resultats:    { type: clob, default: null}            # sert à comprendre comment décrypter les résultats des intéractifs
+    score:                     { type: clob, default: null}            # typo_acteur, typo_chercheur, typo_joueur => voir typo
+    variable:                  { type: clob, default: null}
+    url_scheme:                { type: string(128), default: null}
+    url_fichier_interactif:    { type: string(255), default: null}
+    url_pierre_de_rosette:     { type: string(255), default: null}
+    url_illustration:          { type: string(255), default: null}
+    url_interactif_type:       { type: integer(6), default: null}
+    url_interactif_choice:     { type: string(255), default: null}
+    url_visiteur_type:         { type: integer(6), default: null}
+    url_start_at:              { type: integer(6), default: null}
+    url_start_at_type:         { type: string(255), default: null}
+    url_end_at:                { type: integer(6), default: null}
+    url_end_at_type:           { type: string(255), default: null}
     refresh_deploiement:       { type: boolean, default: 0 } 
     is_visiteur_needed:        { type: boolean, default: 0 }           # savoir si le profil visiteur est nécessaire pour lancer l'interactif
     is_logvisite_needed:       { type: boolean, default: 0 }           # savoir si les log visites sont nécessaires pour lancer l'interactif
@@ -345,23 +352,25 @@ LogVisite:
     Timestampable:
     caRulerzNotifier:      
   columns:
-    guid:                      { type: string(255),  primary: true}
-    interactif_id:             { type: string(255)}
-    interactif_libelle:        { type: string(255)}
-    visite_id:                 { type: string(255)}
-    visiteur_id:               { type: string(255)}
-    exposition_id:             { type: string(255)}
-    connection:                { type: string(64)}
+    guid:                      { type: string(255),  primary: true, notnull: true}
+    interactif_id:             { type: string(255), default: null}
+    interactif_libelle:        { type: string(255), default: null}
+    visite_id:                 { type: string(255), default: null}
+    visiteur_id:               { type: string(255), default: null}
+    exposition_id:             { type: string(255), default: null}
+    contexte_id:               { type: string(255), default: null}
+    connection:                { type: string(64), default: null}
     start_at:                  { type: timestamp, notnull: true}
-    end_at:                    timestamp
-    resultats:                 clob
-    score:                     integer                         # score total des xp sur les différentes typos
+    end_at:                    { type: timestamp, default: null}
+    resultats:                 { type: clob, default: null}
+    score:                     { type: integer , default: null}                     # score total des xp sur les différentes typos
     is_tosync:                 { type: boolean, default: 1 }
   relations:
     Exposition:                { class: Exposition, local: exposition_id, foreign: guid, onDelete: SET NULL }
     Interactif:                { class: Interactif, local: interactif_id, foreign: guid, onDelete: SET NULL }
     Visite:                    { class: Visite, local: visite_id, foreign: guid, onDelete: SET NULL }
     Visiteur:                  { class: Visiteur, local: visiteur_id, foreign: guid, onDelete: SET NULL }
+    Contexte:                  { class: Contexte, local: contexte_id, foreign: guid, onDelete: SET NULL }
 
 ### Xp
 Xp:
@@ -370,7 +379,7 @@ Xp:
     Timestampable:
     caRulerzNotifier:  
   columns:
-    guid:                      { type: string(255),  primary: true}
+    guid:                      { type: string(255),  primary: true, notnull: true}
     score:                     { type: integer(6), notnull: true}
     visiteur_id:               { type: string(255), notnull: true}
     typologie_id:              { type: string(255), notnull: true}
@@ -399,13 +408,14 @@ Medaille:
     caRulerzNotifier:  
   columns:
     guid:                      { type: string(255), notnull: true, primary: true }
-    libelle:                   { type:string(255) , unique: true }
-    image:                     string(255)
-    medaille_type_id:          { type: string(255) }
-    exposition_id:             { type: string(255) }
-    interactif_id:             { type: string(255) }
-    description:               clob
-    condition_obtention:       clob                             # une médaille peut etre obtenue sans condition
+    libelle:                   { type: string(255) , unique: true }
+    image:                     { type: string(255), default: null}
+    medaille_type_id:          { type: string(255), default: null}
+    exposition_id:             { type: string(255), default: null}
+    interactif_id:             { type: string(255), default: null}
+    description:               { type: clob, default: null}
+    condition_obtention:       { type: clob, default: null}                             # une médaille peut etre obtenue sans condition
+    is_first_medaille:         { type: boolean, default: 0 }
     is_unique:                 { type: boolean, default: 1 }
     is_tosync:                 { type: boolean, default: 1 }
   relations:
@@ -435,11 +445,16 @@ VisiteurMedaille:
     guid:                      { type: string(255), notnull: true, primary: true }
     visiteur_id:               { type: string(255), notnull: true }
     medaille_id:               { type: string(255), notnull: true }
+    univers_id:                { type: string(255), default: null }
     is_tosync:                 { type: boolean, default: 1 }
     connection:                { type: string(255), default: ''}
+    contexte_id:               { type: string(255), default: null }
   relations:
     Visiteur:                  { class: Visiteur, local: visiteur_id, foreign: guid, onDelete: CASCADE }
     Medaille:                  { class: Medaille, local: medaille_id, foreign: guid, onDelete: CASCADE }
+    Univers:                   { class: Univers, local: univers_id, foreign: guid, onDelete: CASCADE }
+    Contexte:                  { class: Contexte, local: contexte_id, foreign: guid, onDelete: SET NULL }
+
 
     
 ### user-exposition    
@@ -533,6 +548,7 @@ DeleteLog:
   columns:
     guid:                       { type: string(255), notnull: true, primary: true }
     model_name:                 { type: string(255), notnull: true, primary: true }
+    extra:                      { type: clob, default: null }
     is_tosync:                  { type: boolean, default: 1 }
 
 ### SyncLog
@@ -702,44 +718,29 @@ SentMessage:
     is_tosync:     { type: boolean, default: 1 }
 
  ### Evenement
-Evenement:
-  tableName:                 evenement
+Theme:
+  tableName:                 theme
   actAs:
     Timestampable:
-    caRulerzNotifier:  
   columns:
     guid:               { type: string(255), notnull: true, primary: true }
-    start_at:           { type: timestamp, notnull: true}
-    end_at:             timestamp
-    libelle :           { type: string(255), unique: true }
-    latitude:           string(32)
-    longitude:          string(32)
+    libelle :           { type: string(255), unique: true, default: null }
     is_tosync:          { type: boolean, default: 1 }
-  relations: 
-    Exposition:       { refClass: EvenementExposition, class: Exposition, local: evenement_id, foreign: exposition_id, type: many }
 
-EvenementExposition:
-  actAs:
-    Timestampable:
-    caRulerzNotifier:  
-  columns:  
-    exposition_id:             { type: string(255), primary: true}
-    evenement_id:               { type: string(255), primary: true}
-    is_tosync:                 { type: boolean, default: 1 }
-  relations:
-    Exposition:                { class: Exposition, local: exposition_id, foreign: guid, onDelete: CASCADE }
-    Evenement:                { class: Evenement, local: evenement_id, foreign: guid, onDelete: CASCADE }
-
- ### TemplateMail 
+ ### TemplateMail
 TemplateMail:
   tableName:                 template_mail
   actAs:
     Timestampable:
   columns:
     guid:               { type: string(255), notnull: true, primary: true }
-    libelle :           { type:string(255) , unique: true }
-    contenu:            clob
+    key_search:         { type: string(128), notnull: true}
+    subject:              { type:string(255), default: null }
+    content:            clob
     is_tosync:     { type: boolean, default: 1 }
+  indexes:
+    index_key:
+      fields:                  [key]
 
 Csp:
   tableName:                 csp
@@ -757,12 +758,12 @@ Notification:
     Timestampable:
   columns:
     guid:               { type: string(255), notnull: true, primary: true }
-    libelle:            { type: string(255) }
+    libelle:            { type: string(255), default: null }
     visiteur_id:        { type: string(255), notnull: true }
     visite_id:          { type: string(255), notnull: true }
-    from_model:         { type: string(255)}          # xp, account, typologie, evènement, highscore, cms
-    from_model_id:      { type: string(255)}          # note interactif_id présent dans logVisite
-    parameter:          { type: string(255)}          # si autre paramètre à ajouter
+    from_model:         { type: string(255), default: null}          # xp, account, typologie, evènement, highscore, cms
+    from_model_id:      { type: string(255), default: null}          # note interactif_id présent dans logVisite
+    parameter:          { type: string(255), default: null}          # si autre paramètre à ajouter
     is_tosync:          { type: boolean, default: 1 }
   relations:
     Visiteur:           { class: Visiteur, local: visiteur_id, foreign: guid, onDelete: CASCADE }
@@ -774,8 +775,8 @@ Rulerz:
     Timestampable: ~
   columns:
     guid:               { type: string(255), notnull: true, primary: true }
-    libelle:            { type: string(255) }
-    action:             { type: text }
+    libelle:            { type: string(255), default: null }
+    action:             { type: text, default: null }
     is_tosync:          { type: boolean, default: 1 }
 
 RulerzListener:
@@ -785,7 +786,7 @@ RulerzListener:
   columns:
     guid:               { type: string(255), notnull: true, primary: true }
     rulerz_id:          { type: string(255), notnull: true }
-    event:              { type: string(255) }
+    event:              { type: string(255), default: null }
     is_tosync:          { type: boolean, default: 1 }
   relations:
     Rulerz:             { class: Rulerz, local: rulerz_id, foreign: guid, foreignAlias: Listeners, onDelete: CASCADE}
@@ -804,3 +805,102 @@ RulerzExecution:
     is_tosync:          { type: boolean, default: 1 }
   relations:
     Rulerz:             { class: Rulerz, local: rulerz_id, foreign: guid, foreignAlias: Executions, onDelete: CASCADE}
+
+
+Univers:
+  tableName: univers
+  actAs:
+    Timestampable: ~
+    caRulerzNotifier: ~
+  columns:
+    guid:               { type: string(255), notnull: true, primary: true }
+    libelle:            { type: string(255), default: null }
+    synopsis:           { type: clob, default: null }
+    description:        { type: clob, default: null }
+    logo:               { type: string(128), default: null }
+    image:              { type: string(255), default: null }
+    is_active:          { type: boolean, default: 1 }
+    is_tosync:          { type: boolean, default: 1 }
+  relations:
+    Medaille:           {refClass: UniversMedaille, class: Medaille, local: univers_id, foreign: medaille_id, type: many }
+
+
+Gain:
+  tableName: gain
+  actAs:
+    Timestampable: ~
+    caRulerzNotifier: ~
+  columns:
+    guid:               { type: string(255), notnull: true, primary: true }
+    libelle:            { type: string(255) }
+    image:              { type: string(255), default: null }
+    description:        { type: clob, default: null }
+    start_at:           { type: date, notnull: false }
+    end_at:             { type: date, notnull: false }
+    expiration_days:    { type: integer(4)}
+    send_email_visiteur_template_id: { type: string(255), default: null } # envoi un email au visiteur si gain remporté
+    send_email_admin_template_id:    { type: string(255), default: null } # envoi un email à l'admin si gain remporté
+    is_visible:         { type: boolean, default: 1 }
+    is_active:          { type: boolean, default: 1 }
+    is_tosync:          { type: boolean, default: 1 }
+
+UniversStatus:
+  tableName: univers_status
+  actAs:
+    Timestampable: ~
+    caRulerzNotifier: ~
+  columns:
+      guid:              { type: string(255), notnull: true, primary: true }
+      libelle:           { type: string(255), default: null } }
+      univers_id:        { type: string(255), notnull: true }
+      level_name:        { type: string(128), notnull: true }
+      description:       {type: string(255), default: null }
+      level:             { type: integer(4), default: 0} # status0, status1, permet de trier
+      nb_medaille:        { type: integer(4), default: 0}  # ex : 9 pour level0, 19 pour level1, 29 pour level2
+      gain_id:           { type: string(255), notnull: true }
+      image1:            {type: string(255), default: null }
+      image2:            {type: string(255), default: null }
+      image3:            {type: string(255), default: null }
+      is_tosync:          { type: boolean, default: 1 }
+  relations:
+    Univers:           { class: Univers, local: univers_id, foreign: guid, onDelete: CASCADE }
+    Gain:              { class: Gain, local: gain_id, foreign: guid, onDelete: CASCADE }
+
+UniversMedaille:
+  tableName: univers_medaille
+  actAs:
+    Timestampable: ~
+    caRulerzNotifier: ~
+  columns:
+      univers_id:        { type: string(255), notnull: true, primary: true }
+      medaille_id:       { type: string(255), notnull: true, primary: true}
+      is_tosync:         { type: boolean, default: 1 }
+  relations:
+    Univers:             { class: Univers, local: univers_id, foreign: guid, onDelete: CASCADE }
+    Medaille:            { class: Medaille, local: medaille_id, foreign: guid, onDelete: CASCADE }
+
+
+
+VisiteurUniversStatusGain:
+  tableName: visiteur_univers_status_gain
+  actAs:
+    Timestampable: ~
+    caRulerzNotifier: ~
+  columns:
+    guid:               { type: string(255), notnull: true, primary: true }
+    visiteur_id:        { type: string(255), notnull: true }
+    univers_id:         { type: string(255), notnull: true}
+    univers_status_id:  { type: string(255), notnull: true }
+    gain_id:            { type: string(255) }
+    status_gain:          { type: enum, values: [waiting, removed, canceled, expired]}
+    expiration_gain_date: date
+    exposition_id:      { type: string(255) }
+    contexte_id:        { type: string(255) }
+    is_tosync:        { type: boolean, default: 1 }
+  relations:
+    Univers:             { class: Univers, local: univers_id, foreign: guid, onDelete: CASCADE }
+    Visiteur:            { class: Visiteur, local: visiteur_id, foreign: guid, onDelete: CASCADE }
+    Gain:                { class: Gain, local: gain_id, foreign: guid, onDelete: CASCADE }
+    UniversStatus:       { class: UniversStatus, local: univers_status_id, foreign: guid, onDelete: CASCADE } # status courant du visiteur sur un univers
+    Contexte:            { class: Contexte, local: contexte_id, foreign: guid, onDelete: SET NULL }
+    Exposition:          { class: Exposition, local: exposition_id, foreign: guid, onDelete: SET NULL }
