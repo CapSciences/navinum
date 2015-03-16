@@ -25,6 +25,11 @@
   	   <ul><li class="create"><?php echo link_to('Créer', 'exposition/new')?></li></ul>
   	  <?php endif;?>
   	</li>
+    <li><?php echo link_to('Univers', 'univers')?>
+        <?php if ($sf_user->hasPermission('commissaire') || $sf_user->hasPermission('admin')): ?>
+            <ul><li class="create"><?php echo link_to('Créer', 'univers/new')?></li></ul>
+        <?php endif;?>
+    </li>
   </ul>
 </li>
 
@@ -57,24 +62,35 @@
   	 <ul><li class="create"><?php echo link_to('Créer', 'typologie/new')?></li></ul>
   	<?php endif;?>
   	</li>
+    <li><?php echo link_to('Gain', 'gain')?>
+        <?php if ($sf_user->hasPermission('commissaire') || $sf_user->hasPermission('admin')): ?>
+            <ul><li class="create"><?php echo link_to('Créer', 'gain/new')?></li></ul>
+        <?php endif;?>
+    </li>
 
+    <li><?php echo link_to('Type médaille', 'medaille_type')?>
+        <?php if ($sf_user->hasPermission('commissaire') || $sf_user->hasPermission('admin')): ?>
+            <ul><li class="create"><?php echo link_to('Créer', 'medaille_type/new')?></li></ul>
+        <?php endif;?>
+    </li>
+    <li><?php echo link_to('Médaille', 'medaille')?>
+        <?php if ($sf_user->hasPermission('commissaire') || $sf_user->hasPermission('admin')): ?>
+            <ul><li class="create"><?php echo link_to('Créer', 'medaille/new')?></li></ul>
+        <?php endif;?>
+    </li>
 
-  	<li><?php echo link_to('Type médaille', 'medaille_type')?>
-    <?php if ($sf_user->hasPermission('commissaire') || $sf_user->hasPermission('admin')): ?>
-  	 <ul><li class="create"><?php echo link_to('Créer', 'medaille_type/new')?></li></ul>
-    <?php endif;?> 
-  	 </li>
+    <li><?php echo link_to('UniversStatus', 'univers_status')?>
+        <?php if ($sf_user->hasPermission('commissaire') || $sf_user->hasPermission('admin')): ?>
+            <ul><li class="create"><?php echo link_to('Créer', 'univers_status/new')?></li></ul>
+        <?php endif;?>
+    </li>
 
-
-  	<li><?php echo link_to('Médaille', 'medaille')?>
-  	<?php if ($sf_user->hasPermission('commissaire') || $sf_user->hasPermission('admin')): ?>
-  	 <ul><li class="create"><?php echo link_to('Créer', 'medaille/new')?></li></ul>
-  	<?php endif;?> 
-		</li>
-		<li><?php echo link_to('Médaille Visiteur', 'visiteur_medaille')?>
+    <li><?php echo link_to('Médaille Visiteur', 'visiteur_medaille')?>
   	<?php if ($sf_user->hasPermission('admin')): ?>
   	 <ul><li class="create"><?php echo link_to('Créer', 'visiteur_medaille/new')?></li></ul>
-  	<?php endif;?> 
+  	<?php endif;?>
+
+
   	</li>
 	</ul>
 </li>
@@ -121,7 +137,12 @@
 <li>
 <a href="#">Paramètres</a>
 	<ul>
-  	<?php if ($sf_user->hasPermission('admin')): ?>
+        <?php if ($sf_user->hasPermission('commissaire') || $sf_user->hasPermission('admin')): ?>
+        <li><?php echo link_to('Thème', 'theme')?>
+            <ul><li class="create"><?php echo link_to('Créer', 'theme/new')?></li></ul>
+        </li>
+        <?php endif; ?>
+  	    <?php if ($sf_user->hasPermission('admin')): ?>
 	  	<li><?php echo link_to('Contexte', 'contexte')?>
 	     <ul><li class="create"><?php echo link_to('Créer', 'contexte/new')?></li></ul>
 	   </li>
@@ -132,11 +153,6 @@
     <?php if ($sf_user->hasPermission('commissaire') || $sf_user->hasPermission('admin')): ?>
       <li><?php echo link_to('Csp', 'csp')?>
        <ul><li class="create"><?php echo link_to('Créer', 'csp/new')?></li></ul>
-      </li>
-    <?php endif; ?>
-  	<?php if ($sf_user->hasPermission('commissaire') || $sf_user->hasPermission('admin')): ?>
-      <li><?php echo link_to('Evenement', 'evenement')?>
-       <ul><li class="create"><?php echo link_to('Créer', 'evenement/new')?></li></ul>
       </li>
     <?php endif; ?>
     <?php if ($sf_user->hasPermission('commissaire') || $sf_user->hasPermission('admin')): ?>

@@ -25,13 +25,15 @@ generator:
         Interactif:      { label: Interactif}
         description:     { label: Description}
         condition_obtention: { label: Conditions}
-        is_unique:           { label: Est unique}
+        univers_list: { label: Liste des univers}
+        is_unique:    { label: Est unique}
+        is_first_medaille: { label: Première médaille de l'univers }
         is_tosync:    { label: A synchroniser }
         created_at:   { label: Date de création, date_format: 'F' }
         updated_at:   { label: Date de mise à jour, date_format: 'F' }
       list:
         title: Liste des Médailles
-        display: [ libelle, MedailleType, Exposition, Interactif, description, is_unique, created_at, updated_at]
+        display: [ libelle, MedailleType, Exposition, Interactif, _univers, is_first_medaille, is_unique, created_at, updated_at]
         sort:
           [libelle, asc]
         fields:
@@ -44,7 +46,7 @@ generator:
           _delete:    {  label: Supprimer, action: delete , credentials: admin}
       filter:  ~
       form:
-        display: [guid, libelle, image, medaille_type_id, exposition_id, interactif_id, description, condition_obtention, is_unique]
+        display: [guid, libelle, image, medaille_type_id, exposition_id, interactif_id, description, condition_obtention, is_unique, is_first_medaille, univers_list]
       edit:
         title: Modifier une médaille
       new:

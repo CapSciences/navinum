@@ -23,7 +23,7 @@ generator:
         updated_at:     { label: Date de mise à jour, date_format: 'F' }
       list:
         title: Liste des Médailles par visiteur
-        display: [ guid, medaille_id, Medaille, visiteur_id, Visiteur, created_at, updated_at]
+        display: [ guid, medaille_id, Medaille, univers_id, Univers, visiteur_id, Visiteur, created_at, updated_at]
         sort: [created_at, asc]
         fields:
           created_at: { date_format: 'dd/MM/yyyy HH:mm' }
@@ -34,9 +34,9 @@ generator:
         batch_actions:
           _delete:    {  label: Supprimer, action: delete , credentials: admin}
       filter:  
-        display: [guid, medaille_id, connection]
+        display: [guid, medaille_id, univers_id, connection]
       form:
-        display: [guid, visiteur_id, medaille_id, connection]
+        display: [guid, visiteur_id, medaille_id, univers_id, connection]
       edit:
         title: Modifier une médaille visiteur
       new:

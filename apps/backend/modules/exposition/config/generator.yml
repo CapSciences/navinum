@@ -22,10 +22,12 @@ generator:
         langues:                { label: Langues, help: "séparer les langues par un point-virgule (fr;en)"}
         end_at:       {label: Fini le}
         parcours_list:   { label: Liste des parcours }
+        Theme:   { label: Type }
+        theme_id:   { label: Type }
         is_tosync:    {label: A synchroniser}
       list:
         title: Liste des expositions
-        display: [libelle, contexte, organisateur_editeur, organisateur_diffuseur, start_at, end_at, _parcours_list, created_at, updated_at]
+        display: [libelle, Theme, Univers, contexte, organisateur_editeur, organisateur_diffuseur, start_at, end_at, _parcours_list, created_at, updated_at]
         sort:
           [libelle, asc]
         fields:
@@ -36,10 +38,12 @@ generator:
         object_actions:
           _edit:      { label: Modifier, action: edit }
           _delete:    { label: Supprimer, action: delete }
-      filter:  ~
+      filter:
+        display:
+          [libelle, theme_id, contexte_id, organisateur_editeur_id, organisateur_diffuseur_id, univers_id, parcours_list]
       form:
         display:
-          [guid, libelle, contexte_id, organisateur_editeur_id, organisateur_diffuseur_id, synopsis, description, logo, publics, langues, url_illustration, url_studio, start_at, end_at, parcours_list]
+          [guid, libelle, theme_id, contexte_id, organisateur_editeur_id, organisateur_diffuseur_id, univers_id, latitude, longitude, synopsis, description, logo, publics, langues, url_illustration, url_studio, start_at, end_at, parcours_list]
       edit:
         title: Modifier une exposition
       new:

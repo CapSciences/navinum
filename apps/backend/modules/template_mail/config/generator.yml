@@ -15,16 +15,17 @@ generator:
       actions: ~
       fields:
         guid:         { label: Identifiant}
-        libelle:      { label: Libelle}
-        contenu:      { label: Contenu}
+        key_search:   { label: Clé}
+        suject:      { label: Sujet}
+        content:      { label: Contenu}
         is_tosync:    { label: A synchroniser }
         created_at:   { label: Date de création, date_format: 'F' }
         updated_at:   { label: Date de mise à jour, date_format: 'F' }
       list:
         title: Liste des templates
-        display: [ libelle, created_at, updated_at]
+        display: [ key_search, subject, created_at, updated_at]
         sort:
-          [libelle, asc]
+          [key_search, asc]
         fields:
           created_at: { date_format: 'dd/MM/yyyy HH:mm' }
           updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
@@ -33,7 +34,7 @@ generator:
           _delete:    { label: Supprimer, action: delete }
       filter:  ~
       form:
-        display: [guid, libelle, contenu]
+        display: [guid, key_search, subject, content]
       edit:
         title: Modifier un template mail
       new:

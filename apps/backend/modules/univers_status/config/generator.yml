@@ -1,0 +1,45 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           UniversStatus
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             true
+    singular:              ~
+    plural:                ~
+    route_prefix:          univers_status
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+          guid:         { label:  Identifiant }
+          created_at:   { label:  Date de création, date_format: 'F' }
+          updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+          nb_medaille:   { label: NB médailles pour passer ce statut,  help: ex: 9 pour level1; 19 pour level2; 29 pour level3  ...}
+          level_name:   { label: Statut}
+          level:   { label: Niveau}
+      list:
+          title: Liste des univers statut
+          display: [libelle, Univers, Gain, level_name, level, nb_medaille ]
+          sort:
+            [libelle, asc]
+          fields:
+            created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+            updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          object_actions:
+              _edit:      { label: Modifier, action: edit }
+              _delete:    { label: Supprimer, action: delete }
+      filter:
+        display: [libelle, univers_id, gain_id, level, created_at]
+      form:    ~
+      edit:
+        title: Modifier un univers statut
+      new:
+        title: Créer un univers statut
+      delete:    ~
+      export:
+        enabled: true
+        title: univers statut export
+        filename: exportation

@@ -1,0 +1,45 @@
+generator:
+  class: mpRealtyAdminDoctrineGenerator
+  param:
+    model_class:           Univers
+    theme:                 mpReality
+    non_verbose_templates: true
+    with_show:             true
+    singular:              ~
+    plural:                ~
+    route_prefix:          univers
+    with_doctrine_route:   true
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:
+          guid:         { label:  Identifiant }
+          created_at:   { label:  Date de création, date_format: 'F' }
+          updated_at:   { label:  Date de mise à jour, date_format: 'F' }
+          medaille_list:   { label:  Liste des médailles }
+          count_medaille:   { label:  Nombre de médailles }
+          count_level:   { label:  Nombre de statuts }
+      list:
+          title: Liste des univers
+          display: [libelle, _logo, _image, _count_medaille, _count_level, is_active, created_at]
+          sort:
+            [libelle, asc]
+          fields:
+            created_at: { date_format: 'dd/MM/yyyy HH:mm' }
+            updated_at: { date_format: 'dd/MM/yyyy HH:mm' }
+          object_actions:
+              _edit:      { label: Modifier, action: edit }
+              _delete:    { label: Supprimer, action: delete }
+      filter:
+          display: [libelle, is_active, created_at]
+      form:    ~
+      edit:
+          title: Modifier un univers
+      new:
+        title: Créer un univers
+      delete:    ~
+      export:
+        enabled: true
+        title: univers export
+        filename: exportation
