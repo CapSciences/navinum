@@ -74,8 +74,35 @@ class RfidGroupeVisiteur extends BaseRfidGroupeVisiteur
 
     public function save(Doctrine_Connection $conn = null)
     {
+        if($this->isNew())
+        {
+            $this->createDataFolder();
+        }
         $this->setIsTosync(1);
         parent::save($conn);
+    }
+
+    public function getGroupeVisiteurDataPath()
+    {
+        return sfConfig::get('sf_web_dir')."/groupe_visiteur/".$this->guid;
+    }
+
+    public function createDataFolder($dir = "")
+    {
+        $fileSystem = new sfFilesystem();
+        $oldumask = umask(0);
+        $fileSystem->mkdirs($this->getGroupeVisiteurDataPath(), 0755);
+        $fileSystem->chmod($this->getGroupeVisiteurDataPath(), 0755);
+        umask($oldumask);
+
+        if($dir != ''){
+            $oldumask = umask(0);
+            $fileSystem->mkdirs($this->getGroupeVisiteurDataPath() . '/' . $dir, 0755);
+            $fileSystem->chmod($this->getGroupeVisiteurDataPath() . '/' . $dir, 0755);
+            umask($oldumask);
+        }
+
+
     }
 
   public function  delete(Doctrine_Connection $conn = null)
