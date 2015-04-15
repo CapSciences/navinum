@@ -241,6 +241,7 @@ class visiteActions extends autovisiteActions
               ->where('rfid.uid = ?', $navinum_id)
               ->andWhere('rfid.groupe_id = rfg.guid')
               ->andWhere('rfgv.rfid_groupe_id = rfg.guid')
+              ->orderBy('rfgv.created_at desc')
               ->fetchOne(array(), Doctrine::HYDRATE_ARRAY);
           if(is_array($groupe) && isset($groupe['groupe_visiteur_id']) && !empty($groupe['groupe_visiteur_id'])){
               $this->object->set('groupe_id', $groupe['groupe_visiteur_id']);
@@ -659,8 +660,6 @@ class visiteActions extends autovisiteActions
             return sfView::SUCCESS;
         }
 
-
-
         // check visite
         $visite = Doctrine_Core::getTable('Visite')->findOneByGuid($visite_id);
         if (!$visite)
@@ -689,13 +688,12 @@ class visiteActions extends autovisiteActions
             $visite->setVisiteurId($visiteur_id);
             $visite->save();
 
-            //die('replace visiteur '.$anonymous_visiteur_id .' by '.$visiteur_id);
-
             // update LogVisite
             $log_visites = Doctrine_Core::getTable('LogVisite')->findByVisiteurId($anonymous_visiteur_id);
             $details['logVisite'] = count($log_visites);
             foreach($log_visites as $log_visite){
                 $log_visite->setVisiteurId($visiteur_id);
+                $log_visite->setVisiteId($visite_id);
                 $log_visite->save();
             }
             // visiteur medaille
