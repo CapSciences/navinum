@@ -315,6 +315,9 @@ log_visite_visiteur_interactif_exposition:
 log_visite_high_score:
   url: /log_visite/highScore
   params: {module: log_visite, action: highScore, sf_format: json }
+log_visite_high_score_v2:
+  url: /log_visite/highScoreV2
+  params: {module: log_visite, action: highScoreV2, sf_format: json }
 log_visite:
   class:   sfObjectRouteCollection
   options:

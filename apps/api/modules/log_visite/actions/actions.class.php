@@ -520,7 +520,9 @@ class log_visiteActions extends autolog_visiteActions
         $validators['interactif_id'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
         $validators['visiteur_id'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
         $validators['is_anonyme'] = new sfValidatorBoolean(array('required' => false));
-
+        $validators['limit'] = new sfValidatorInteger(array('required' => false));
+        $validators['start_at'] = new sfValidatorDate(array('required' => false));
+        $validators['end_at'] = new sfValidatorDate(array('required' => false));
         return $validators;
     }
 
@@ -614,6 +616,108 @@ class log_visiteActions extends autolog_visiteActions
     }
 
     /**
+     * Retrieves a  collection of LogVisite objects
+     * @param   sfWebRequest $request a request object
+     * @return  string
+     */
+    public function executeHighScoreV2(sfWebRequest $request)
+    {
+        $this->forward404Unless($request->isMethod(sfRequest::GET));
+        $params = $request->getParameterHolder()->getAll();
+
+        // notify an event before the action's body starts
+        $this->dispatcher->notify(new sfEvent($this, 'sfDoctrineRestGenerator.get.pre', array('params' => $params)));
+
+        $request->setRequestFormat('html');
+        $params = $this->cleanupParameters($params);
+
+        try {
+            $format = $this->getFormat();
+            $this->validateHighScore($params);
+        } catch (Exception $e) {
+            $this->getResponse()->setStatusCode(406);
+            $serializer = $this->getSerializer();
+            $this->getResponse()->setContentType($serializer->getContentType());
+            $error = $e->getMessage();
+
+            // event filter to enable customisation of the error message.
+            $result = $this->dispatcher->filter(
+                new sfEvent($this, 'sfDoctrineRestGenerator.filter_error_output'),
+                $error
+            )->getReturnValue();
+
+            if ($error === $result) {
+                $error = array(array('message' => $error));
+                $this->output = $serializer->serialize($error, 'error');
+            }
+
+            return sfView::SUCCESS;
+        }
+
+        $this->queryFetchHighScoreV2($params);
+        $isset_pk = (!isset($isset_pk) || $isset_pk) && isset($params['interactif_id']);
+        $isset_pk = (!isset($isset_pk) || $isset_pk) && isset($params['visite_id']);
+        if ($isset_pk && count($this->objects) == 0) {
+            $request->setRequestFormat($format);
+            $this->forward404();
+        }
+
+        //Extended list
+        $extract = $request->getParameter('extract', null);
+
+        $objects = array();
+        $objects['logVisite'] = $this->objects[0];
+        $this->objects = $objects;
+
+        foreach ($this->objects as $key => $records) {
+            //Get Interactif
+            foreach($records as $object){
+                //print_r($object);
+                $interactif = Doctrine_Query::create()
+                    ->from('Interactif i')
+                    ->where('i.guid = ?', $object['interactif_id'])
+                    ->execute(array(), Doctrine::HYDRATE_ARRAY);
+
+                if (count($interactif) > 0) {
+                    unset($interactif[0]['is_tosync']);
+                    $this->objects['Interactif'] = $interactif[0];
+                }
+
+                //Get parcours
+                $visite = Doctrine_Query::create()
+                    ->from('Visite v')
+                    ->leftJoin('v.Parcours p')
+                    ->leftJoin('p.Exposition e')
+                    ->leftJoin('e.Contexte c')
+                    ->leftJoin('e.OrganisateurDiffuseur od')
+                    ->leftJoin('e.OrganisateurEditeur oe')
+                    ->where('v.guid = ?', $object['visite_id'])
+                    ->execute(array(), Doctrine::HYDRATE_ARRAY);
+
+                if (count($visite) > 0) {
+                    $this->objects['Parcours'] = $visite[0]['Parcours'];
+                }
+            }
+
+        }
+
+        // configure the fields of the returned objects and eventually hide some
+        $this->setFieldVisibility();
+        $this->configureFields();
+        $serializer = $this->getSerializer();
+        $this->getResponse()->setContentType($serializer->getContentType());
+
+
+        //print_r($this->objects);
+        //exit;
+        if (empty($this->objects['logVisite'][0]["guid"])) {
+            $this->objects = array();
+        }
+        $this->output = $serializer->serialize($this->objects, $this->model);
+        unset($this->objects);
+    }
+
+    /**
      * Applies the update validators to the payload posted to the service
      *
      * @param   string $payload A payload string
@@ -640,6 +744,26 @@ class log_visiteActions extends autolog_visiteActions
                     array()
                 ),
                 $this->queryHighScore($params)->fetchOne(array(), Doctrine::HYDRATE_ARRAY)
+            )->getReturnValue()
+        );
+    }
+
+    /**
+     * Execute the query for selecting an object, eventually along with related
+     * objects
+     *
+     * @param   array $params an array of criterions for the selection
+     */
+    public function queryFetchHighScoreV2($params)
+    {
+        $this->objects = array(
+            $this->dispatcher->filter(
+                new sfEvent(
+                    $this,
+                    'sfDoctrineRestGenerator.filter_result',
+                    array()
+                ),
+                $this->queryHighScoreV2($params)->execute(array(), Doctrine::HYDRATE_ARRAY)
             )->getReturnValue()
         );
     }
@@ -673,8 +797,71 @@ class log_visiteActions extends autolog_visiteActions
         foreach ($params as $name => $value) {
             $q->andWhere($this->model . '.' . $name . ' = ?', $value);
         }
+        return $q;
+    }
+
+    /**
+     * Create the query for selecting objects, eventually along with related
+     * objects
+     *
+     * @param   array $params an array of criterions for the selection
+     */
+    public function queryHighScoreV2($params)
+    {
+        $date_from = null;
+        if(isset($params['start_at'])){
+            $start_at = $params['start_at'];
+            if(preg_match("/\d{4}-\d{2}-\d{2}/", $start_at) && !preg_match("/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/", $start_at) ){
+                $start_at .= ' 00:00:00';
+            }
+            unset($params['start_at']);
+        }
+        $end_at = null;
+        if(isset($params['end_at'])){
+            $end_at = $params['end_at'];
+            if(preg_match("/\d{4}-\d{2}-\d{2}/", $end_at) && !preg_match("/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/", $end_at) ){
+                $end_at .= ' 23:59:59';
+            }
+            unset($params['end_at']);
+        }
+
+        $limit = 1;
+        if(isset($params['limit'])){
+            $limit = $params['limit'];
+            unset($params['limit']);
+        }
+
+        $q = Doctrine_Query::create()
+            ->select("score as highScore, interactif_id, visiteur_id, start_at, end_at, visite_id, Visiteur.*")
+            ->from($this->model . ' ' . $this->model)
+            ->addFrom('Visiteur v')
+            ->andWhere($this->model . '.visiteur_id = v.guid')
+            ->andWhere($this->model . '.visiteur_id IS NOT NULL')
+            ->groupBy('score')
+            ->having('max(highScore)')
+            ->orderBy('highScore desc')
+            ->addOrderBy('created_at desc')
+            ->limit($limit);
+
+
+        if (isset($params['is_anonyme'])) {
+            $q->andWhere('v.is_anonyme = ?', $params['is_anonyme']);
+            unset($params['is_anonyme']);
+        }
+
+        foreach ($params as $name => $value) {
+            $q->andWhere($this->model . '.' . $name . ' = ?', $value);
+        }
+
+        if($start_at){
+            $q->andWhere($this->model . '.start_at >= ?', $start_at . ' 00:00:00' );
+        }
+
+        if($end_at){
+            $q->andWhere($this->model . '.end_at <= ?', $end_at . ' 23:59:59' );
+        }
 //print_r($params);
-        //      die($q->getSqlQuery());
+              //die($q->getSqlQuery());
         return $q;
     }
 
