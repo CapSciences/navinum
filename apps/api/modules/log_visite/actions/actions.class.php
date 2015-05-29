@@ -523,6 +523,7 @@ class log_visiteActions extends autolog_visiteActions
         $validators['limit'] = new sfValidatorInteger(array('required' => false));
         $validators['start_at'] = new sfValidatorDate(array('required' => false));
         $validators['end_at'] = new sfValidatorDate(array('required' => false));
+        $validators['distinct'] = new sfValidatorInteger(array('required' => false));
         return $validators;
     }
 
@@ -678,9 +679,9 @@ class log_visiteActions extends autolog_visiteActions
                     ->where('i.guid = ?', $object['interactif_id'])
                     ->execute(array(), Doctrine::HYDRATE_ARRAY);
 
-                if (count($interactif) > 0) {
+                if (count($interactif) > 0 && $interactif[0]) {
                     unset($interactif[0]['is_tosync']);
-                    $this->objects['Interactif'] = $interactif[0];
+                    $this->objects['Interactif'][$interactif[0]['guid']] = $interactif[0];
                 }
 
                 //Get parcours
@@ -694,8 +695,19 @@ class log_visiteActions extends autolog_visiteActions
                     ->where('v.guid = ?', $object['visite_id'])
                     ->execute(array(), Doctrine::HYDRATE_ARRAY);
 
-                if (count($visite) > 0) {
-                    $this->objects['Parcours'] = $visite[0]['Parcours'];
+                if (count($visite) > 0 && $visite[0]['Parcours']) {
+                    $this->objects['Parcours'][$visite[0]['Parcours']['guid']] = $visite[0]['Parcours'];
+                }
+
+
+                $visiteur = Doctrine_Query::create()
+                    ->from('Visiteur v')
+                    ->where('v.guid = ?', $object['visiteur_id'])
+                    ->execute(array(), Doctrine::HYDRATE_ARRAY);
+
+                if (count($visiteur) > 0 && $visiteur[0]) {
+                    unset($visiteur[0]['is_tosync']);
+                    $this->objects['Visiteur'][$visiteur[0]['guid']] = $visiteur[0];
                 }
             }
 
@@ -808,19 +820,19 @@ class log_visiteActions extends autolog_visiteActions
      */
     public function queryHighScoreV2($params)
     {
-        $date_from = null;
+        $start_at = null;
         if(isset($params['start_at'])){
             $start_at = $params['start_at'];
-            if(preg_match("/\d{4}-\d{2}-\d{2}/", $start_at) && !preg_match("/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/", $start_at) ){
-                $start_at .= ' 00:00:00';
+            if($start_at){
+                $start_at = date('Y-m-d H:i:s', $start_at);
             }
             unset($params['start_at']);
         }
         $end_at = null;
         if(isset($params['end_at'])){
             $end_at = $params['end_at'];
-            if(preg_match("/\d{4}-\d{2}-\d{2}/", $end_at) && !preg_match("/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/", $end_at) ){
-                $end_at .= ' 23:59:59';
+            if($end_at){
+                $end_at = date('Y-m-d H:i:s', $end_at);
             }
             unset($params['end_at']);
         }
@@ -837,12 +849,17 @@ class log_visiteActions extends autolog_visiteActions
             ->addFrom('Visiteur v')
             ->andWhere($this->model . '.visiteur_id = v.guid')
             ->andWhere($this->model . '.visiteur_id IS NOT NULL')
+            ->andWhere('v.type = ?', 'visiteur')
             ->groupBy('score')
             ->having('max(highScore)')
             ->orderBy('highScore desc')
             ->addOrderBy('created_at desc')
             ->limit($limit);
 
+        if(isset($params['distinct'])){
+            $q->groupBy($this->model.'.visiteur_id');
+            unset($params['distinct']);
+        }
 
         if (isset($params['is_anonyme'])) {
             $q->andWhere('v.is_anonyme = ?', $params['is_anonyme']);
@@ -854,11 +871,11 @@ class log_visiteActions extends autolog_visiteActions
         }
 
         if($start_at){
-            $q->andWhere($this->model . '.start_at >= ?', $start_at . ' 00:00:00' );
+            $q->andWhere($this->model . '.start_at >= ?', $start_at );
         }
 
         if($end_at){
-            $q->andWhere($this->model . '.end_at <= ?', $end_at . ' 23:59:59' );
+            $q->andWhere($this->model . '.end_at <= ?', $end_at );
         }
 //print_r($params);
               //die($q->getSqlQuery());
