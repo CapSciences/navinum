@@ -858,6 +858,7 @@ class log_visiteActions extends autolog_visiteActions
 
         if(isset($params['distinct'])){
             $q->groupBy($this->model.'.visiteur_id');
+            $q->addGroupBy($this->model.'.score');
             unset($params['distinct']);
         }
 
