@@ -858,7 +858,6 @@ class log_visiteActions extends autolog_visiteActions
 
         if(isset($params['distinct'])){
             $q->groupBy($this->model.'.visiteur_id');
-            $q->addGroupBy($this->model.'.score');
             unset($params['distinct']);
         }
 
@@ -1343,7 +1342,7 @@ class log_visiteActions extends autolog_visiteActions
     {
         $this->object->save();
 
-        Resque::enqueue('default', 'Job_LogVisite', array("log_visite_id" => $this->object->getGuid()));
+        //Resque::enqueue('default', 'Job_LogVisite', array("log_visite_id" => $this->object->getGuid()));
 
         $serializer = $this->getSerializer();
         $object = Doctrine_Query::create()
